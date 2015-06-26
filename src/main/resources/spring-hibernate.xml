@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+">
+
+	<!-- JNDI方式配置数据源 -->
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName" value="${jndiName}"></property> </bean> -->
+
+	<!-- 配置数据源 -->
+	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc_url}" />
+		<!-- DruidDataSource 可以根据 dataSource 自动判断出 driver class -->
+		<property name="username" value="${jdbc_username}" />
+		<property name="password" value="${jdbc_password}" />
+
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="0" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+		<!-- 连接池最大空闲 deprecated <property name="maxIdle" value="20" /> -->
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="0" />
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+
+		<!-- <property name="poolPreparedStatements" value="true" /> <property 
+			name="maxPoolPreparedStatementPerConnectionSize" value="33" /> -->
+
+		<property name="validationQuery" value="${validationQuery}" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
+
+		<!-- 打开removeAbandoned功能 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 1800秒，也就是30分钟 -->
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="true" />
+
+		<!-- 监控数据库 -->
+		<!-- <property name="filters" value="stat" /> -->
+		<property name="filters" value="mergeStat" />
+	</bean>
+
+	<!-- 配置hibernate session工厂 -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<!-- <prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop> -->
+			</props>
+		</property>
+		
+		<!-- 自动扫描hbm方式配置的hibernate文件和.hbm文件 -->
+		<!-- <property name="mappingDirectoryLocations"> 
+			<list> <value>classpath:sy/hbm</value> 
+			</list> </property> -->
+
+
+		<!--JBPM 集成 -->
+		<!--jBPM4的environment（运行期环境）提供Engine IOC（process-engine-context）和Transaction 
+			IOC（transaction-context）。要想在运行期方便地访问到Spring里所配置的服务，最直接的方法就是在environment里加入Spring 
+			IOC（applicationContext）的引用。SpringConfiguration是如何做到的呢？简单，实现Spring的ApplicationContextAware接口，自动持有applicationContext，然后openEnvironment时将其加入environment。environment.setContext(new 
+			SpringContext(applicationContext));SpringContext是对applicationContext的简单封装 -->
+
+
+
+		<property name="mappingResources">
+			<list>
+				<value>jbpm.repository.hbm.xml</value>
+				<value>jbpm.execution.hbm.xml</value>
+				<value>jbpm.history.hbm.xml</value>
+				<value>jbpm.task.hbm.xml</value>
+				<value>jbpm.identity.hbm.xml</value>
+			</list>
+		</property>
+
+	</bean>
+
+
+
+
+	<!--JBPM 集成(将服务配置到Spring的IOC容器里) -->
+	<!-- 一是通过Spring暴露出服务，将服务配置到Spring的IOC容器里； 二是在自己的运行环境里访问到Spring的IOC容器，能够轻松使用Spring容器里所配置的服务； 
+		三是对于具有事务管理特性的项目来说，将事务管理与Spring的事务管理进行合并。 -->
+	<!--注意，SpringHelper的jbpmCfg属性是可选的。 如果默认的jbpm.cfg.xml存在在classpath下 -->
+
+	<bean id="springHelper" class="org.jbpm.pvm.internal.processengine.SpringHelper"
+		lazy-init="default" autowire="default" >
+		<property name="jbpmCfg">
+			<value>jbpm.cfg.xml</value>
+		</property>
+	</bean>
+	<!-- JBPM  工作流引擎 -->
+	<bean id="processEngine" factory-bean="springHelper"
+		factory-method="createProcessEngine" />
+		
+	<!-- JBPM  流程源服务接口 提供对流程定义的部署 查询 删除等操作 -->
+	<bean id="repositoryService" factory-bean="processEngine"
+		factory-method="getRepositoryService" />
+		
+	<!-- JBPM  流程执行服务接口,提供启动流程实例,执行 推进 设置流程变量等操作 -->
+	<bean id="executionService" factory-bean="processEngine"
+		factory-method="getExecutionService" />
+		
+	<!-- 历史流程管理 -->	
+	<bean id="historyService" factory-bean="processEngine"
+		factory-method="getHistoryService" />
+		
+	<!-- 流程管理服务接口 -->
+	<bean id="managementService" factory-bean="processEngine"
+		factory-method="getManagementService" />
+		
+	<!--提供对任务列表的访问接口 -->
+	<bean id="taskService" factory-bean="processEngine"
+		factory-method="getTaskService" />
+		
+	<!-- 组织机构 身份管理 -->
+	<bean id="identityService" factory-bean="processEngine"
+		factory-method="getIdentityService" />
+
+	<!--JBPM 集成 -->
+
+
+
+
+
+
+
+
+
+	<!-- 配置事务管理器 -->
+	<bean name="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- 注解方式配置事物 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>

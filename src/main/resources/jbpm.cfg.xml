@@ -1,0 +1,46 @@
+<jbpm-configuration>
+
+	<!-- jbpm4.4与spring集成的配置 -->
+	<import resource="jbpm.default.cfg.xml" />
+	<import resource="jbpm.jpdl.cfg.xml" />
+	<import resource="jbpm.identity.cfg.xml" />
+	<import resource="jbpm.businesscalendar.cfg.xml" />
+	<import resource="jbpm.console.cfg.xml" />
+	<!-- <import resource="jbpm.jobexecutor.cfg.xml" /> -->
+	<import resource="jbpm.tx.spring.cfg.xml" />      <!-- 事务管理器 -->
+
+
+	<!--jBPM4逻辑实现采用了Command模式,jBPM4对CommandService构造拦截器（Interceptor）链，配置在jbpm.cfg.xml的process-engine-context里,用的是<standard-transaction-interceptor 
+		/> -->
+	<!--jBPM4原有的事务通过StandardTransactionInterceptor实现，在CommandService执行Command之前打开事务（实际委派Hibernate的事务管理），完成后提交/回滚。jBPM4的事务是基于Command的 -->
+
+	<!--Spring的事务是基于服务调用的，使jBPM4使用Spring提供的事务，用的是<spring-transaction-interceptor 
+		current="true" /> -->
+	<!--拦截器换用SpringTransactionInterceptor，从environment 提供的Spring IOC获取PlatformTransactionManager，使用事务模板回调Command，事务传播模式强制加入当前事务。 -->
+	<!--spring-transaction-interceptor默认会查找PlatformTransactionManager的实现,通过类型在定义好的bean中查找。在有多个事务管理器的情况， 
+		可以使用属性transaction-manager来指定使用哪一个 -->
+	<process-engine-context>
+		<command-service>
+			<retry-interceptor />
+			<environment-interceptor />
+			<spring-transaction-interceptor
+				current="true" transaction-manager="transactionManager" />
+		</command-service>
+	</process-engine-context>
+
+
+
+	<!-- 同时，对hibernate session的配置（jbpm.cfg.xml的transaction-context）强制从当前线程中获取：<hibernate-session 
+		current="true"/> -->
+	<!-- hibernate-session需要使用属性current="true"，取决于是否使用了spring的current session策略,而且，<transaction/>必须从transaction-context中删除，如果你希望 
+		事务只由spring进行管理 -->
+
+
+
+	<transaction-context>
+		<hibernate-session current="true" />
+	</transaction-context>
+	
+	
+	
+</jbpm-configuration>
