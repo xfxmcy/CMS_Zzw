@@ -1,0 +1,44 @@
+Ext.define("core.user.view.DeptForm",{
+	extend:"Ext.form.Panel",
+	alias:"widget.deptform",
+	layout:"auto",
+	align:"left",
+	frame:true,
+	defaults:{
+			margin:"7 0 0 15",
+			selectOnFocus:true
+		},
+	items:[{
+				xtype:"textfield",
+				fieldLabel:"部门ID",
+				name:"deptId",
+				hidden:true
+			},{
+				xtype:"textfield",
+				fieldLabel:"部门名称",
+				name:"deptName"
+			},{
+				xtype:"textfield",
+				fieldLabel:"部门编码",
+				name:"deptCode"
+			},{
+				xtype:"textfield",
+				fieldLabel:"父部门ID",
+				name:"parentId",
+				hidden:true 
+			},{
+				xtype:"textfield",
+				fieldLabel:"树形标识",
+				name:"treeSign",
+				hidden:true
+			},{
+				xtype:"textfield",
+				fieldLabel:"是否叶子",
+				name:"leaf",
+				hidden:true
+			},{
+				xtype:"button",
+				ref:"submit",
+				text:"保存"
+			}]
+});

@@ -1,0 +1,22 @@
+Ext.onReady(function(){
+	Ext.QuickTips.init();
+	Ext.Loader.setConfig({
+		enabled:true
+	});
+	Ext.application({
+		name:"core",
+		appFolder:"core/coreApp",
+		launch:function(){ 
+			Ext.create("Ext.container.Viewport",{
+				layout:"fit",
+				border:0,
+				items:[{
+					xtype:"mainview"
+				}]
+			});
+		},
+		controllers:[
+			"core.app.controller.MainController"
+		]
+	});
+});

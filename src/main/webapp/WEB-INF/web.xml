@@ -57,7 +57,7 @@
 
 	<filter-mapping>
 		<filter-name>struts2</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>*.asp</url-pattern>
 	</filter-mapping>
 
 	<!-- log4j -->

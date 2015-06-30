@@ -9,7 +9,7 @@
 	<description />
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.0.0.RELEASE</spring.version>
+		<spring.version>3.1.0.RELEASE</spring.version>
 		<log4j.version>1.2.17</log4j.version>
 		<junit.version>4.10</junit.version>
 		<!-- <hibernate.version>4.3.0.Final</hibernate.version> -->
@@ -27,6 +27,11 @@
 		</repository>
 	</repositories>
 	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -137,11 +142,38 @@
 			<artifactId>struts2-convention-plugin</artifactId>
 			<version>2.3.14.2</version>
 		</dependency>
+		<dependency>
+			 <groupId>org.apache.struts</groupId>
+			 <artifactId>struts2-json-plugin</artifactId>
+			 <version>2.3.4</version>
+		</dependency>
+		<dependency>
+  			 <groupId>net.sf.json-lib</groupId>
+ 			 <artifactId>json-lib</artifactId>
+  			 <version>2.1</version>
+  			 <classifier>jdk15</classifier>
+		</dependency>
 		<!-- hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			 <groupId>cglib</groupId>
+			 <artifactId>cglib</artifactId>
+			 <version>2.2.2</version>
+		</dependency>
+		<dependency>
+  			<groupId>org.hibernate</groupId>
+  			<artifactId>hibernate-annotations</artifactId>
+  			<version>${hibernate.version}</version>
 		</dependency>
 		<!-- jbpm4 -->
 		<dependency>
@@ -178,7 +210,11 @@
 			<artifactId>jbpm-log</artifactId>
 			<version>${jbpm.version}</version>
 		</dependency>
-
+		<dependency>
+		  <groupId>org.hibernate.javax.persistence</groupId>
+		  <artifactId>hibernate-jpa-2.0-api</artifactId>
+		  <version>1.0.1.Final</version>
+		</dependency>
 		<!-- datasource -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -221,6 +257,11 @@
 			<groupId>com.kenai.nbpwr</groupId>
 			<artifactId>javax-inject</artifactId>
 			<version>1.0-201002241208</version>
+		</dependency>
+		<dependency>
+  			 <groupId>com.sun.mail</groupId>
+ 			 <artifactId>javax.mail</artifactId>
+ 			 <version>1.5.2</version>
 		</dependency>
 	</dependencies>
 
