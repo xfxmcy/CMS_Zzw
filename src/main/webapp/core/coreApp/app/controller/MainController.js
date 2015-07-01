@@ -105,20 +105,22 @@ Ext.define("core.app.controller.MainController", {
 					 		var userName=form.findField("userName").getValue();
 					 		var passWord=form.findField("password").getValue();
 					 		Ext.Ajax.request({
-								url:CY.ns + "/pc/userAction!login.action",
-								params:{userCode:userName,passWord:passWord},
+								url:CY.ns + "/sys/loginAction!userLogin.asp",
+								params:{'user.username':userName,'user.password':passWord},
 								method:"POST",
 								timeout:4000,
 								success:function(response,opts){
 									var resObj=Ext.decode(response.responseText);
-									if(resObj.success){
-										var userObj=resObj.obj;
+									var resultInfo = resObj.resultInfo;
+									if(resultInfo.success){
+										var userObj=resultInfo.result;
+										console.info(userObj);
 										var dis=Ext.getCmp("displaylogin");
 										dis.up("mainview").down("taskjobgrid").getStore().load();
-										dis.setValue("<font color=white><b>"+userObj.userName+"->"+userObj.deptName+"</b></font>");
+										dis.setValue("<font color=black><b>"+userObj.username+"->"+userObj.username+"</b></font>");
 										btn.up("loginwindow").close();
 									}else{
-										Ext.Msg.alert("提示",resObj.obj);
+										Ext.Msg.alert("提示",resultInfo.info);
 									}
 								}
 					 		});

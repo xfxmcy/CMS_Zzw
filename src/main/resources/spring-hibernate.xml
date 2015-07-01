@@ -163,6 +163,6 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	</bean>
 
 	<!-- 注解方式配置事物 -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 
 </beans>
