@@ -61,7 +61,7 @@ public class BasicDaoimpl<ZZW> implements BasicDao<ZZW> {
 	@Override
 	public ZZW queryByHql(String hql, Map<String, Object> param) {
 		List<ZZW> list  = null;
-		list =this.createQueryByMap(hql,param).list(); 
+		list = this.createQueryByMap(hql,param).list(); 
 		if(null != list && 0 != list.size())
 			return list.get(0);
 		return null;

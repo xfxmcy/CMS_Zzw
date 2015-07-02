@@ -7,7 +7,7 @@
 	pageSize:10,
 	proxy:{
 		type:"ajax",
-		url:"/jbpmItem/pc/wfTaskAction!getCurrentUserTasks.action",
+		url:CY.ns + "/workflow/wkAction!queryMyTasks.asp",
 		reader:{
 			type:"json",
 			root:"rows",

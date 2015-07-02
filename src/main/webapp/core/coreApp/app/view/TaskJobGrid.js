@@ -19,10 +19,10 @@ Ext.define("core.app.view.TaskJobGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"流程名称",dataIndex:"processName",width:130},
-		{text:"任务名称",dataIndex:"taskName",width:150},
-		{text:"执行人",dataIndex:"assigne",width:100},
-		{text:"创建时间",dataIndex:"createTime",width:150}
+		{text:"流程名称",dataIndex:"processName",align:'center',width:200},
+		{text:"任务名称",dataIndex:"taskName",align:'center',width:200},
+		{text:"执行人",dataIndex:"assigne",align:'center',width:200},
+		{text:"创建时间",dataIndex:"createTime",align:'center',width:250}
 	],
 	initComponent:function(){
 		this.callParent(arguments);

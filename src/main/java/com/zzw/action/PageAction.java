@@ -13,12 +13,11 @@
 
 package com.zzw.action;
 
-import org.apache.struts2.convention.annotation.Action;
-import org.apache.struts2.convention.annotation.Result;
-import org.apache.struts2.convention.annotation.Results;
-import org.springframework.stereotype.Controller;
+import java.util.List;
 
-import com.opensymphony.xwork2.ActionSupport;
+import org.apache.struts2.json.annotations.JSON;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 /**
  * ClassName:PageAction
@@ -33,38 +32,70 @@ import com.opensymphony.xwork2.ActionSupport;
  * @see 	 
  */
 @Controller
-@Results({   
-	  @Result(name="failure", location="/WEB-INF/fail.jsp"),
-	  @Result(name="index", location="/index.html")
-	})
+@Scope("prototype")
 public class PageAction {
 	
-	private String index;
-	public String getIndex() {
-		return index;
+	
+	public static final String BASE_RESULT_JSON = "json";
+	
+	private Integer page,start,limit;
+	
+	
+	@JSON(serialize=false)
+	public Integer getPage() {
+		return page;
 	}
-	public void setIndex(String index) {
-		this.index = index;
+
+	public void setPage(Integer page) {
+		this.page = page;
 	}
+	@JSON(serialize=false)
+	public Integer getStart() {
+		return start;
+	}
+
+	public void setStart(Integer start) {
+		this.start = start;
+	}
+	@JSON(serialize=false)
+	public Integer getLimit() {
+		return limit;
+	}
+
+	public void setLimit(Integer limit) {
+		this.limit = limit;
+	}
+
+	private Long totalCount = 1l;
+	
+	private List<?> rows ;
+
+	public List<?> getRows() {
+		return rows;
+	}
+
+
+	public Long getTotalCount() {
+		return totalCount;
+	}
+
 	/**
 	 * 
-	 * index: page location
+	 * setDataGrid:set data for extJs
 	 *
-	 * @return
+	 * @param rows
+	 * @param totalCount
 	 *   ver     date      		author
 	 * ──────────────────────────────────
-	 *   		 2015年6月30日 		cy
+	 *   		 2015年7月2日 		cy
 	 */
-	@Action("page/index")
-	public String index(){
-		
-		/* index */
-		if("index".equals(index))
-			return "index";
-		
-		
-		
-		return "index";
+	public void setDataGrid(List<?> rows){
+		this.rows = rows;
+		this.totalCount = rows.size() + 0l;
 	}
+
+
+	
+	
 }
 

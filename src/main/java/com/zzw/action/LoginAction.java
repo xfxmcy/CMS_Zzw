@@ -15,6 +15,7 @@ package com.zzw.action;
 
 import javax.inject.Inject;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -49,7 +50,7 @@ import com.zzw.vo.ZUser;
 @Results({   
 	  @Result(name="failure", location="/WEB-INF/fail.jsp"),
 	  @Result(name="index", location="/index.html"),
-	  @Result(name="json" ,type="json")
+	  @Result(name="json" ,type="json" ,params={"ignoreHierarchy","false","execludeProperties","result*"})
 	})
 public class LoginAction extends BaseAction{
 	
@@ -98,10 +99,29 @@ public class LoginAction extends BaseAction{
 	 */
 	public String userLogin(){
 		
-		userServiceImpl.userLoginService(user);
+		ZUser result = userServiceImpl.userLoginService(user);
 		
-		settingSuccessResult("","");
-		
+		if(null != result){
+			settingSuccessResult("登录成功",result);
+			ServletActionContext.getRequest().getSession().setAttribute("userAdmin", result);
+		}	
+		else
+			settingErrorResult("账号密码错误,请重新输入", user);
+		return BASE_RESULT_JSON;
+	}
+	
+	/**
+	 * 
+	 * userLogout:logout 
+	 *
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月2日 		cy
+	 */
+	public String userLogout(){
+		ServletActionContext.getRequest().getSession().removeAttribute("userAdmin");
+		settingSuccessResult("注销成功",null);
 		return BASE_RESULT_JSON;
 	}
 }

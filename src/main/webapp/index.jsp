@@ -11,6 +11,25 @@
         <script type="text/javascript" src="${cy}/ext4/bootstrap.js"></script>
         <script type="text/javascript" src="${cy}/jsLib/cyUtil.js"></script>
 		<script type="text/javascript" src="${cy}/jsLib/app.js"></script>
+		<script type="text/javascript">
+		Ext.onReady(function(){
+			
+			if(!"${userAdmin}" || "" == "${userAdmin}"){
+				Ext.create("core.app.view.LoginWindow").show();
+			}
+			setTimeout(function(){
+				if("${userAdmin}" && "" != "${userAdmin}"){
+					var dis = Ext.getCmp("displaylogin");
+					var topView = Ext.getCmp("topview");
+					//dis.up("mainview").down("taskjobgrid").getStore().load();
+					dis.setValue("<font color=black><b>"+"${userAdmin.username}"+"->"+"${userAdmin.username}"+"</b></font>");
+					//Ext.getCmp("loginwindow").close();
+					
+				}
+			}, 500 );
+			
+		});
+		</script>
     </head>
     <body>
        

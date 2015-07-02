@@ -54,9 +54,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ZUser userLoginService(ZUser user) {
 
-		userDaoImpl.userLoginDao(user);
-		
-		return null;
+		return userDaoImpl.userLoginDao(user);
 
 	}
 

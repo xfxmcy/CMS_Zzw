@@ -19,7 +19,8 @@ Ext.define("core.app.controller.MainController", {
 						}
 					}
 				},
-				Ext.create("core.app.view.LoginWindow").show();
+					
+				//	Ext.create("core.app.view.LoginWindow").show();
 				this.control({
 					"westview treepanel":{
 						itemclick:function(tree,record,item,index,e,eOpts){
@@ -76,23 +77,25 @@ Ext.define("core.app.controller.MainController", {
 						},
 					"topview button[ref=exit]":{
 							click:function(btn){
-								var form=Ext.getCmp("loginwindow").down("form[ref=loginform]").getForm();
+								/*var form=Ext.getCmp("loginwindow").down("form[ref=loginform]").getForm();
 					 			var userName=form.findField("userName").getValue();
-					 			var passWord=form.findField("password").getValue();
+					 			var passWord=form.findField("password").getValue();*/
 								Ext.Ajax.request({
-								url:CY.ns + "/pc/userAction!exit.action",
-								params:{userCode:userName,passWord:passWord},
+								url:CY.ns + "/sys/loginAction!userLogout.asp",
+								//params:{userCode:userName,passWord:passWord},
 								method:"POST",
 								timeout:4000,
 								success:function(response,opts){
 									var resObj=Ext.decode(response.responseText);
-									if(resObj.success){
+									var resultInfo = resObj.resultInfo;
+									if(resultInfo.success){
 										var dis=Ext.getCmp("displaylogin");
-										dis.setValue("<font color=white><b>未登录</b></font>");
-										dis.up("mainview").down("taskjobgrid").getStore().load();
-										Ext.Msg.alert("提示",resObj.obj);
+										dis.setValue("<font color=black><b>未登录</b></font>");
+										//dis.up("mainview").down("taskjobgrid").getStore().load();
+										//Ext.create("core.app.view.LoginWindow").show();
+										Ext.getCmp("loginwindow").show();
 									}else{
-										Ext.Msg.alert("提示",resObj.obj);
+										Ext.Msg.alert("提示",resultInfo.info);
 									}
 								
 								}
@@ -114,11 +117,11 @@ Ext.define("core.app.controller.MainController", {
 									var resultInfo = resObj.resultInfo;
 									if(resultInfo.success){
 										var userObj=resultInfo.result;
-										console.info(userObj);
 										var dis=Ext.getCmp("displaylogin");
 										dis.up("mainview").down("taskjobgrid").getStore().load();
-										dis.setValue("<font color=black><b>"+userObj.username+"->"+userObj.username+"</b></font>");
-										btn.up("loginwindow").close();
+										dis.setValue("<font color=black><b>" + userName+"->"+userName+"</b></font>");
+										//btn.up("loginwindow").close();
+										btn.up("loginwindow").hide();
 									}else{
 										Ext.Msg.alert("提示",resultInfo.info);
 									}
@@ -127,6 +130,7 @@ Ext.define("core.app.controller.MainController", {
 					 	}
 					 }
 				});
+				
 			},
 			views : ["core.app.view.CenterView", "core.app.view.WestView","core.app.view.TopView", "core.app.view.MainView","core.app.view.LoginWindow","core.app.view.TaskJobGrid"],
 			stores : ["core.app.store.TaskJobStore"],

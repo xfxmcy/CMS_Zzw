@@ -42,12 +42,11 @@ public class UserDaoImpl extends BasicDaoimpl<ZUser> implements UserDao {
 	
 	@Override
 	public ZUser userLoginDao(ZUser user) {
-		
-		String hql = "from LinkMaterial as link where link.material.mid =1";
+		String hql = "from ZUser  where username = :username and password = :password";
 		Map<String, Object> param = new HashMap<String, Object>();
-		
-		ZUser result = super.queryByHql(hql, param);
-		return result ;
+		param.put("username", user.getUsername());
+		param.put("password", user.getPassword());
+		return super.queryByHql(hql, param);
 	}
 
 }

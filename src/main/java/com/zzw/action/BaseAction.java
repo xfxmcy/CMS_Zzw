@@ -2,7 +2,7 @@
  * BaseAction.java
  * com.zzw.action
  *
- * Function： TODO 
+ * Function： base action
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -17,6 +17,8 @@ import javax.inject.Inject;
 
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -36,7 +38,6 @@ import com.zzw.component.ResultInfo;
  * @see 	 
  */
 @Controller
-@ParentPackage("json-default")
 @Namespace("")
 @Scope("prototype")
 public class BaseAction extends ActionSupport {
@@ -53,7 +54,7 @@ public class BaseAction extends ActionSupport {
 	/*json 返回信息*/
 	@Inject
 	private ResultInfo resultInfo ;
-
+	
 	public ResultInfo getResultInfo() {
 		return resultInfo;
 	}
@@ -88,6 +89,7 @@ public class BaseAction extends ActionSupport {
 	 *   		 2015年7月1日 		cy
 	 */
 	public void settingErrorResult(String info,Object result){
+		resultInfo.setSuccess(false);
 		resultInfo.setInfo(info);
 		resultInfo.setResult(result);
 	}

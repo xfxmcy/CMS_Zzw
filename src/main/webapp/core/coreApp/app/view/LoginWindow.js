@@ -34,13 +34,13 @@ Ext.define('core.app.view.LoginWindow', {
 					regexText : '用户名格式有误',
 					name : 'userName',
 					margin : "20 10 10 50",
-					value:"zsp"
+					value:"admin"
 				}, {
 					name : 'password',
 					fieldLabel : '密码',
 					inputType : 'password',
 					margin : "10 10 10 50",
-					value:"123456"
+					value:"admin"
 				}, {
 					xtype : "button",
 					text : '登录',
@@ -50,7 +50,7 @@ Ext.define('core.app.view.LoginWindow', {
 					handler : function(btn) {
 						
 					}
-				}, {
+				}/*, {
 					xtype : "button",
 					text : '退出',
 					width : 50,
@@ -59,6 +59,6 @@ Ext.define('core.app.view.LoginWindow', {
 						var window=btn.up("loginwindow");
 						window.hide();
 					}
-				}]
+				}*/]
 	}]
 });
