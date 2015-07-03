@@ -13,18 +13,25 @@
 
 package com.zzw.action;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.zzw.pojo.WfTaskJobPojo;
+import com.zzw.util.ResourceUtil;
+import com.zzw.util.ZzwUtil;
+import com.zzw.vo.ZUser;
+import com.zzw.workflow.service.JbpmFacadeService;
 
 /**
  * ClassName:WorkFlowAction
@@ -47,8 +54,9 @@ import com.zzw.pojo.WfTaskJobPojo;
 	  @Result(name="json" ,type="json" ,params={"ignoreHierarchy","false"})
 })
 public class WorkFlowAction extends PageAction {
-
 	
+	@Inject
+	private JbpmFacadeService jbpmFacadeServiceImpl;
 	
 	/**
 	 * 
@@ -60,14 +68,24 @@ public class WorkFlowAction extends PageAction {
 	 *   		 2015年7月2日 		cy
 	 */
 	public String queryMyTasks(){
-		List<WfTaskJobPojo> jobs = new ArrayList<WfTaskJobPojo>();
-		WfTaskJobPojo wfTaskJobPojo = new WfTaskJobPojo();
-		wfTaskJobPojo.setTaskId("222");
-		wfTaskJobPojo.setProcessName("23232");
-		jobs.add(wfTaskJobPojo);
-		super.setDataGrid(jobs);
+		Object admin = ServletActionContext.getRequest().getSession().getAttribute(ResourceUtil.getUserAdmin());
+		if(null == admin)
+			return BASE_RESULT_JSON;
+		ZUser user = (ZUser)admin; 
+		List<WfTaskJobPojo> result = jbpmFacadeServiceImpl.queryMyTasks(user, ZzwUtil.createPaged(super.getStart(),super.getLimit()));
+		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountMyTasks(user));
 		return BASE_RESULT_JSON;
 	} 
+	
+	
+	@JSON(serialize=false)
+	public JbpmFacadeService getJbpmFacadeServiceImpl() {
+		return jbpmFacadeServiceImpl;
+	}
+
+	public void setJbpmFacadeServiceImpl(JbpmFacadeService jbpmFacade) {
+		this.jbpmFacadeServiceImpl = jbpmFacade;
+	}
 
 }
 

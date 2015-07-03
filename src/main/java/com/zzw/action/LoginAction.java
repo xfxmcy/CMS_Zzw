@@ -28,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionSupport;
 import com.zzw.component.ResultInfo;
 import com.zzw.service.UserService;
+import com.zzw.util.ResourceUtil;
 import com.zzw.vo.ZUser;
 
 /**
@@ -103,7 +104,7 @@ public class LoginAction extends BaseAction{
 		
 		if(null != result){
 			settingSuccessResult("登录成功",result);
-			ServletActionContext.getRequest().getSession().setAttribute("userAdmin", result);
+			ServletActionContext.getRequest().getSession().setAttribute(ResourceUtil.getUserAdmin(), result);
 		}	
 		else
 			settingErrorResult("账号密码错误,请重新输入", user);

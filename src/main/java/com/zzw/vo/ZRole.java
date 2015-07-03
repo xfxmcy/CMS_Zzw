@@ -1,12 +1,12 @@
 /**
- * ZUser.java
+ * ZRole.java
  * com.zzw.vo
  *
  * Function： TODO 
  *
  *   ver     date      		author
  * ──────────────────────────────────
- *   		 2015年6月30日 		cy
+ *   		 2015年7月3日 		cy
  *
  * Copyright (c) 2015, xfxmcy All Rights Reserved.
 */
@@ -22,42 +22,39 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
-
-
 /**
- * ClassName:ZUser
- * Function: zuser
- * Reason:	 zuser
+ * ClassName:ZRole
+ * Function: ZRole
+ * Reason:	 ZRole
  *
  * @author   cy
  * @version  
  * @since    Ver 1.1
- * @Date	 2015年6月30日		上午10:19:45
+ * @Date	 2015年7月3日		下午1:13:20
  *
  * @see 	 
  */
 @Entity
-public class ZUser implements Serializable {
+public class ZRole implements Serializable {
 	/**
 	 * serialVersionUID:serialVersionUID
 	 */
 	
 	private static final long serialVersionUID = 1L;
+	
+	public ZRole() {
 
-	public ZUser() {
+		// TODO Auto-generated constructor stub
 
 	}
 	
 	private String id;
 	
-	private String username,password;
+	private String name;
 	
 	@Id
 	@Column(length = 40)
@@ -66,39 +63,29 @@ public class ZUser implements Serializable {
 	public String getId() {
 		return id;
 	}
-	
-	private Set<ZRole>  roles;
-	
-	@ManyToMany(cascade = CascadeType.REFRESH , fetch = FetchType.LAZY)
-	@JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="role_id")
-    )
-	public Set<ZRole> getRoles() {
-		return roles;
-	}
-	public void setRoles(Set<ZRole> roles) {
-		this.roles = roles;
-	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
 	@Column(length = 40)
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
-	@Column(length = 40)
-	public String getPassword() {
-		return password;
+	
+	private Set<ZUser>  users;
+	
+	@ManyToMany(mappedBy = "roles" ,cascade = CascadeType.REFRESH , fetch = FetchType.LAZY)
+	public Set<ZUser> getUsers() {
+		return users;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUsers(Set<ZUser> users) {
+		this.users = users;
 	}
+	
 }
 

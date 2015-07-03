@@ -66,7 +66,7 @@ public class PageAction {
 		this.limit = limit;
 	}
 
-	private Long totalCount = 1l;
+	private Long totalCount = 0l;
 	
 	private List<?> rows ;
 
@@ -89,9 +89,9 @@ public class PageAction {
 	 * ──────────────────────────────────
 	 *   		 2015年7月2日 		cy
 	 */
-	public void setDataGrid(List<?> rows){
+	public void setDataGrid(List<?> rows,Long size){
 		this.rows = rows;
-		this.totalCount = rows.size() + 0l;
+		this.totalCount = size;
 	}
 
 

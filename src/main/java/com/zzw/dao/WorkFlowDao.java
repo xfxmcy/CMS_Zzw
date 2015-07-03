@@ -1,61 +1,60 @@
 /**
- * JbpmFacadeService.java
- * com.zzw.workflow.service
+ * WorkFlowDao.java
+ * com.zzw.dao
  *
  * Function： TODO 
  *
  *   ver     date      		author
  * ──────────────────────────────────
- *   		 2015年6月25日 		cy
+ *   		 2015年7月3日 		cy
  *
  * Copyright (c) 2015, xfxmcy All Rights Reserved.
 */
 
-package com.zzw.workflow.service;
+package com.zzw.dao;
 
 import java.util.List;
 
-import org.jbpm.api.RepositoryService;
+import org.jbpm.api.task.Task;
 
 import com.zzw.pojo.Pages;
-import com.zzw.pojo.WfTaskJobPojo;
 import com.zzw.vo.ZUser;
 
 /**
- * ClassName:JbpmFacadeService
- * Function: jbpm facade
- * Reason:	 jbpm facade
+ * ClassName:WorkFlowDao
+ * Function: WorkFlowDao
+ * Reason:	 WorkFlowDao
  *
  * @author   cy
  * @version  
  * @since    Ver 1.1
- * @Date	 2015年6月25日		下午3:12:59
+ * @Date	 2015年7月3日		上午9:26:58
  *
  * @see 	 
  */
-public interface JbpmFacadeService extends RepositoryService {
-
+public interface WorkFlowDao {
 	/**
 	 * 
-	 * queryMyTasks:query my wait task
-	 *
-	 * @return
-	 *   ver     date      		author
-	 * ──────────────────────────────────
-	 *   		 2015年7月3日 		cy
-	 */
-	public  List<WfTaskJobPojo> queryMyTasks(ZUser user , Pages page);
-	/**
-	 * 
-	 * queryCountMyTasks:query count for my tasks
+	 * queryMyTaskIncludeGroup:query users's waitTask 
+	 * 					include groups 's which user was in  waitTask
 	 *
 	 * @param user
-	 * @param page
 	 * @return
 	 *   ver     date      		author
 	 * ──────────────────────────────────
 	 *   		 2015年7月3日 		cy
 	 */
-	public  Long queryCountMyTasks(ZUser user);
+	public List<Task> queryMyTaskIncludeGroup(ZUser user , Pages page);
+	/**
+	 * 
+	 * queryCountMyTaskIncludeGroup: query count my Task inculde my group 's task
+	 *
+	 * @param user
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月3日 		cy
+	 */
+	public Long queryCountMyTaskIncludeGroup(ZUser user); 
 }
 

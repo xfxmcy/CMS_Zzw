@@ -6,7 +6,7 @@ Ext.define("core.app.view.TaskJobGrid",{
 	alias:"widget.taskjobgrid",
 	store:"core.app.store.TaskJobStore",
 	border:0,
-	title:"事务提醒",
+	title:"待办事务提醒",
 	multiSelect:false, //设置单选
 	frame:true,
 	bbar:{
