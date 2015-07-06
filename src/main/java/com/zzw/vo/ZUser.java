@@ -25,6 +25,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
@@ -59,6 +60,17 @@ public class ZUser implements Serializable {
 	
 	private String username,password;
 	
+	@ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.PERSIST,optional = true)
+	public ZDepartment getDepartment() {
+		return department;
+	}
+	public void setDepartment(ZDepartment department) {
+		this.department = department;
+	}
+	
+	
+	private ZDepartment department ;
+	
 	@Id
 	@Column(length = 40)
 	@GenericGenerator(name="systemUUID",strategy="uuid")
@@ -69,7 +81,7 @@ public class ZUser implements Serializable {
 	
 	private Set<ZRole>  roles;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH , fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
 	@JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name="user_id"),

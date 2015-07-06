@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="test" xmlns="http://jbpm.org/4.4/jpdl">
+   <start g="171,91,48,48" name="start1">
+      <transition g="-56,-22" name="to state1" to="会不会乱码"/>
+   </start>
+   <end g="179,265,48,48" name="end1"/>
+   <state g="190,179,92,52" name="会不会乱码">
+      <transition g="-50,-22" name="to end1" to="end1"/>
+   </state>
+</process>

@@ -19,6 +19,7 @@ import org.jbpm.api.RepositoryService;
 
 import com.zzw.pojo.Pages;
 import com.zzw.pojo.WfTaskJobPojo;
+import com.zzw.vo.WFDeployment;
 import com.zzw.vo.ZUser;
 
 /**
@@ -33,7 +34,7 @@ import com.zzw.vo.ZUser;
  *
  * @see 	 
  */
-public interface JbpmFacadeService extends RepositoryService {
+public interface JbpmFacadeService {//extends RepositoryService {
 
 	/**
 	 * 
@@ -57,5 +58,27 @@ public interface JbpmFacadeService extends RepositoryService {
 	 *   		 2015年7月3日 		cy
 	 */
 	public  Long queryCountMyTasks(ZUser user);
+	
+	/**
+	 * 
+	 * queryBusinessDevelopment:query business development
+	 *
+	 * @param createPaged
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月6日 		cy
+	 */
+	public List<WFDeployment> queryBusinessDevelopment(Pages createPaged);
+	/**
+	 * 
+	 * queryCountBusinessDevelopment:query count busincess development
+	 *
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月6日 		cy
+	 */
+	public Long queryCountBusinessDevelopment();
 }
 

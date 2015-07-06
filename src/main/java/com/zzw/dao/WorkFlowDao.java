@@ -18,6 +18,7 @@ import java.util.List;
 import org.jbpm.api.task.Task;
 
 import com.zzw.pojo.Pages;
+import com.zzw.vo.WFDeployment;
 import com.zzw.vo.ZUser;
 
 /**
@@ -55,6 +56,27 @@ public interface WorkFlowDao {
 	 * ──────────────────────────────────
 	 *   		 2015年7月3日 		cy
 	 */
-	public Long queryCountMyTaskIncludeGroup(ZUser user); 
+	public Long queryCountMyTaskIncludeGroup(ZUser user);
+	/**
+	 * 
+	 * queryBusinessDevelopment:query business development
+	 *
+	 * @param page
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月6日 		cy
+	 */
+	public List<WFDeployment> queryBusinessDevelopment(Pages page);
+	/**
+	 * 
+	 * queryCountBusinessDevelopment:query count for businessDevelopment
+	 *
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月6日 		cy
+	 */
+	public Long queryCountBusinessDevelopment(); 
 }
 

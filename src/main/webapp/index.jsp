@@ -8,6 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>zzw</title>
         <link rel="stylesheet" type="text/css" href="${cy}/ext4/resources/ext-theme-gray/ext-theme-gray-all.css" />
+        <link rel="stylesheet" type="text/css" href="${cy}/core/css/comm.css" />
         <script type="text/javascript" src="${cy}/ext4/bootstrap.js"></script>
         <script type="text/javascript" src="${cy}/jsLib/cyUtil.js"></script>
 		<script type="text/javascript" src="${cy}/jsLib/app.js"></script>
@@ -15,7 +16,12 @@
 		Ext.onReady(function(){
 			
 			if(!"${userAdmin}" || "" == "${userAdmin}"){
-				Ext.create("core.app.view.LoginWindow").show();
+				var window=Ext.getCmp("loginwindow");
+				if(window){
+					window.show();
+				}else{
+					Ext.create("core.app.view.LoginWindow").show();
+				}
 			}
 			setTimeout(function(){
 				if("${userAdmin}" && "" != "${userAdmin}"){

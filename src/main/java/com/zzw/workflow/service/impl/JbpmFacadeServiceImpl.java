@@ -13,6 +13,7 @@
 
 package com.zzw.workflow.service.impl;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ import com.zzw.dao.WorkFlowDao;
 import com.zzw.pojo.Pages;
 import com.zzw.pojo.WfTaskJobPojo;
 import com.zzw.util.ZzwUtil;
+import com.zzw.vo.WFDeployment;
 import com.zzw.vo.ZUser;
 import com.zzw.workflow.service.JbpmFacadeService;
 
@@ -53,6 +55,7 @@ import com.zzw.workflow.service.JbpmFacadeService;
  * @see 	 
  */
 @Service
+@Transactional
 public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 
 	@Inject
@@ -69,97 +72,14 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	
 	
 
-	@Override
-	public NewDeployment createDeployment() {
-		
-		// TODO Auto-generated method stub
-		return null;
-		
+	
+	public void createDeployment(String filePath,Long version,String id) {
+		/*jpdl*/
+		File jpdl = new File(filePath); 
+		NewDeployment deployment =repositoryService.createDeployment().addResourceFromFile(jpdl);
+		String deployId = deployment.deploy();
 	}
 
-	@Override
-	public DeploymentQuery createDeploymentQuery() {
-		
-		// TODO Auto-generated method stub
-		return null;
-		
-	}
-
-	@Override
-	public ProcessDefinitionQuery createProcessDefinitionQuery() {
-		
-		// TODO Auto-generated method stub
-		return null;
-		
-	}
-
-	@Override
-	public void deleteDeployment(String arg0) {
-		
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteDeploymentCascade(String arg0) {
-		
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public ActivityCoordinates getActivityCoordinates(String arg0, String arg1) {
-		
-		// TODO Auto-generated method stub
-		return null;
-		
-	}
-
-	@Override
-	public InputStream getResourceAsStream(String arg0, String arg1) {
-		
-		// TODO Auto-generated method stub
-		return null;
-		
-	}
-
-	@Override
-	public Set<String> getResourceNames(String arg0) {
-		
-		// TODO Auto-generated method stub
-		return null;
-		
-	}
-
-	@Override
-	public List<String> getStartActivityNames(String arg0) {
-		
-		// TODO Auto-generated method stub
-		return null;
-		
-	}
-
-	@Override
-	public String getStartFormResourceName(String arg0, String arg1) {
-		
-		// TODO Auto-generated method stub
-		return null;
-		
-	}
-
-	@Override
-	public void resumeDeployment(String arg0) {
-		
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void suspendDeployment(String arg0) {
-		
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
 	@Override
@@ -170,6 +90,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		
 		return transformToTaskModel(result);
 	}
+	
 	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
 	@Override
 	public Long queryCountMyTasks(ZUser user) {
@@ -201,7 +122,31 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		return taskJobs;
 		
 	}
+	
+	
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	@Override
+	public List<WFDeployment> queryBusinessDevelopment(Pages page) {
+		
+		return workFlowDaoImpl.queryBusinessDevelopment(page);
+		
+	}
 
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	@Override
+	public Long queryCountBusinessDevelopment() {
+		
+		return workFlowDaoImpl.queryCountBusinessDevelopment();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public TaskService getTaskService() {
 		return taskService;
 	}
@@ -240,6 +185,9 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	public void setWorkFlowDaoImpl(WorkFlowDao workFlowDaoImpl) {
 		this.workFlowDaoImpl = workFlowDaoImpl;
 	}
+
+
+	
 
 	
 }

@@ -13,10 +13,14 @@
 
 package com.zzw.dao.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,6 +29,8 @@ import org.springframework.stereotype.Repository;
 
 import com.zzw.dao.WorkFlowDao;
 import com.zzw.pojo.Pages;
+import com.zzw.vo.WFDeployment;
+import com.zzw.vo.ZRole;
 import com.zzw.vo.ZUser;
 
 /**
@@ -55,9 +61,19 @@ public class WorkFlowDaoImpl implements WorkFlowDao{
 	
 	@Override
 	public List<Task> queryMyTaskIncludeGroup(ZUser user , Pages page) {
-		
+	
 		/*拼接  groupStr*/
-		String[] group = new String[]{"1","2"};
+		String[] group = null;
+		int j = 0 ;
+		if(null != user.getRoles().toArray() && 0 < user.getRoles().size()){
+			group = new String[user.getRoles().size()];
+			for (Iterator iterator = user.getRoles().iterator(); iterator.hasNext();) {
+				group[j++] = ((ZRole)iterator.next()).getId();
+				
+			}
+		}else{
+			return new ArrayList<Task>();
+		}
 		StringBuffer buffer = new StringBuffer();
 		String groupStr = "";
 		for (int i = 0; i < group.length; i++) {
@@ -79,7 +95,17 @@ public class WorkFlowDaoImpl implements WorkFlowDao{
 	public Long queryCountMyTaskIncludeGroup(ZUser user) {
 		
 		/*拼接  groupStr*/
-		String[] group = new String[]{"1","2"};
+		String[] group = null;
+		int j = 0 ;
+		if(null != user.getRoles().toArray() && 0 < user.getRoles().size()){
+			group = new String[user.getRoles().size()];
+			for (Iterator iterator = user.getRoles().iterator(); iterator.hasNext();) {
+				group[j++] = ((ZRole)iterator.next()).getId();
+				
+			}
+		}else{
+			return 0l;
+		}
 		StringBuffer buffer = new StringBuffer();
 		String groupStr = "";
 		for (int i = 0; i < group.length; i++) {
@@ -95,6 +121,20 @@ public class WorkFlowDaoImpl implements WorkFlowDao{
 		
 		return (null == result ? 0 : (Long)result);
 		
+	}
+
+	@Override
+	public List<WFDeployment> queryBusinessDevelopment(Pages page) {
+		
+		return getCurrentSession().createQuery("from WFDeployment").setFirstResult(page.getBeginIndex()).setMaxResults(page.getCount()).list();
+	}
+
+	@Override
+	public Long queryCountBusinessDevelopment() {
+		
+		Object result = getCurrentSession().createQuery("select count(*) from WFDeployment").uniqueResult();
+		
+		return (null == result ? 0 : (Long)result);
 	}
 
 }

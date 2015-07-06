@@ -12,7 +12,8 @@ Ext.define("core.jbpm.view.DeployGrid",{
 	multiSelect:false, //设置单选
 	frame:true,
 	tbar:[
-		{xtype:'button',text:'部署流程',ref:'addDeploy',iconCls:'table_add'},
+	    {xtype:'button',text:'上传流程定义',ref:'uploadDeploy',iconCls:'table_add'},
+		{xtype:'button',text:'部署流程',ref:'addDeploy',iconCls:'table_save'},
 		{xtype:'button',text:'清除流程定义',ref:'calDeploy',iconCls:'table_remove'}
 	],
 	bbar:{

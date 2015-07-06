@@ -93,7 +93,12 @@ Ext.define("core.app.controller.MainController", {
 										dis.setValue("<font color=black><b>未登录</b></font>");
 										//dis.up("mainview").down("taskjobgrid").getStore().load();
 										//Ext.create("core.app.view.LoginWindow").show();
-										Ext.getCmp("loginwindow").show();
+										var window=Ext.getCmp("loginwindow");
+										if(window){
+											window.show();
+										}else{
+											Ext.create("core.app.view.LoginWindow").show();
+										}
 									}else{
 										Ext.Msg.alert("提示",resultInfo.info);
 									}
@@ -129,10 +134,11 @@ Ext.define("core.app.controller.MainController", {
 					 		});
 					 	}
 					 }
+					
 				});
 				
 			},
-			views : ["core.app.view.CenterView", "core.app.view.WestView","core.app.view.TopView", "core.app.view.MainView","core.app.view.LoginWindow","core.app.view.TaskJobGrid"],
+			views : ["core.app.view.CenterView", "core.app.view.WestView","core.app.view.TopView", "core.app.view.MainView","core.app.view.LoginWindow","core.app.view.TaskJobGrid","core.jbpm.view.UploadPDWindow"],
 			stores : ["core.app.store.TaskJobStore"],
 			models : ["core.app.model.TaskJobModel"]
 });

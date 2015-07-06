@@ -30,13 +30,14 @@ import org.springframework.stereotype.Controller;
 import com.zzw.pojo.WfTaskJobPojo;
 import com.zzw.util.ResourceUtil;
 import com.zzw.util.ZzwUtil;
+import com.zzw.vo.WFDeployment;
 import com.zzw.vo.ZUser;
 import com.zzw.workflow.service.JbpmFacadeService;
 
 /**
  * ClassName:WorkFlowAction
- * Function: TODO ADD FUNCTION
- * Reason:	 TODO ADD REASON
+ * Function: workFlow 's	Action
+ * Reason:	 workFlow 's	Action
  *
  * @author   cy
  * @version  
@@ -76,7 +77,20 @@ public class WorkFlowAction extends PageAction {
 		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountMyTasks(user));
 		return BASE_RESULT_JSON;
 	} 
-	
+	/**
+	 * 
+	 * queryMyDefinition:query my definitions
+	 *
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月6日 		cy
+	 */
+	public String queryBusinessDevelopment(){
+		List<WFDeployment> result = jbpmFacadeServiceImpl.queryBusinessDevelopment(ZzwUtil.createPaged(super.getStart(),super.getLimit()));
+		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountBusinessDevelopment());
+		return BASE_RESULT_JSON;
+	}
 	
 	@JSON(serialize=false)
 	public JbpmFacadeService getJbpmFacadeServiceImpl() {
