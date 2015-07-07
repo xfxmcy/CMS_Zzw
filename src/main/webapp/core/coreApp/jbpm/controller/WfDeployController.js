@@ -8,12 +8,12 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 							var grid=btn.up("deploygrid");
 							var store=grid.getStore();
 							var records=grid.getSelectionModel().getSelection();
+							
 							/*显示上传   window*/
 							var window = Ext.getCmp("upProcessDefinitionWindow");
 							if(window){
 								window.show();
 							}else{
-								console.info("create");
 								Ext.create("core.jbpm.view.UploadPDWindow").show();
 							}
 							
@@ -21,7 +21,7 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 					},
 					"deploygrid button[ref=addDeploy]":{
 						click:function(btn){
-							var grid=btn.up("deploygrid");
+							/*var grid=btn.up("deploygrid");
 							var store=grid.getStore();
 							var records=grid.getSelectionModel().getSelection();
 							if(records==null || records.length<=0){
@@ -46,7 +46,7 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 										Ext.Msg.alert("提示",resObj.obj);									
 									}
 								}
-							});
+							});*/
 						}
 					},
 					"deploygrid button[ref=calDeploy]":{
@@ -79,18 +79,48 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 							});
 						}
 					},
+					/*上传jpdl*/
 					"upProcessDefinitionWindow button[ref=submitPD]":{
 						click:function(btn){
-							alert("nani2");
+							
 							var window = Ext.getCmp("upProcessDefinitionWindow");
+							var form ;
+							var box ;
+							var param = {};
+							param.fn = function(result){
+								if("yes" == result){
+									box	= CY.processBox();
+									/*上传工作*/
+									form.submit({       
+										  
+							            url:CY.ns + '/workflow/wkAction!uploadJPDL.asp',   
+							  
+							            success: function(form, action){  
+							            	box.closeCY();	
+							                
+							   
+							            },
+							            failure: function(form, action){       
+							            	 alert("jinbulaima");
+							            }   
+									});
+								}
+							};
 							if(window){
-								//window.hide();
+								form =  btn.up('form').getForm();
+								if(form.isValid()){
+								   CY.confirmBox(param);
+								}	
+								else
+									Ext.Msg.alert('提示','请认真完成表单...');   
 							}
+							
 						}
 					}
 				});
+				
 			},
-			views : ["core.jbpm.view.DeployGrid","core.jbpm.view.DeployLayout"/*,"core.jbpm.view.UploadPDWindow"*/],
+			views : ["core.jbpm.view.DeployGrid","core.jbpm.view.DeployLayout"],
 			stores : ["core.jbpm.store.DeployStore"],
 			models : ["core.jbpm.model.DeployModel"]
-});
+});/*,"core.jbpm.view.UploadPDWindow"*/

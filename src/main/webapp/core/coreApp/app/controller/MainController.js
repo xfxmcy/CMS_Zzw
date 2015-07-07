@@ -10,7 +10,8 @@ Ext.define("core.app.controller.MainController", {
 						var mainView=funInfo.mainView;
 						var funPanel=mainView.down(funInfo.funViewXtype);
 						if(!funPanel){
-							self.application.getController(funInfo.funController).init();
+							self.application.getController(funInfo.funController);
+							// .init()
 							funPanel=Ext.create(funInfo.funViewName);
 							mainView.add(funPanel);
 							mainView.setActiveTab(funPanel);
@@ -138,9 +139,9 @@ Ext.define("core.app.controller.MainController", {
 				});
 				
 			},
-			views : ["core.app.view.CenterView", "core.app.view.WestView","core.app.view.TopView", "core.app.view.MainView","core.app.view.LoginWindow","core.app.view.TaskJobGrid","core.jbpm.view.UploadPDWindow"],
+			views : ["core.app.view.CenterView", "core.app.view.WestView","core.app.view.TopView", "core.app.view.MainView","core.app.view.TaskJobGrid"],
 			stores : ["core.app.store.TaskJobStore"],
 			models : ["core.app.model.TaskJobModel"]
 });
-
+/*"core.app.view.LoginWindow",*/
 						

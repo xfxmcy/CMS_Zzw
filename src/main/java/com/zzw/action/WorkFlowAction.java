@@ -13,6 +13,7 @@
 
 package com.zzw.action;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -59,6 +60,37 @@ public class WorkFlowAction extends PageAction {
 	@Inject
 	private JbpmFacadeService jbpmFacadeServiceImpl;
 	
+	@JSON(serialize=false)
+	public File getJpdl() {
+		return jpdl;
+	}
+	public void setJpdl(File jpdl) {
+		this.jpdl = jpdl;
+	}
+
+	private File jpdl ;
+	
+	private String jpdlContentType;   
+	  
+    private String jpdlFileName; 
+    
+    @JSON(serialize=false)
+	public String getJpdlContentType() {
+		return jpdlContentType;
+	}
+    
+	public void setJpdlContentType(String jpdlContentType) {
+		this.jpdlContentType = jpdlContentType;
+	}
+	
+	@JSON(serialize=false)
+	public String getJpdlFileName() {
+		return jpdlFileName;
+	}
+	
+	public void setJpdlFileName(String jpdlFileName) {
+		this.jpdlFileName = jpdlFileName;
+	}
 	/**
 	 * 
 	 * queryMyTasks: query my tasks
@@ -91,6 +123,17 @@ public class WorkFlowAction extends PageAction {
 		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountBusinessDevelopment());
 		return BASE_RESULT_JSON;
 	}
+	
+	public String uploadJPDL(){
+		//this.setJsonString("{success:true}");   
+		System.out.println("222");
+		System.out.println(jpdl.getName());
+		System.out.println(jpdl.getPath());
+		System.out.println(getJpdlFileName());
+		System.out.println(getJpdlContentType());
+		return BASE_RESULT_JSON;
+	}
+	
 	
 	@JSON(serialize=false)
 	public JbpmFacadeService getJbpmFacadeServiceImpl() {

@@ -28,26 +28,52 @@ Ext.define('core.jbpm.view.UploadPDWindow', {
 					margin : "10 10 20 90",
 					value : "<font color=red size=3><b>人员登录</b></font>"
 				},*/ {
-					fieldLabel : "帐号",
+					fieldLabel : "流程名称",
+					labelWidth : 60,
+					width : 220,
 					selectOnFocus : true,
 					regex : /([A-Za-z]{1})\w{1,19}/,
-					regexText : '用户名格式有误',
-					name : 'userName',
-					margin : "20 10 10 50",
-					value:"admin"
-				}, {
-					name : 'password',
-					fieldLabel : '密码',
-					inputType : 'password',
-					margin : "10 10 10 50",
-					value:"admin"
-				}, {
+					regexText : '流程名称格式有误',
+					name : 'processName',
+					margin : "10 0 10 20",
+					allowBlank : false,
+					//value:"admin"
+				},{
+					name : 'descript',
+					fieldLabel : '流程描述',
+					labelWidth : 60,
+					width : 220,
+					allowBlank : false,
+					//inputType : 'password',
+					margin : "10 0 10 20"
+					//value:"admin"
+				},{
+			        xtype: 'filefield',
+			        name: 'jpdl',
+			        fieldLabel: 'jpdl',
+			        labelWidth: 60,
+			        msgTarget: 'side',
+			        allowBlank: false,
+			        anchor: '88%',
+			        margin : "10 0 10 20",
+			        buttonText: 'Select...'
+			    },{
 					xtype : "button",
 					text : '提交',
 					ref:"submitPD",
 					width : 50,
 					margin : "10 10 10 80",
 					handler : function(btn) {
+					}
+				},{
+					xtype : "button",
+					text : '关闭',
+					ref:"cancelPD",
+					width : 50,
+					margin : "10 10 10 20",
+					handler : function(btn) {
+						var window=btn.up("upProcessDefinitionWindow");
+						window.hide();
 					}
 				}]
 	}]
