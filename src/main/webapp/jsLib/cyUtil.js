@@ -66,7 +66,6 @@ CY.processBox = function (param){
 	});  
     /* 关闭任务 及窗口 */
     msgBox.closeCY = function (){
-    	alert("3232");
         Ext.TaskManager.stop(task);
         this.close();
     };

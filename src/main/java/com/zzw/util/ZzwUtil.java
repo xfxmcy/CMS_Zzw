@@ -13,10 +13,24 @@
 
 package com.zzw.util;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+import com.alibaba.fastjson.JSONObject;
 import com.zzw.pojo.Pages;
+import com.zzw.vo.ZUser;
 
 /**
  * ClassName:ZzwUtil
@@ -84,6 +98,82 @@ public class ZzwUtil {
 		page.setBeginIndex(null == start ? 0 : start);
 		page.setCount(null == limit ? 0 : limit);
 		return page;
+	}
+	
+	/**
+	 * 
+	 * writeJson:write json 
+	 *
+	 * @param response	response
+	 * @param result	result
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月8日 		cy
+	 */
+	public static void writeJson(HttpServletResponse response , Object result){
+		if(null != response) {
+			Writer writer = null;
+			try {
+				response.setCharacterEncoding("utf-8");
+				writer =  response.getWriter();
+				String res = JSONObject.toJSONString(result);
+				writer.write(res);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					writer.flush();
+					writer.close();
+					response.flushBuffer();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * getJPDLKEY: get key from jpdl
+	 *
+	 * @param jpdl
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月8日 		cy
+	 */
+	public static String getJPDLKEY(File jpdl){
+		/*读取XML文件,获得document对象*/
+		SAXReader reader = new SAXReader();  
+		Document  document = null; 
+		Element root = null ;
+		try {
+			document = reader.read(jpdl);
+			root = document.getRootElement();  
+			Attribute attribute=root.attribute("key");  
+			String value = attribute.getText();
+			return value ;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	/**
+	 * 
+	 * getLoginUser:get login user
+	 *
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月8日 		cy
+	 */
+	public static ZUser getLoginUser(){
+		Object admin = ServletActionContext.getRequest().getSession().getAttribute(ResourceUtil.getUserAdmin());
+		if(null != admin)
+			return (ZUser)admin; 
+		return null ;
 	}
 }
 

@@ -211,6 +211,12 @@
 			<artifactId>jbpm-log</artifactId>
 			<version>${jbpm.version}</version>
 		</dependency>
+		<!-- 图片生成器 -->
+		<dependency>
+		  <groupId>sofocus.bpm</groupId>
+		  <artifactId>jbpm</artifactId>
+		  <version>1.0</version>
+		</dependency>
 		<dependency>
 		  <groupId>org.hibernate.javax.persistence</groupId>
 		  <artifactId>hibernate-jpa-2.0-api</artifactId>

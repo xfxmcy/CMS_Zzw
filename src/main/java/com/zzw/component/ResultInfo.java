@@ -72,6 +72,35 @@ public class ResultInfo implements Serializable{
 	public void setResult(Object result) {
 		this.result = result;
 	}
-	
+	/**
+	 * 
+	 * settingSuccessResult: 设置成功信息
+	 *
+	 * @param info
+	 * @param result
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月1日 		cy
+	 */
+	public void settingSuccessResult(String info,Object result){
+		this.setSuccess(true);
+		this.setInfo(info);
+		this.setResult(result);
+	}
+	/**
+	 * 
+	 * settingErrorResult: 设置失败信息
+	 *
+	 * @param info
+	 * @param result
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月1日 		cy
+	 */
+	public void settingErrorResult(String info,Object result){
+		this.setSuccess(false);
+		this.setInfo(info);
+		this.setResult(result);
+	}
 }
 

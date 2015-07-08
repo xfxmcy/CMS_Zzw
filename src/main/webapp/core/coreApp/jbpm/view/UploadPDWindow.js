@@ -34,12 +34,12 @@ Ext.define('core.jbpm.view.UploadPDWindow', {
 					selectOnFocus : true,
 					regex : /([A-Za-z]{1})\w{1,19}/,
 					regexText : '流程名称格式有误',
-					name : 'processName',
+					name : 'deploy.processName',
 					margin : "10 0 10 20",
 					allowBlank : false,
 					//value:"admin"
 				},{
-					name : 'descript',
+					name : 'deploy.descript',
 					fieldLabel : '流程描述',
 					labelWidth : 60,
 					width : 220,
@@ -56,7 +56,15 @@ Ext.define('core.jbpm.view.UploadPDWindow', {
 			        allowBlank: false,
 			        anchor: '88%',
 			        margin : "10 0 10 20",
-			        buttonText: 'Select...'
+			        buttonText: 'Select...',
+			        validator: function(value){
+    		            var arr = value.split('.');
+    		            if(arr[arr.length-1] != 'xml'){
+    		            	return '文件不合法！！！';
+    		            }else{
+    		              return true;
+    		            }
+			        }
 			    },{
 					xtype : "button",
 					text : '提交',

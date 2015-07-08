@@ -87,6 +87,13 @@ public class BasicDaoimpl<ZZW> implements BasicDao<ZZW> {
 			}
 		}		
 		return query;
+	}
+
+	@Override
+	public void persistence(ZZW object) {
+		
+		 this.getCurrentSession().persist(object);
+		
 	};
 }
 

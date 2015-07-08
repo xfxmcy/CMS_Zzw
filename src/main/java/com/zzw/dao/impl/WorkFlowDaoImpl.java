@@ -46,7 +46,7 @@ import com.zzw.vo.ZUser;
  * @see 	 
  */
 @Repository
-public class WorkFlowDaoImpl implements WorkFlowDao{
+public class WorkFlowDaoImpl extends BasicDaoimpl<WFDeployment> implements WorkFlowDao{
 
 	@Inject
 	SessionFactory sessionFactory;
@@ -135,6 +135,13 @@ public class WorkFlowDaoImpl implements WorkFlowDao{
 		Object result = getCurrentSession().createQuery("select count(*) from WFDeployment").uniqueResult();
 		
 		return (null == result ? 0 : (Long)result);
+	}
+
+	@Override
+	public void saveWFDevelopment(WFDeployment deploy) {
+		
+		super.persistence(deploy);
+		
 	}
 
 }

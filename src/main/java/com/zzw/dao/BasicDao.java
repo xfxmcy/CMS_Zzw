@@ -35,5 +35,15 @@ public interface BasicDao <ZZW> {
 	  * @return Y
 	  */
 	ZZW queryByHql(String hql,Map<String,Object> param);
+	/**
+	 * 
+	 * persistence:persistence
+	 *
+	 * @param object entity	
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月8日 		cy
+	 */
+	void persistence (ZZW object);
 }
 

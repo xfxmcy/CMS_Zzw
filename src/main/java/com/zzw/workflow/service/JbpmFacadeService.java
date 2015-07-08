@@ -80,5 +80,16 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 *   		 2015年7月6日 		cy
 	 */
 	public Long queryCountBusinessDevelopment();
+	/**
+	 * 
+	 * saveWFDevelopment: save wf Development
+	 *
+	 * @param deploy
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月8日 		cy
+	 */
+	public WFDeployment saveWFDevelopment(WFDeployment deploy);
 }
 

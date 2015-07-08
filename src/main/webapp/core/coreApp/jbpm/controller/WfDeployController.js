@@ -82,7 +82,7 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 					/*上传jpdl*/
 					"upProcessDefinitionWindow button[ref=submitPD]":{
 						click:function(btn){
-							
+							var dis=Ext.getCmp("displaylogin");
 							var window = Ext.getCmp("upProcessDefinitionWindow");
 							var form ;
 							var box ;
@@ -92,16 +92,17 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 									box	= CY.processBox();
 									/*上传工作*/
 									form.submit({       
-										  
 							            url:CY.ns + '/workflow/wkAction!uploadJPDL.asp',   
-							  
-							            success: function(form, action){  
-							            	box.closeCY();	
-							                
+							            success: function(form, action){ 
+							            	box.closeCY();
+							            	dis.up("mainview").down("deploygrid").getStore().load();
+							            	//Ext.getCmp("deploygrid").getStore().load();
+							            	Ext.Msg.alert('Success', action.result.info);
 							   
 							            },
-							            failure: function(form, action){       
-							            	 alert("jinbulaima");
+							            failure: function(form, action){ 
+							            	box.closeCY();	
+							            	Ext.Msg.alert('Error', action.result.info);
 							            }   
 									});
 								}
@@ -109,7 +110,7 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 							if(window){
 								form =  btn.up('form').getForm();
 								if(form.isValid()){
-								   CY.confirmBox(param);
+								    CY.confirmBox(param);
 								}	
 								else
 									Ext.Msg.alert('提示','请认真完成表单...');   

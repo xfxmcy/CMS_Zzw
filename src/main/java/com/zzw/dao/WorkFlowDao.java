@@ -77,6 +77,16 @@ public interface WorkFlowDao {
 	 * ──────────────────────────────────
 	 *   		 2015年7月6日 		cy
 	 */
-	public Long queryCountBusinessDevelopment(); 
+	public Long queryCountBusinessDevelopment();
+	/**
+	 * 
+	 * saveWFDevelopment:save	WFDevelopment
+	 *
+	 * @param deploy	deploy
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月8日 		cy
+	 */
+	public void saveWFDevelopment(WFDeployment deploy); 
 }
 

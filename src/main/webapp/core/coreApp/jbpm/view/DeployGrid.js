@@ -26,11 +26,13 @@ Ext.define("core.jbpm.view.DeployGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"文件名称",dataIndex:"fileName",width:150},
-		{text:"流程名称",dataIndex:"processName",width:130},
-		{text:"流程Key",dataIndex:"processKey",width:130},
-		{text:"部署版本",dataIndex:"version",width:100},
-		{text:"流程描述",dataIndex:"descript",width:200}
+		{text:"文件名称",dataIndex:"fileName",width:150,align:'center'},
+		{text:"流程名称",dataIndex:"processName",width:130,align:'center'},
+		{text:"流程Key",dataIndex:"processKey",width:130,align:'center'},
+		{text:"部署版本",dataIndex:"version",width:100,align:'center'},
+		{text:"流程描述",dataIndex:"descript",width:200,align:'center'},
+		{text:"上传时间",dataIndex:"createTime",width:200,align:'center'},
+		{text:"上传人",dataIndex:"createUser",width:150,align:'center'}
 	],
 	initComponent:function(){
 		this.callParent(arguments);

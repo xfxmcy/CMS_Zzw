@@ -48,6 +48,15 @@ public class WFDeployment extends BaseEntity {
 	private String filePath;
 	/*文件名称*/
 	private String fileName;
+	/*文件名称*/
+	private String photoPath;
+	@Column(length = 255)
+	public String getPhotoPath() {
+		return photoPath;
+	}
+	public void setPhotoPath(String photoPath) {
+		this.photoPath = photoPath;
+	}
 	/*流程名称*/
 	private String processName;
 	/*流程Key*/

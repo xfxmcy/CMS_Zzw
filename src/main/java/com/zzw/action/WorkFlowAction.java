@@ -14,10 +14,15 @@
 package com.zzw.action;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -28,6 +33,9 @@ import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import sofocus.bpm.jbpm.JpdlXMLToPng;
+
+import com.zzw.component.ResultInfo;
 import com.zzw.pojo.WfTaskJobPojo;
 import com.zzw.util.ResourceUtil;
 import com.zzw.util.ZzwUtil;
@@ -60,6 +68,14 @@ public class WorkFlowAction extends PageAction {
 	@Inject
 	private JbpmFacadeService jbpmFacadeServiceImpl;
 	
+	private WFDeployment deploy ;
+	@JSON(serialize=false)
+	public WFDeployment getDeploy() {
+		return deploy;
+	}
+	public void setDeploy(WFDeployment deploy) {
+		this.deploy = deploy;
+	}
 	@JSON(serialize=false)
 	public File getJpdl() {
 		return jpdl;
@@ -101,10 +117,9 @@ public class WorkFlowAction extends PageAction {
 	 *   		 2015年7月2日 		cy
 	 */
 	public String queryMyTasks(){
-		Object admin = ServletActionContext.getRequest().getSession().getAttribute(ResourceUtil.getUserAdmin());
-		if(null == admin)
+		ZUser user = ZzwUtil.getLoginUser();
+		if(null == user)
 			return BASE_RESULT_JSON;
-		ZUser user = (ZUser)admin; 
 		List<WfTaskJobPojo> result = jbpmFacadeServiceImpl.queryMyTasks(user, ZzwUtil.createPaged(super.getStart(),super.getLimit()));
 		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountMyTasks(user));
 		return BASE_RESULT_JSON;
@@ -123,15 +138,54 @@ public class WorkFlowAction extends PageAction {
 		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountBusinessDevelopment());
 		return BASE_RESULT_JSON;
 	}
-	
-	public String uploadJPDL(){
-		//this.setJsonString("{success:true}");   
-		System.out.println("222");
-		System.out.println(jpdl.getName());
-		System.out.println(jpdl.getPath());
-		System.out.println(getJpdlFileName());
-		System.out.println(getJpdlContentType());
-		return BASE_RESULT_JSON;
+	/**
+	 * 
+	 * uploadJPDL:上传JPDL 
+	 *
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月8日 		cy
+	 */
+	public void uploadJPDL(){
+		ResultInfo info = new ResultInfo();
+		ZUser user = ZzwUtil.getLoginUser();
+		String realpath = ServletActionContext.getServletContext().getRealPath("/WEB-INF/classes/com/zzw/jpdl/");
+	        //D:\apache-tomcat-6.0.18\webapps\struts2_upload\images
+        if (jpdl != null) {
+        	if(!"jpdl.xml".equals(jpdlFileName.split("\\.",2)[1]))
+        		info.settingErrorResult("jpdl类型错误!", null);
+        	else{
+        		String newName = UUID.randomUUID().toString();
+	            File savefile = new File(new File(realpath), newName+ ".jpdl.xml");
+	            if (!savefile.getParentFile().exists())
+	            	savefile.getParentFile().mkdirs();
+	            try {
+					FileUtils.copyFile(jpdl, savefile);
+					String key = ZzwUtil.getJPDLKEY(savefile);
+					if(null != key && !"".equals(key)){
+						InputStream inputStream = new FileInputStream(savefile);
+						JpdlXMLToPng.toPng(inputStream, realpath + "\\" + newName + ".png");
+						/*赋值*/
+						deploy.setFileName(jpdlFileName);
+						deploy.setCreateTime(ZzwUtil.formatDate(new Date()));
+						deploy.setProcessKey(key);
+						if(null != user)
+							deploy.setCreateUser(user.getUsername());
+						deploy.setFilePath(realpath+ "\\" + newName+ ".jpdl.xml" );
+						deploy.setPhotoPath(realpath+ "\\" + newName+ ".png" );
+						/*保存*/
+						deploy = jbpmFacadeServiceImpl.saveWFDevelopment(deploy);
+						info.settingSuccessResult("jpdl上传成功", null);
+					}else
+						info.settingErrorResult("jpdl文件定义错误 检查是否有key!", null);
+				} catch (Exception e) {
+					info.settingErrorResult("jpdl上传失败,请检查定义格式", null);
+					e.printStackTrace();
+					
+				}
+        	}  
+        }
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 	}
 	
 	

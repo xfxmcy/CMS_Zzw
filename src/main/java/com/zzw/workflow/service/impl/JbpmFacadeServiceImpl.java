@@ -187,6 +187,13 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	}
 
 
+	@Override
+	public WFDeployment saveWFDevelopment(WFDeployment deploy) {
+		workFlowDaoImpl.saveWFDevelopment(deploy);
+		return deploy;
+	}
+
+
 	
 
 	
