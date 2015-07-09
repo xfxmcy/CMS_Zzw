@@ -144,5 +144,17 @@ public class WorkFlowDaoImpl extends BasicDaoimpl<WFDeployment> implements WorkF
 		
 	}
 
+	@Override
+	public WFDeployment queryBusinessDevelopmentById(String id) {
+		return super.query(WFDeployment.class, id);
+	}
+
+	@Override
+	public void removeWFDevelopment(WFDeployment deploy) {
+		
+		super.remove(deploy);
+		
+	}
+
 }
 

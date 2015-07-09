@@ -87,6 +87,28 @@ public interface WorkFlowDao {
 	 * ──────────────────────────────────
 	 *   		 2015年7月8日 		cy
 	 */
-	public void saveWFDevelopment(WFDeployment deploy); 
+	public void saveWFDevelopment(WFDeployment deploy);
+	/**
+	 * 
+	 * queryBusinessDevelopmentById:query BY PK
+	 *
+	 * @param id					PK
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月9日 		cy
+	 */
+	public WFDeployment queryBusinessDevelopmentById(String id); 
+	
+	/**
+	 * 
+	 * removeWFDevelopment:remove WFDevelopment
+	 *
+	 * @param deploy
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月9日 		cy
+	 */
+	public void removeWFDevelopment(WFDeployment deploy);
 }
 

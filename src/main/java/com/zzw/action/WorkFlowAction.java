@@ -68,6 +68,16 @@ public class WorkFlowAction extends PageAction {
 	@Inject
 	private JbpmFacadeService jbpmFacadeServiceImpl;
 	
+	private String id;
+	
+	@JSON(serialize=false)
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	private WFDeployment deploy ;
 	@JSON(serialize=false)
 	public WFDeployment getDeploy() {
@@ -149,7 +159,7 @@ public class WorkFlowAction extends PageAction {
 	public void uploadJPDL(){
 		ResultInfo info = new ResultInfo();
 		ZUser user = ZzwUtil.getLoginUser();
-		String realpath = ServletActionContext.getServletContext().getRealPath("/WEB-INF/classes/com/zzw/jpdl/");
+		String realpath = ServletActionContext.getServletContext().getRealPath("/jpdl");
 	        //D:\apache-tomcat-6.0.18\webapps\struts2_upload\images
         if (jpdl != null) {
         	if(!"jpdl.xml".equals(jpdlFileName.split("\\.",2)[1]))
@@ -171,8 +181,8 @@ public class WorkFlowAction extends PageAction {
 						deploy.setProcessKey(key);
 						if(null != user)
 							deploy.setCreateUser(user.getUsername());
-						deploy.setFilePath(realpath+ "\\" + newName+ ".jpdl.xml" );
-						deploy.setPhotoPath(realpath+ "\\" + newName+ ".png" );
+						deploy.setFilePath("/jpdl/" + newName+ ".jpdl.xml" );
+						deploy.setPhotoPath("/jpdl/"  + newName+ ".png" );
 						/*保存*/
 						deploy = jbpmFacadeServiceImpl.saveWFDevelopment(deploy);
 						info.settingSuccessResult("jpdl上传成功", null);
@@ -183,11 +193,26 @@ public class WorkFlowAction extends PageAction {
 					e.printStackTrace();
 					
 				}
-        	}  
+        	} 
         }
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 	}
 	
+	/**
+	 * 
+	 * deleteJPDL:delete jpdl	
+	 *
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月9日 		cy
+	 */
+	public void deleteJPDL(){
+		ResultInfo info = new ResultInfo();
+		System.out.println(id);
+		jbpmFacadeServiceImpl.removeJPDL(id);
+		info.settingSuccessResult("jpdl 删除成功", null);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
 	
 	@JSON(serialize=false)
 	public JbpmFacadeService getJbpmFacadeServiceImpl() {

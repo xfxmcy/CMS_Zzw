@@ -45,5 +45,26 @@ public interface BasicDao <ZZW> {
 	 *   		 2015年7月8日 		cy
 	 */
 	void persistence (ZZW object);
+	/**
+	 * 
+	 * query:query  by PK
+	 *
+	 * @param id	PK
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月9日 		cy
+	 */
+	ZZW query (Class type ,String id);
+	/**
+	 * 
+	 * remove:remove
+	 *
+	 * @param object
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月9日 		cy
+	 */
+	void remove (ZZW object);
 }
 

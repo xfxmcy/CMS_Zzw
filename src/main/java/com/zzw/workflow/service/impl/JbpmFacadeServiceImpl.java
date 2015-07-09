@@ -194,6 +194,26 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	}
 
 
+	@Override
+	public void removeJPDL(String id) {
+		
+		WFDeployment deploy = workFlowDaoImpl.queryBusinessDevelopmentById(id);
+		if(null == deploy)
+			return;
+		/*只删除WFDevelopment*/
+		if(null == deploy.getVersion() || "0".equals(deploy.getVersion())){
+			workFlowDaoImpl.removeWFDevelopment(deploy);
+		}
+		/*已经部署 ,需要删除流程定义  实例  任务   jpdl文件    删除WFDevelopment*/
+		else{
+			
+			/*最后一步*/
+			workFlowDaoImpl.removeWFDevelopment(deploy);
+		}
+			
+	}
+
+
 	
 
 	

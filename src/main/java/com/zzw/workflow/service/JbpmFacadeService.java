@@ -91,5 +91,15 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 *   		 2015年7月8日 		cy
 	 */
 	public WFDeployment saveWFDevelopment(WFDeployment deploy);
+	/**
+	 * 
+	 * removeJPDL:remove jpdl
+	 *
+	 * @param id
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月9日 		cy
+	 */
+	public void removeJPDL(String id);
 }
 

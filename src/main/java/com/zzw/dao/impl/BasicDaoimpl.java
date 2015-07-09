@@ -94,6 +94,19 @@ public class BasicDaoimpl<ZZW> implements BasicDao<ZZW> {
 		
 		 this.getCurrentSession().persist(object);
 		
+	}
+
+	@Override
+	public ZZW query(Class type ,String id) {
+		
+		return (ZZW) this.getCurrentSession().get(type, id);
+	}
+
+	@Override
+	public void remove(ZZW object) {
+		
+		this.getCurrentSession().delete(object);
+		
 	};
 }
 

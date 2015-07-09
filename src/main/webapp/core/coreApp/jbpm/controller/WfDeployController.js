@@ -8,7 +8,6 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 							var grid=btn.up("deploygrid");
 							var store=grid.getStore();
 							var records=grid.getSelectionModel().getSelection();
-							
 							/*显示上传   window*/
 							var window = Ext.getCmp("upProcessDefinitionWindow");
 							if(window){
@@ -56,27 +55,37 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 							var records=grid.getSelectionModel().getSelection();
 							if(records==null || records.length<=0){
 								Ext.Msg.alert("提示","请选择数据");
+								return ;
 							}
 							var obj=records[0];
-							Ext.Ajax.request({
-								url:"/jbpmItem/pc/wfDeploymentAction!clearDeployment.action",
-								params:obj.data,
-								method:"POST",
-								timeout:4000,
-								success:function(response,opts){
-									var resObj=Ext.decode(response.responseText);
-									if(resObj.success){
-										store.load();
-										var funGrid=grid.up("centerview").down("processgrid");
-										if(funGrid!=null){
-											funGrid.getStore().load();
+							var param = {};
+							param.msg = ( 0 == obj.data.version || "0" == obj.data.version ) ? 
+									"您确认您的操作?该操作不可回滚" : "该流程已经部署,删除后,流程定义,实例,任务都会被删除,您是否确认删除?"; 
+							param.fn = function(result){
+								if("yes" == result){
+									Ext.Ajax.request({
+										url:CY.ns + '/workflow/wkAction!deleteJPDL.asp',
+										params:obj.data,
+										method:"POST",
+										timeout:4000,
+										success:function(response,opts){
+											var resObj=Ext.decode(response.responseText);
+											if(resObj.success){
+												store.load();
+												var funGrid=grid.up("centerview").down("processgrid");
+												if(funGrid!=null){
+													funGrid.getStore().load();
+												}
+												Ext.Msg.alert("提示",resObj.info);
+											}else{
+												Ext.Msg.alert("提示",resObj.info);									
+											}
 										}
-										Ext.Msg.alert("提示",resObj.obj);
-									}else{
-										Ext.Msg.alert("提示",resObj.obj);									
-									}
+									});
 								}
-							});
+							};
+							CY.confirmBox(param);
+							
 						}
 					},
 					/*上传jpdl*/

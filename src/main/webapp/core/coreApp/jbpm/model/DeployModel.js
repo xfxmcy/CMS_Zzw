@@ -12,6 +12,10 @@
  		{name:"processName",type:"string",srotable:true},
  		{name:"processKey",type:"string",srotable:true},
  		{name:"descript",type:"string",srotable:true},
- 		{name:"version",type:"int",srotable:true}
+ 		{name:"version",type:"int",srotable:true},
+ 		{name:"createTime",type:"string",srotable:true},
+		{name:"createUser",type:"string",srotable:true},
+		{name:"photoPath",type:"string",srotable:false}
+		
  	]
  });
