@@ -1,19 +1,18 @@
 /**
- * ZRole.java
+ * ZJob.java
  * com.zzw.vo
  *
  * Function： TODO 
  *
  *   ver     date      		author
  * ──────────────────────────────────
- *   		 2015年7月3日 		cy
+ *   		 2015年7月10日 		cy
  *
  * Copyright (c) 2015, xfxmcy All Rights Reserved.
 */
 
 package com.zzw.vo;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -22,52 +21,33 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * ClassName:ZRole
- * Function: ZRole
- * Reason:	 ZRole
- *
+ * ClassName:ZJob
+ * Function: ZJob
+ * Reason:	 role + department = job     role -> job  <- department
+ *			 user <->  job
  * @author   cy
  * @version  
  * @since    Ver 1.1
- * @Date	 2015年7月3日		下午1:13:20
+ * @Date	 2015年7月10日		上午9:01:40
  *
  * @see 	 
  */
 @Entity
-public class ZRole implements Serializable {
-	/**
-	 * serialVersionUID:serialVersionUID
-	 */
+public class ZJob {
 	
-	private static final long serialVersionUID = 1L;
-	
-	public ZRole() {
+	public ZJob() {
 
 		// TODO Auto-generated constructor stub
 
 	}
+	private String id ; 
 	
-	private String id;
-	
-	private String name;
-	
-	private String code;
-	
-	
-	@Column(length = 40)
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
 	@Id
 	@Column(length = 40)
 	@GenericGenerator(name="systemUUID",strategy="uuid")
@@ -79,36 +59,36 @@ public class ZRole implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
-	@Column(length = 40)
-	public String getName() {
-		return name;
+	@ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+	public ZDepartment getDepartment() {
+		return department;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDepartment(ZDepartment department) {
+		this.department = department;
 	}
+	@ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+	public ZRole getRole() {
+		return role;
+	}
+
+	public void setRole(ZRole role) {
+		this.role = role;
+	}
+
+	private ZDepartment department;
 	
-/*	private Set<ZUser>  users;
+	private ZRole role;
 	
-	@ManyToMany(mappedBy = "roles" ,cascade = CascadeType.REFRESH , fetch = FetchType.LAZY)
+	private Set<ZUser>  users;
+	
+	@ManyToMany(mappedBy = "jobs" ,cascade = CascadeType.REFRESH , fetch = FetchType.LAZY)
 	public Set<ZUser> getUsers() {
 		return users;
 	}
 
 	public void setUsers(Set<ZUser> users) {
 		this.users = users;
-	}*/
-	private Set<ZJob> jobs ;
-	
-	
-	@OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY,mappedBy = "role")
-	public Set<ZJob> getJobs() {
-		return jobs;
-	}
-
-
-	public void setJobs(Set<ZJob> jobs) {
-		this.jobs = jobs;
 	}
 }
 

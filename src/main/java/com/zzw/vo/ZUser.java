@@ -22,12 +22,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 
@@ -58,19 +56,21 @@ public class ZUser implements Serializable {
 	
 	private String id;
 	
-	private String username,password;
+	private String username,password,usercode;
 	
-	@ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.PERSIST,optional = true)
+	/*@ManyToOne(fetch = FetchType.EAGER ,cascade = CascadeType.PERSIST,optional = true)
 	public ZDepartment getDepartment() {
 		return department;
+	}*/
+	
+	public String getUsercode() {
+		return usercode;
 	}
-	public void setDepartment(ZDepartment department) {
-		this.department = department;
+
+	public void setUsercode(String usercode) {
+		this.usercode = usercode;
 	}
-	
-	
-	private ZDepartment department ;
-	
+
 	@Id
 	@Column(length = 40)
 	@GenericGenerator(name="systemUUID",strategy="uuid")
@@ -79,9 +79,8 @@ public class ZUser implements Serializable {
 		return id;
 	}
 	
-	private Set<ZRole>  roles;
 	
-	@ManyToMany(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
+	/*@ManyToMany(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
 	@JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name="user_id"),
@@ -89,10 +88,23 @@ public class ZUser implements Serializable {
     )
 	public Set<ZRole> getRoles() {
 		return roles;
+	}*/
+	private Set<ZJob> jobs ;
+	
+	@ManyToMany(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
+	@JoinTable(
+            name = "user_job",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="job_id")
+    )
+	public Set<ZJob> getJobs() {
+		return jobs;
 	}
-	public void setRoles(Set<ZRole> roles) {
-		this.roles = roles;
+
+	public void setJobs(Set<ZJob> jobs) {
+		this.jobs = jobs;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}

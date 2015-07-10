@@ -15,10 +15,12 @@ package com.zzw.vo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -70,6 +72,14 @@ public class WFDeployment extends BaseEntity {
 
 		// TODO Auto-generated constructor stub
 
+	}
+	private WFProcessMount processMount;
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "deployment")
+	public WFProcessMount getProcessMount() {
+		return processMount;
+	}
+	public void setProcessMount(WFProcessMount processMount) {
+		this.processMount = processMount;
 	}
 	@Id
 	@Column(length = 40)

@@ -30,6 +30,7 @@ import org.springframework.stereotype.Repository;
 import com.zzw.dao.WorkFlowDao;
 import com.zzw.pojo.Pages;
 import com.zzw.vo.WFDeployment;
+import com.zzw.vo.ZJob;
 import com.zzw.vo.ZRole;
 import com.zzw.vo.ZUser;
 
@@ -65,10 +66,10 @@ public class WorkFlowDaoImpl extends BasicDaoimpl<WFDeployment> implements WorkF
 		/*拼接  groupStr*/
 		String[] group = null;
 		int j = 0 ;
-		if(null != user.getRoles().toArray() && 0 < user.getRoles().size()){
-			group = new String[user.getRoles().size()];
-			for (Iterator iterator = user.getRoles().iterator(); iterator.hasNext();) {
-				group[j++] = ((ZRole)iterator.next()).getId();
+		if(null != user.getJobs().toArray() && 0 < user.getJobs().size()){
+			group = new String[user.getJobs().size()];
+			for (Iterator iterator = user.getJobs().iterator(); iterator.hasNext();) {
+				group[j++] = ((ZJob)iterator.next()).getRole().getId();
 				
 			}
 		}else{
@@ -97,10 +98,10 @@ public class WorkFlowDaoImpl extends BasicDaoimpl<WFDeployment> implements WorkF
 		/*拼接  groupStr*/
 		String[] group = null;
 		int j = 0 ;
-		if(null != user.getRoles().toArray() && 0 < user.getRoles().size()){
-			group = new String[user.getRoles().size()];
-			for (Iterator iterator = user.getRoles().iterator(); iterator.hasNext();) {
-				group[j++] = ((ZRole)iterator.next()).getId();
+		if(null != user.getJobs().toArray() && 0 < user.getJobs().size()){
+			group = new String[user.getJobs().size()];
+			for (Iterator iterator = user.getJobs().iterator(); iterator.hasNext();) {
+				group[j++] = ((ZJob)iterator.next()).getRole().getId();
 				
 			}
 		}else{
