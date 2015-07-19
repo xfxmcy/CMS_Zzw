@@ -59,7 +59,7 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 							}
 							var obj=records[0];
 							var param = {};
-							param.msg = ( 0 == obj.data.version || "0" == obj.data.version ) ? 
+							param.msg = ( null == obj.data.processDefinitionId || "" == obj.data.processDefinitionId ) ? 
 									"您确认您的操作?该操作不可回滚" : "该流程已经部署,删除后,流程定义,实例,任务都会被删除,您是否确认删除?"; 
 							param.fn = function(result){
 								if("yes" == result){

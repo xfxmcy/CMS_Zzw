@@ -1,8 +1,13 @@
 -- ----------------------------
--- Records of user_job
+-- Records of zrole
 -- ----------------------------
-INSERT INTO `user_job` VALUES ('1', '1');
-INSERT INTO `user_job` VALUES ('1', '5');
+INSERT INTO `zrole` VALUES ('1', '001', '高级管理员');
+INSERT INTO `zrole` VALUES ('2', '003', '管理员');
+INSERT INTO `zrole` VALUES ('3', '004', '工作人员');
+-- ----------------------------
+-- Records of zuser
+-- ----------------------------
+INSERT INTO `zuser` VALUES ('1', 'admin', 'admin', 'admin');
 -- ----------------------------
 -- Records of zdepartment
 -- ----------------------------
@@ -19,12 +24,8 @@ INSERT INTO `zjob` VALUES ('3', '4', '2');
 INSERT INTO `zjob` VALUES ('4', '2', '3');
 INSERT INTO `zjob` VALUES ('5', '3', '3');
 -- ----------------------------
--- Records of zrole
+-- Records of user_job
 -- ----------------------------
-INSERT INTO `zrole` VALUES ('1', '001', '高级管理员');
-INSERT INTO `zrole` VALUES ('2', '003', '管理员');
-INSERT INTO `zrole` VALUES ('3', '004', '工作人员');
--- ----------------------------
--- Records of zuser
--- ----------------------------
-INSERT INTO `zuser` VALUES ('1', 'admin', 'admin', 'admin');
+INSERT INTO `user_job` VALUES ('1', '1');
+INSERT INTO `user_job` VALUES ('1', '5');
+

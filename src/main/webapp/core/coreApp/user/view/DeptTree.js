@@ -23,7 +23,8 @@ Ext.define("core.user.view.DeptTree", {
 							deptForm.findField("treeSign").setValue("");
 	   					 }
 					}],
-			rbar : [{
+			// rbar
+			tbar : [{
 						xtype : 'button',
 						tooltip : '添加部门',
 						iconCls : 'tree_model_add',

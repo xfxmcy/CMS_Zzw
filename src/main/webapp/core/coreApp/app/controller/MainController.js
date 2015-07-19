@@ -26,7 +26,7 @@ Ext.define("core.app.controller.MainController", {
 					"westview treepanel":{
 						itemclick:function(tree,record,item,index,e,eOpts){
 							var mainView=tree.up("mainview").down("centerview");
-							/**部门人员管理*/
+							/**部门管理*/
 							if(record.data["id"]=="dept-user"){
 								self.addFunItem({
 									mainView:mainView,
@@ -34,7 +34,7 @@ Ext.define("core.app.controller.MainController", {
 									funController:"core.user.controller.UserController",
 									funViewName:"core.user.view.UserLayout"
 								});
-							/**角色人员管理*/
+							/*角色人员管理*/
 							}else if(record.data["id"]=="role-user"){
 								self.addFunItem({
 									mainView:mainView,
@@ -42,7 +42,16 @@ Ext.define("core.app.controller.MainController", {
 									funController:"core.user.controller.RoleController",
 									funViewName:"core.user.view.RoleLayout"
 								});
-							}else if(record.data["id"]=="deployment"){
+							/**人员管理*/
+							}else if(record.data["id"]=="user-user"){
+								self.addFunItem({
+									mainView:mainView,
+									funViewXtype:"rolelayout",
+									funController:"core.user.controller.RoleController",
+									funViewName:"core.user.view.RoleLayout"
+								});
+							}
+							else if(record.data["id"]=="deployment"){
 								self.addFunItem({
 									mainView:mainView,
 									funViewXtype:"deploylayout",
