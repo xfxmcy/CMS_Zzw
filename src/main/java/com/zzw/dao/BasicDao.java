@@ -66,5 +66,15 @@ public interface BasicDao <ZZW> {
 	 *   		 2015年7月9日 		cy
 	 */
 	void remove (ZZW object);
+	/**
+	 * 
+	 * merge merge
+	 *
+	 * @param object
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月9日 		cy
+	 */
+	void merge (ZZW object);
 }
 

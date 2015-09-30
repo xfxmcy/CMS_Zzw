@@ -49,16 +49,7 @@ import com.zzw.vo.ZUser;
 @Repository
 public class WorkFlowDaoImpl extends BasicDaoimpl<WFDeployment> implements WorkFlowDao{
 
-	@Inject
-	SessionFactory sessionFactory;
-	
-	Session session = null;
-	
-	
-	public Session getCurrentSession(){
-		 session = sessionFactory.getCurrentSession();
-		 return session;
-	};
+
 	
 	@Override
 	public List<Task> queryMyTaskIncludeGroup(ZUser user , Pages page) {

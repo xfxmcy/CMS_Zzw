@@ -101,5 +101,14 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 *   		 2015年7月9日 		cy
 	 */
 	public void removeJPDL(String id);
+	/**
+	 * 
+	 * delpoyProcessDefinition: 部署流程定义
+	 * 
+	 * @author 李丛阳
+	 * @param id
+	 * @since 　Ver 1.1
+	 */
+	public void delpoyProcessDefinition(String id,String realPath);
 }
 

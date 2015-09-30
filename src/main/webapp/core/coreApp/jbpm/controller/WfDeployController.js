@@ -20,32 +20,52 @@ Ext.define("core.jbpm.controller.WfDeployController", {
 					},
 					"deploygrid button[ref=addDeploy]":{
 						click:function(btn){
-							/*var grid=btn.up("deploygrid");
+							
+							var grid=btn.up("deploygrid");
+							
+							var mainView=grid.up("centerview");
+							var mainController = this.application.getController("core.app.controller.MainController");
+						
 							var store=grid.getStore();
 							var records=grid.getSelectionModel().getSelection();
 							if(records==null || records.length<=0){
 								Ext.Msg.alert("提示","请选择数据");
 							}
 							var obj=records[0];
-							Ext.Ajax.request({
-								url:"/jbpmItem/pc/wfDeploymentAction!deployment.action",
-								params:obj.data,
-								method:"POST",
-								timeout:4000,
-								success:function(response,opts){
-									var resObj=Ext.decode(response.responseText);
-									if(resObj.success){
-										store.load();
-										var funGrid=grid.up("centerview").down("processgrid");
-										if(funGrid!=null){
-											funGrid.getStore().load();
+							var param = {};
+				
+							param.fn = function(result){
+								if("yes" == result){
+									Ext.Ajax.request({
+										url:CY.ns + '/workflow/wkAction!delpoyProcessDefinition.asp',
+										params:{id:obj.data.id},
+										method:"POST",
+										timeout:4000,
+										success:function(response,opts){
+											var resObj=Ext.decode(response.responseText);
+											if(resObj.success){
+												store.load();
+												var funGrid=grid.up("centerview").down("processgrid");
+												if(funGrid!=null){
+													funGrid.getStore().load();
+												}
+												Ext.Msg.alert("提示",resObj.info);
+												/*切换   流程部署panel*/
+												mainController.addFunItem({
+													mainView:mainView,
+													funViewXtype:"processlayout",
+													funController:"core.jbpm.controller.WfProcessController",
+													funViewName:"core.jbpm.view.ProcessLayout"
+												});
+											}else{
+												Ext.Msg.alert("提示",resObj.info);									
+											}
 										}
-										Ext.Msg.alert("提示",resObj.obj);
-									}else{
-										Ext.Msg.alert("提示",resObj.obj);									
-									}
+									});
 								}
-							});*/
+								
+							};
+							CY.confirmBox(param);
 						}
 					},
 					"deploygrid button[ref=calDeploy]":{

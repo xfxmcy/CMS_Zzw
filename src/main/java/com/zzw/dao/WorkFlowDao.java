@@ -19,6 +19,7 @@ import org.jbpm.api.task.Task;
 
 import com.zzw.pojo.Pages;
 import com.zzw.vo.WFDeployment;
+import com.zzw.vo.WFProcessMount;
 import com.zzw.vo.ZUser;
 
 /**
@@ -33,7 +34,7 @@ import com.zzw.vo.ZUser;
  *
  * @see 	 
  */
-public interface WorkFlowDao {
+public interface WorkFlowDao extends BasicDao<WFDeployment>{
 	/**
 	 * 
 	 * queryMyTaskIncludeGroup:query users's waitTask 

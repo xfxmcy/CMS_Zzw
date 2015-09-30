@@ -23,6 +23,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -208,7 +209,6 @@ public class WorkFlowAction extends PageAction {
 	 */
 	public void deleteJPDL(){
 		ResultInfo info = new ResultInfo();
-		System.out.println(id);
 		jbpmFacadeServiceImpl.removeJPDL(id);
 		info.settingSuccessResult("jpdl 删除成功", null);
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
@@ -222,6 +222,18 @@ public class WorkFlowAction extends PageAction {
 	public void setJbpmFacadeServiceImpl(JbpmFacadeService jbpmFacade) {
 		this.jbpmFacadeServiceImpl = jbpmFacade;
 	}
-
+	/**
+	 * 
+	 * delpoyProcessDefinition:	部署流程定义
+	 * 
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
+	public void delpoyProcessDefinition(){
+		ResultInfo info = new ResultInfo();
+		jbpmFacadeServiceImpl.delpoyProcessDefinition(id,ServletActionContext.getServletContext().getRealPath("/"));
+		info.settingSuccessResult("流程部署成功", null);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
 }
 

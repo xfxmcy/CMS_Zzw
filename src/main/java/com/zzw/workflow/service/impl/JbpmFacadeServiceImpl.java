@@ -16,29 +16,35 @@ package com.zzw.workflow.service.impl;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang.StringUtils;
 import org.jbpm.api.DeploymentQuery;
 import org.jbpm.api.ExecutionService;
 import org.jbpm.api.HistoryService;
 import org.jbpm.api.NewDeployment;
+import org.jbpm.api.ProcessDefinition;
 import org.jbpm.api.ProcessDefinitionQuery;
 import org.jbpm.api.RepositoryService;
 import org.jbpm.api.TaskService;
 import org.jbpm.api.model.ActivityCoordinates;
 import org.jbpm.api.task.Task;
+import org.jbpm.pvm.internal.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zzw.dao.WorkFlowDao;
+import com.zzw.dao.WorkFlowMountDao;
 import com.zzw.pojo.Pages;
 import com.zzw.pojo.WfTaskJobPojo;
 import com.zzw.util.ZzwUtil;
 import com.zzw.vo.WFDeployment;
+import com.zzw.vo.WFProcessMount;
 import com.zzw.vo.ZUser;
 import com.zzw.workflow.service.JbpmFacadeService;
 
@@ -69,7 +75,8 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	@Inject
 	private WorkFlowDao workFlowDaoImpl;
 	
-	
+	@Inject
+	private WorkFlowMountDao workFlowMountDaoImpl;
 	
 
 	
@@ -189,6 +196,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 
 	@Override
 	public WFDeployment saveWFDevelopment(WFDeployment deploy) {
+		deploy.setStatus("1");
 		workFlowDaoImpl.saveWFDevelopment(deploy);
 		return deploy;
 	}
@@ -211,6 +219,40 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 			workFlowDaoImpl.removeWFDevelopment(deploy);
 		}
 			
+	}
+
+
+	@Override
+	public void delpoyProcessDefinition(String id,String realPath) {
+		if(null == id)
+			return;
+		WFDeployment deploy = workFlowDaoImpl.queryBusinessDevelopmentById(id);
+		if(null == deploy)
+			return;
+		//jpdl 文件定义
+		File jpdl = new File(realPath + deploy.getFilePath());
+		String deployId = repositoryService.createDeployment().addResourceFromFile(jpdl).deploy();
+		if(StringUtils.isEmpty(deployId))
+			return;
+		List<ProcessDefinition> processDefinitios = repositoryService.createProcessDefinitionQuery().processDefinitionKey(deploy.getProcessKey()).list();
+		//merge 部署表
+		deploy.setDeployId(deployId);
+		
+		if(null != processDefinitios && 0 < processDefinitios.size()){
+			deploy.setProcessDefinitionId(processDefinitios.get(0).getId());
+			deploy.setPdId(processDefinitios.get(0).getId());
+			deploy.setVersion((long) processDefinitios.get(0).getVersion());
+		}	
+		workFlowDaoImpl.merge(deploy);
+		//persistence   流程挂接表  默认已挂接	
+		WFProcessMount mount = new WFProcessMount();
+		mount.setMountStatus("1");
+		ZUser user = ZzwUtil.getLoginUser();
+		if(null != user)
+			mount.setUpdateUser(user.getUsercode());
+		mount.setDeployment(deploy);
+		mount.setUpdateTime(new Date());
+		workFlowMountDaoImpl.persistence(mount);
 	}
 
 

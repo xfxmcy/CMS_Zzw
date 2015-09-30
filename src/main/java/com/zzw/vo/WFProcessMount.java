@@ -1,5 +1,7 @@
 package com.zzw.vo;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,14 +43,14 @@ public class WFProcessMount  {
 	
 	
 	private String id;
-	/** 挂接状态 */
+	/** 挂接状态    1 挂接   2 停用*/
 	private String mountStatus;
 	/** 业务ID**/
 	private String businessId;
 	/** 业务url**/
 	private String businessUrl;
 	/** 修改时间**/
-	private String updateTime;
+	private Date updateTime;
 	/** 挂接部门**/
 	private String departmentCode;
 	
@@ -76,10 +78,10 @@ public class WFProcessMount  {
 	public void setBusinessUrl(String businessUrl) {
 		this.businessUrl = businessUrl;
 	}
-	public String getUpdateTime() {
+	public Date getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 	public String getDepartmentCode() {

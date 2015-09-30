@@ -107,6 +107,13 @@ public class BasicDaoimpl<ZZW> implements BasicDao<ZZW> {
 		
 		this.getCurrentSession().delete(object);
 		
+	}
+
+	@Override
+	public void merge(ZZW object) {
+		
+		this.getCurrentSession().merge(object);
+		
 	};
 }
 
