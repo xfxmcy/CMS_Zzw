@@ -13,12 +13,13 @@ Ext.define("core.user.view.UserLayout", {
 			layout : 'border',
 			items : [{
 						title : "部门管理",
-						region : 'west',
+						//region : 'west',
+						region : 'center',
 						// iconCls:'goodtype_tree',
 						xtype : "depttree",
 						margins : '5 2 5 5',
 						width : 250
-					}, {
+					}/*, {
 						xtype : "panel",
 						title : '部门信息',
 						region : "center",
@@ -49,5 +50,5 @@ Ext.define("core.user.view.UserLayout", {
 												title:"部门人员"
 											}]
 								}]
-					}]
+					}*/]
 		});

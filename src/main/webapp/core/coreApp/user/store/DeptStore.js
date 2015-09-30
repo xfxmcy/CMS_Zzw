@@ -8,7 +8,7 @@
 			update:"/jbpmItem/pc/deptAction!doUpdateTree.action"  //后台处理删除的url地址
 		},
 		type:"ajax",
-		url:"/jbpmItem/pc/deptAction!loadTree.action",
+		url:CY.ns + "/dept/deptAction!loadTree.action",
 		reader:{
 			type:"json"
 		},

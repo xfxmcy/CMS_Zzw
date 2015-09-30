@@ -31,12 +31,16 @@ Ext.define("core.app.view.WestView",{
 			root: {
 	       	 	expanded: true,
 	        	children: [{ 
-	            		text: "部门人员管理",
+	            		text: "部门管理",
 	            		id:"dept-user",
 	            	 	leaf: true 
 	            	},{
 	            		text: "角色人员管理",
 	            		id:"role-user",
+	            	 	leaf: true             		
+	            	},{
+	            		text: "人员管理",
+	            		id:"user-user",
 	            	 	leaf: true             		
 	            	}
 	        	]
