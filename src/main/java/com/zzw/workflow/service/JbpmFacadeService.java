@@ -20,6 +20,7 @@ import org.jbpm.api.RepositoryService;
 import com.zzw.pojo.Pages;
 import com.zzw.pojo.WfTaskJobPojo;
 import com.zzw.vo.WFDeployment;
+import com.zzw.vo.WFProcessMount;
 import com.zzw.vo.ZUser;
 
 /**
@@ -110,5 +111,27 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 * @since 　Ver 1.1
 	 */
 	public void delpoyProcessDefinition(String id,String realPath);
+	
+	/**
+	 * 
+	 * queryBusinessProcessMount:查询流程部署
+	 *
+	 * @param createPaged
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年10月1日 		cy
+	 */
+	public List<WFProcessMount> queryBusinessProcessMount(Pages createPaged);
+	/**
+	 * 
+	 * queryCountBusinessProcessMount:query count for 流程部署
+	 *
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年10月1日 		cy
+	 */
+	public Long queryCountBusinessProcessMount();
 }
 

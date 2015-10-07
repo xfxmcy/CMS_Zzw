@@ -41,6 +41,7 @@ import com.zzw.pojo.WfTaskJobPojo;
 import com.zzw.util.ResourceUtil;
 import com.zzw.util.ZzwUtil;
 import com.zzw.vo.WFDeployment;
+import com.zzw.vo.WFProcessMount;
 import com.zzw.vo.ZUser;
 import com.zzw.workflow.service.JbpmFacadeService;
 
@@ -118,6 +119,15 @@ public class WorkFlowAction extends PageAction {
 	public void setJpdlFileName(String jpdlFileName) {
 		this.jpdlFileName = jpdlFileName;
 	}
+	
+	@JSON(serialize=false)
+	public JbpmFacadeService getJbpmFacadeServiceImpl() {
+		return jbpmFacadeServiceImpl;
+	}
+
+	public void setJbpmFacadeServiceImpl(JbpmFacadeService jbpmFacade) {
+		this.jbpmFacadeServiceImpl = jbpmFacade;
+	}
 	/**
 	 * 
 	 * queryMyTasks: query my tasks
@@ -147,6 +157,20 @@ public class WorkFlowAction extends PageAction {
 	public String queryBusinessDevelopment(){
 		List<WFDeployment> result = jbpmFacadeServiceImpl.queryBusinessDevelopment(ZzwUtil.createPaged(super.getStart(),super.getLimit()));
 		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountBusinessDevelopment());
+		return BASE_RESULT_JSON;
+	}
+	/**
+	 * 
+	 * queryMyDefinition:query 流程 挂接
+	 *
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年7月6日 		cy
+	 */
+	public String queryBusinessWFProcessMount(){
+		List<WFProcessMount> result = jbpmFacadeServiceImpl.queryBusinessProcessMount(ZzwUtil.createPaged(super.getStart(),super.getLimit()));
+		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountBusinessProcessMount());
 		return BASE_RESULT_JSON;
 	}
 	/**
@@ -214,14 +238,7 @@ public class WorkFlowAction extends PageAction {
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 	}
 	
-	@JSON(serialize=false)
-	public JbpmFacadeService getJbpmFacadeServiceImpl() {
-		return jbpmFacadeServiceImpl;
-	}
-
-	public void setJbpmFacadeServiceImpl(JbpmFacadeService jbpmFacade) {
-		this.jbpmFacadeServiceImpl = jbpmFacade;
-	}
+	
 	/**
 	 * 
 	 * delpoyProcessDefinition:	部署流程定义

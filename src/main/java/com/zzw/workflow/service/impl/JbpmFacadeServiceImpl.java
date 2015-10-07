@@ -255,6 +255,24 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		workFlowMountDaoImpl.persistence(mount);
 	}
 
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	@Override
+	public List<WFProcessMount> queryBusinessProcessMount(Pages page) {
+		
+		// TODO Auto-generated method stub
+		return workFlowMountDaoImpl.queryBusinessProcessMount(page);
+		
+	}
+
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	@Override
+	public Long queryCountBusinessProcessMount() {
+		
+		// TODO Auto-generated method stub
+		return null;
+		
+	}
+
 
 	
 

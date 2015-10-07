@@ -1,6 +1,9 @@
 package com.zzw.dao;
 
+import java.util.List;
+
 import com.zzw.dao.impl.BasicDaoimpl;
+import com.zzw.pojo.Pages;
 import com.zzw.vo.WFDeployment;
 import com.zzw.vo.WFProcessMount;
 
@@ -27,4 +30,15 @@ public interface WorkFlowMountDao extends BasicDao<WFProcessMount>{
 	 *   		 2015年7月8日 		cy
 	 */
 	public void saveWfprocessmount(WFProcessMount process);
+	/**
+	 * 
+	 * queryBusinessProcessMount:query 流程部署
+	 *
+	 * @param page
+	 * @return
+	 *   ver     date      		author
+	 * ──────────────────────────────────
+	 *   		 2015年10月3日 		cy
+	 */
+	public List<WFProcessMount> queryBusinessProcessMount(Pages page);
 }
