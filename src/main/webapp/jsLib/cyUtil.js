@@ -2,7 +2,8 @@ var CY = new Object();
 
 /*contextPath */
 CY.ns = "/CMS_Zzw";
-
+/*photo ns*/
+CY.nsPhoto = "/CMSPhoto";
 /**
  *	processBox 
  */

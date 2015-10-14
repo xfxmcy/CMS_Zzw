@@ -1,0 +1,2 @@
+1.tomcat 配置 图片地址
+<Context docBase="E:\developEnvironment\project_files\CMS_Zzw\upload" path="/CMSPhoto" reloadable="false"/>

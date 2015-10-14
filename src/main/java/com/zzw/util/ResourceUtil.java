@@ -10,8 +10,15 @@ import java.util.ResourceBundle;
  */
 public class ResourceUtil {
 
+	
+	
+	
 	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("config");
 
+	// jpdl 上传地址
+	private static String JPDL_PATH = "";
+	
+	
 	private void ResourceUtil() {
 	}
 
@@ -66,5 +73,20 @@ public class ResourceUtil {
 	 */
 	public static final String getUserAdmin() {
 		return bundle.getString("userAdmin");
+	}
+	/**
+	 * 
+	 * getJpdlUploadPath: 获取jpdl upload path
+	 * 
+	 * @author 李丛阳
+	 * @return
+	 * @since 　Ver 1.1
+	 */
+	public static final String getUploadPath(){
+		if("".equals(JPDL_PATH))
+			JPDL_PATH = bundle.getString("uploadPath");
+		if(null == JPDL_PATH || "".equals(JPDL_PATH))
+			JPDL_PATH = "D://upload//jpdl";
+		return JPDL_PATH;
 	}
 }

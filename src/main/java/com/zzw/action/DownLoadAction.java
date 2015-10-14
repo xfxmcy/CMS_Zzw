@@ -13,6 +13,8 @@
 
 package com.zzw.action;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.apache.struts2.ServletActionContext;
@@ -24,6 +26,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.zzw.util.ResourceUtil;
 
 /**
  * ClassName:DownLoadAction
@@ -92,7 +95,10 @@ public class DownLoadAction extends ActionSupport{
     public String downloadJPDL() throws Exception  
     {  
        //获取资源路径  
-       inputStream = ServletActionContext.getServletContext().getResourceAsStream(filePath) ;  
+       //inputStream = ServletActionContext.getServletContext().getResourceAsStream(filePath) ;
+    	File file = new File(ResourceUtil.getUploadPath() + filePath);
+    	if(null != file || file.exists())
+    		inputStream = new FileInputStream(file);
        //文件名不需要转码, 接收就是iso-8859-1  下载时也需要返回iso-8859-1
        return SUCCESS;      
     }  

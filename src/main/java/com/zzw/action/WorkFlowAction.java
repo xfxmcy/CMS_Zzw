@@ -184,14 +184,15 @@ public class WorkFlowAction extends PageAction {
 	public void uploadJPDL(){
 		ResultInfo info = new ResultInfo();
 		ZUser user = ZzwUtil.getLoginUser();
-		String realpath = ServletActionContext.getServletContext().getRealPath("/jpdl");
+		//文件上传地址
+		String realpath = ResourceUtil.getUploadPath();
 	        //D:\apache-tomcat-6.0.18\webapps\struts2_upload\images
         if (jpdl != null) {
         	if(!"jpdl.xml".equals(jpdlFileName.split("\\.",2)[1]))
         		info.settingErrorResult("jpdl类型错误!", null);
         	else{
         		String newName = UUID.randomUUID().toString();
-	            File savefile = new File(new File(realpath), newName+ ".jpdl.xml");
+	            File savefile = new File(new File(realpath),"jpdl\\"+ newName+ ".jpdl.xml");
 	            if (!savefile.getParentFile().exists())
 	            	savefile.getParentFile().mkdirs();
 	            try {
@@ -199,7 +200,7 @@ public class WorkFlowAction extends PageAction {
 					String key = ZzwUtil.getJPDLKEY(savefile);
 					if(null != key && !"".equals(key)){
 						InputStream inputStream = new FileInputStream(savefile);
-						JpdlXMLToPng.toPng(inputStream, realpath + "\\" + newName + ".png");
+						JpdlXMLToPng.toPng(inputStream, realpath + "jpdl\\" + newName + ".png");
 						/*赋值*/
 						deploy.setFileName(jpdlFileName);
 						deploy.setCreateTime(ZzwUtil.formatDate(new Date()));
@@ -248,7 +249,7 @@ public class WorkFlowAction extends PageAction {
 	 */
 	public void delpoyProcessDefinition(){
 		ResultInfo info = new ResultInfo();
-		jbpmFacadeServiceImpl.delpoyProcessDefinition(id,ServletActionContext.getServletContext().getRealPath("/"));
+		jbpmFacadeServiceImpl.delpoyProcessDefinition(id);
 		info.settingSuccessResult("流程部署成功", null);
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 	}

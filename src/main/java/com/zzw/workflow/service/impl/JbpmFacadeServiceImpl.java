@@ -42,6 +42,7 @@ import com.zzw.dao.WorkFlowDao;
 import com.zzw.dao.WorkFlowMountDao;
 import com.zzw.pojo.Pages;
 import com.zzw.pojo.WfTaskJobPojo;
+import com.zzw.util.ResourceUtil;
 import com.zzw.util.ZzwUtil;
 import com.zzw.vo.WFDeployment;
 import com.zzw.vo.WFProcessMount;
@@ -223,12 +224,14 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 
 
 	@Override
-	public void delpoyProcessDefinition(String id,String realPath) {
+	public void delpoyProcessDefinition(String id) {
 		if(null == id)
 			return;
 		WFDeployment deploy = workFlowDaoImpl.queryBusinessDevelopmentById(id);
 		if(null == deploy)
 			return;
+		//文件上传地址
+		String realPath = ResourceUtil.getUploadPath();
 		//jpdl 文件定义
 		File jpdl = new File(realPath + deploy.getFilePath());
 		String deployId = repositoryService.createDeployment().addResourceFromFile(jpdl).deploy();

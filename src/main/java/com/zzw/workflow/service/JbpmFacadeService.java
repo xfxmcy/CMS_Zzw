@@ -110,7 +110,7 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 * @param id
 	 * @since 　Ver 1.1
 	 */
-	public void delpoyProcessDefinition(String id,String realPath);
+	public void delpoyProcessDefinition(String id);
 	
 	/**
 	 * 

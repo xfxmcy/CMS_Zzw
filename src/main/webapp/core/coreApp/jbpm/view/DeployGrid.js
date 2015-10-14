@@ -54,11 +54,11 @@ Ext.define("core.jbpm.view.DeployGrid",{
                    // alert("Edit445 " + rec.get('photoPath'));
 					var window = Ext.getCmp("jpdlPhotoWindow");
 					if(window){
-						window.html = "<img src='" + rec.get('photoPath') + "' />" ;
+						window.html = "<img src='" + CY.nsPhoto + rec.get('photoPath') + "' />" ;
 						window.show();
 					}else{
 						window = Ext.create("core.jbpm.view.JPDLPhotoWindow")
-						window.html = "<div align='center'><img src='" + CY.ns + rec.get('photoPath') + "' width='320' /></div>" ;
+						window.html = "<div align='center'><img src='" + CY.nsPhoto + rec.get('photoPath') + "' width='320' /></div>" ;
 						window.show();
 					}
                 }
