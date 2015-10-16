@@ -25,12 +25,12 @@ Ext.define("core.jbpm.view.ProcessGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"流程名称",dataIndex:"processName",width:100},
-		{text:"流程key",dataIndex:"processKey",width:100},
-		{text:"实体名称",dataIndex:"modelName",width:100},
-		{text:"实体主键名称",dataIndex:"modelIdName",width:100},
-		{text:"挂接状态",dataIndex:"mountStatus",width:100},
-		{text:"流程版本",dataIndex:"version",width:100}
+		{text:"流程名称",dataIndex:"processName",width:100,align:'center'},
+		{text:"流程key",dataIndex:"processKey",width:100,align:'center'},
+		{text:"实体名称",dataIndex:"modelName",width:100,align:'center'},
+		{text:"部门编号",dataIndex:"departmentCode",width:200,align:'center'},
+		{text:"挂接状态",dataIndex:"mountStatus",width:100,align:'center'},
+		{text:"流程版本",dataIndex:"version",width:100,align:'center'}
 	],
 	initComponent:function(){
 		this.callParent(arguments);

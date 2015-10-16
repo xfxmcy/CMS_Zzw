@@ -41,4 +41,13 @@ public interface WorkFlowMountDao extends BasicDao<WFProcessMount>{
 	 *   		 2015年10月3日 		cy
 	 */
 	public List<WFProcessMount> queryBusinessProcessMount(Pages page);
+	/**
+	 * 
+	 * queryCountBusinessProcessMount: query count 流程部署
+	 * 
+	 * @author 李丛阳
+	 * @return
+	 * @since 　Ver 1.1
+	 */
+	public Long queryCountBusinessProcessMount();
 }

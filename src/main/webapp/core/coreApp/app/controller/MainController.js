@@ -15,6 +15,12 @@ Ext.define("core.app.controller.MainController", {
 							funPanel=Ext.create(funInfo.funViewName);
 							mainView.add(funPanel);
 							mainView.setActiveTab(funPanel);
+							// grid
+							if(funInfo.gridXtype){
+								var grid = mainView.down(funInfo.gridXtype);
+								var store=grid.getStore();
+								store.load();
+							}
 						}else{									
 							mainView.setActiveTab(funPanel);
 						}
@@ -56,6 +62,7 @@ Ext.define("core.app.controller.MainController", {
 									mainView:mainView,
 									funViewXtype:"deploylayout",
 									funController:"core.jbpm.controller.WfDeployController",
+									gridXtype:"deploygrid",
 									funViewName:"core.jbpm.view.DeployLayout"
 								});
 							}else if(record.data["id"]=="process"){
@@ -63,6 +70,7 @@ Ext.define("core.app.controller.MainController", {
 									mainView:mainView,
 									funViewXtype:"processlayout",
 									funController:"core.jbpm.controller.WfProcessController",
+									gridXtype:"processgrid",
 									funViewName:"core.jbpm.view.ProcessLayout"
 								});
 							}else if(record.data["id"]=="borrowMoney"){

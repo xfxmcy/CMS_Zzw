@@ -19,9 +19,15 @@ public class WorkFlowMountDaoImpl extends BasicDaoimpl<WFProcessMount> implement
 	@Override
 	public List<WFProcessMount> queryBusinessProcessMount(Pages page) {
 		
-		// TODO Auto-generated method stub
-		return null;
+		return getCurrentSession().createQuery("from WFProcessMount").setFirstResult(page.getBeginIndex()).setMaxResults(page.getCount()).list();
 		
+	}
+
+	@Override
+	public Long queryCountBusinessProcessMount() {
+		Object result = getCurrentSession().createQuery("select count(*) from WFProcessMount").uniqueResult();
+		
+		return (null == result ? 0 : (Long)result);
 	}
 
 	

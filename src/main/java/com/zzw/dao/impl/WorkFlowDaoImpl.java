@@ -115,6 +115,7 @@ public class WorkFlowDaoImpl extends BasicDaoimpl<WFDeployment> implements WorkF
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<WFDeployment> queryBusinessDevelopment(Pages page) {
 		

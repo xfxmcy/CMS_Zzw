@@ -215,7 +215,6 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		}
 		/*已经部署 ,需要删除流程定义  实例  任务   jpdl文件    删除WFDevelopment*/
 		else{
-			
 			/*最后一步*/
 			workFlowDaoImpl.removeWFDevelopment(deploy);
 		}
@@ -237,25 +236,34 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		String deployId = repositoryService.createDeployment().addResourceFromFile(jpdl).deploy();
 		if(StringUtils.isEmpty(deployId))
 			return;
-		List<ProcessDefinition> processDefinitios = repositoryService.createProcessDefinitionQuery().processDefinitionKey(deploy.getProcessKey()).list();
+		List<ProcessDefinition> processDefinitios = repositoryService.createProcessDefinitionQuery()
+				.processDefinitionKey(deploy.getProcessKey()).orderDesc(ProcessDefinitionQuery.PROPERTY_VERSION).list();
 		//merge 部署表
 		deploy.setDeployId(deployId);
 		
-		if(null != processDefinitios && 0 < processDefinitios.size()){
-			deploy.setProcessDefinitionId(processDefinitios.get(0).getId());
-			deploy.setPdId(processDefinitios.get(0).getId());
-			deploy.setVersion((long) processDefinitios.get(0).getVersion());
-		}	
-		workFlowDaoImpl.merge(deploy);
+		
+		
 		//persistence   流程挂接表  默认已挂接	
-		WFProcessMount mount = new WFProcessMount();
+		
+		WFProcessMount mount = null;
+		mount = (null == deploy.getProcessMount() ? new WFProcessMount() : deploy.getProcessMount());
 		mount.setMountStatus("1");
 		ZUser user = ZzwUtil.getLoginUser();
 		if(null != user)
 			mount.setUpdateUser(user.getUsercode());
 		mount.setDeployment(deploy);
 		mount.setUpdateTime(new Date());
-		workFlowMountDaoImpl.persistence(mount);
+		/*是否已经部署   已经部署  更新部署信息*/
+		if(null != deploy.getProcessMount())
+			workFlowMountDaoImpl.merge(mount);
+		else
+			workFlowMountDaoImpl.persistence(mount);
+		if(null != processDefinitios && 0 < processDefinitios.size()){
+			deploy.setProcessDefinitionId(processDefinitios.get(0).getId());
+			deploy.setPdId(processDefinitios.get(0).getId());
+			deploy.setVersion((long) processDefinitios.get(0).getVersion());
+		}	
+		workFlowDaoImpl.merge(deploy);
 	}
 
 	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
@@ -271,8 +279,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	@Override
 	public Long queryCountBusinessProcessMount() {
 		
-		// TODO Auto-generated method stub
-		return null;
+		return workFlowMountDaoImpl.queryCountBusinessProcessMount();
 		
 	}
 

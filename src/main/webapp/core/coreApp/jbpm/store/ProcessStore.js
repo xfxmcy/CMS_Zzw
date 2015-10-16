@@ -7,7 +7,7 @@
 	pageSize:10,
 	proxy:{
 		type:"ajax",
-		url:CY.ns + "/workflow/wkAction!queryBusinessDevelopment.asp",
+		url:CY.ns + "/workflow/wkAction!queryBusinessWFProcessMount.asp",
 		reader:{
 			type:"json",
 			root:"rows",
