@@ -25,7 +25,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
 
@@ -91,6 +93,7 @@ public class ZUser implements Serializable {
 	}*/
 	private Set<ZJob> jobs ;
 	
+	@JSON(serialize=false)
 	@ManyToMany(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
 	@JoinTable(
             name = "user_job",
@@ -124,5 +127,19 @@ public class ZUser implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	private Set<WFProcessMount> mounts ;
+	
+	@JSON(serialize=false)
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="updateUser")
+	public Set<WFProcessMount> getMounts() {
+		return mounts;
+	}
+
+	public void setMounts(Set<WFProcessMount> mounts) {
+		this.mounts = mounts;
+	}
+	
+	
 }
 

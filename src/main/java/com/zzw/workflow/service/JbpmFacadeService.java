@@ -133,5 +133,14 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 *   		 2015年10月1日 		cy
 	 */
 	public Long queryCountBusinessProcessMount();
+	/**
+	 * 
+	 * mountProcess:mountProcess  挂载/卸载流程  
+	 * 
+	 * @author 李丛阳
+	 * @param mount
+	 * @since 　Ver 1.1
+	 */
+	public void mountProcess(WFProcessMount mount);
 }
 

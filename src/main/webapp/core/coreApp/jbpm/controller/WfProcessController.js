@@ -18,23 +18,24 @@ Ext.define("core.jbpm.controller.WfProcessController", {
 					if (records == null || records.length <= 0) {
 						Ext.Msg.alert("提示", "请选择数据");
 					}
-					var obj = records[0];
-					if (obj.mountStatus == "已挂接") {
+					var obj = records[0].data;
+					if (1 == obj.mountStatus || "1" == obj.mountStatus) {
 						Ext.Msg.alert("提示", "该流程已经挂接");
 						return;
 					}
 					Ext.Ajax.request({
-						url : "/jbpmItem/pc/wfProcessAction!addProcessFun.action",
-						params : obj.data,
+						url : CY.ns +"/workflow/wkAction!mountProcess.asp",
+						params : {"mount.mountStatus":"1","mount.id":obj.id},
 						method : "POST",
 						timeout : 4000,
 						success : function(response, opts) {
 							var resObj = Ext.decode(response.responseText);
 							if (resObj.success) {
 								store.load();
-								Ext.Msg.alert("提示", resObj.obj);
+								obj.mountStatus = "1";
+								Ext.Msg.alert("提示", resObj.info);
 							} else {
-								Ext.Msg.alert("提示", resObj.obj);
+								Ext.Msg.alert("提示", resObj.info);
 							}
 						}
 					});
@@ -52,23 +53,24 @@ Ext.define("core.jbpm.controller.WfProcessController", {
 						Ext.Msg.alert("提示", "请选择数据");
 						return;
 					}
-					var obj = records[0];
-					if (obj.mountStatus == "未挂接") {
+					var obj = records[0].data;
+					if (0 == obj.mountStatus || "0" == obj.mountStatus) {
 						Ext.Msg.alert("提示", "该流程未挂接");
 						return;
 					}
 					Ext.Ajax.request({
-						url : "/jbpmItem/pc/wfProcessAction!delProcessFun.action",
-						params : obj.data,
+						url : CY.ns +"/workflow/wkAction!mountProcess.asp",
+						params : {"mount.mountStatus":"0","mount.id":obj.id},
 						method : "POST",
 						timeout : 4000,
 						success : function(response, opts) {
 							var resObj = Ext.decode(response.responseText);
 							if (resObj.success) {
 								store.load();
-								Ext.Msg.alert("提示", resObj.obj);
+								obj.mountStatus = "0";
+								Ext.Msg.alert("提示", resObj.info);
 							} else {
-								Ext.Msg.alert("提示", resObj.obj);
+								Ext.Msg.alert("提示", resObj.info);
 							}
 						}
 					});
@@ -79,7 +81,7 @@ Ext.define("core.jbpm.controller.WfProcessController", {
 			 */
 			"processgrid" : {
 				itemdblclick : function(grid, record, item, index, e, eOpts) {
-					var form = grid.up("processlayout").down("processform");
+					/*var form = grid.up("processlayout").down("processform");
 					var formObj = form.getForm();
 					grid = form.up("processlayout").down("processgrid");
 					var records = grid.getSelectionModel().getSelection();
@@ -100,7 +102,7 @@ Ext.define("core.jbpm.controller.WfProcessController", {
 						taskGrid.getStore().load();
 					}
 					grid.hide();
-					form.show();
+					form.show();*/
 				}
 			},
 			/**

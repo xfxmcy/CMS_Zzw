@@ -2,11 +2,14 @@ package com.zzw.vo;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -55,7 +58,7 @@ public class WFProcessMount  {
 	private String departmentCode;
 	
 	/** 修改人**/
-	private String updateUser;
+	private ZUser updateUser;
 	
 	private WFDeployment deployment;
 	
@@ -90,10 +93,12 @@ public class WFProcessMount  {
 	public void setDepartmentCode(String departmentCode) {
 		this.departmentCode = departmentCode;
 	}
-	public String getUpdateUser() {
+	@ManyToOne(optional=true,fetch=FetchType.EAGER)
+	@JoinColumn(name="updateUser",referencedColumnName="usercode")//name 本表外键 
+	public ZUser getUpdateUser() {
 		return updateUser;
 	}
-	public void setUpdateUser(String updateUser) {
+	public void setUpdateUser(ZUser updateUser) {
 		this.updateUser = updateUser;
 	}
 	

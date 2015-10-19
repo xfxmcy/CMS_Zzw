@@ -6,7 +6,7 @@ Ext.define("core.jbpm.view.ProcessGrid",{
 	alias:"widget.processgrid",
 	store:"core.jbpm.store.ProcessStore",
 	selModel:{
-		selType:"checkboxmodel"
+		/*selType:"checkboxmodel"*/
 	},
 	border:0,
 	multiSelect:false,
@@ -25,12 +25,20 @@ Ext.define("core.jbpm.view.ProcessGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"流程名称",dataIndex:"processName",width:100,align:'center'},
-		{text:"流程key",dataIndex:"processKey",width:100,align:'center'},
-		{text:"实体名称",dataIndex:"modelName",width:100,align:'center'},
-		{text:"部门编号",dataIndex:"departmentCode",width:200,align:'center'},
-		{text:"挂接状态",dataIndex:"mountStatus",width:100,align:'center'},
-		{text:"流程版本",dataIndex:"version",width:100,align:'center'}
+		{text:"流程名称",dataIndex:"deployment.processName",width:150,align:'center'},
+		{text:"流程key",dataIndex:"deployment.processKey",width:150,align:'center'},
+		{text:"挂接状态",dataIndex:"mountStatus",width:114,align:'center',renderer: function(value, cellmeta, record, rowIndex, columnIndex, store){
+		     
+			if(1 == value || "1" == value)
+				return "已挂接";
+			else if(0 == value || "0" == value)	
+				return "未挂接";
+	    }},
+		{text:"挂载人员",dataIndex:"updateUser.username",width:170,align:'center'},
+		{text:"挂载时间",dataIndex:"updateTime",width:180,align:'center'},
+		{text:"挂载部门编号",dataIndex:"departmentCode",width:200,align:'center'},
+		
+		{text:"流程版本",dataIndex:"deployment.version",width:130,align:'center'}
 	],
 	initComponent:function(){
 		this.callParent(arguments);

@@ -80,7 +80,18 @@ public class WorkFlowAction extends PageAction {
 		this.id = id;
 	}
 
+	private WFProcessMount mount ;
+	
+	@JSON(serialize=false)
+	public WFProcessMount getMount() {
+		return mount;
+	}
+	public void setMount(WFProcessMount deploy) {
+		this.mount = deploy;
+	}
+	
 	private WFDeployment deploy ;
+	
 	@JSON(serialize=false)
 	public WFDeployment getDeploy() {
 		return deploy;
@@ -251,6 +262,20 @@ public class WorkFlowAction extends PageAction {
 		ResultInfo info = new ResultInfo();
 		jbpmFacadeServiceImpl.delpoyProcessDefinition(id);
 		info.settingSuccessResult("流程部署成功", null);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
+	
+	/**
+	 * 
+	 * mountProcess: mount process   挂载/卸载流程
+	 * 
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
+	public void mountProcess(){
+		ResultInfo info = new ResultInfo();
+		jbpmFacadeServiceImpl.mountProcess(mount);
+		info.settingSuccessResult("操作成功", null);
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 	}
 }

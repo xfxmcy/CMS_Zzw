@@ -250,7 +250,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		mount.setMountStatus("1");
 		ZUser user = ZzwUtil.getLoginUser();
 		if(null != user)
-			mount.setUpdateUser(user.getUsercode());
+			mount.setUpdateUser(user);
 		mount.setDeployment(deploy);
 		mount.setUpdateTime(new Date());
 		/*是否已经部署   已经部署  更新部署信息*/
@@ -281,6 +281,13 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		
 		return workFlowMountDaoImpl.queryCountBusinessProcessMount();
 		
+	}
+
+
+	@Override
+	public void mountProcess(WFProcessMount mount) {
+	
+		 workFlowMountDaoImpl.mountProcess(mount);
 	}
 
 

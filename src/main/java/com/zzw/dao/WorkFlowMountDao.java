@@ -50,4 +50,13 @@ public interface WorkFlowMountDao extends BasicDao<WFProcessMount>{
 	 * @since 　Ver 1.1
 	 */
 	public Long queryCountBusinessProcessMount();
+	/**
+	 * 
+	 * mountProcess:  挂载流程
+	 * 
+	 * @author 李丛阳
+	 * @param mount
+	 * @since 　Ver 1.1
+	 */
+	public void mountProcess(WFProcessMount mount);
 }

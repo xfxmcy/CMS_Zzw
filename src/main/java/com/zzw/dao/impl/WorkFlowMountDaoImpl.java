@@ -30,5 +30,13 @@ public class WorkFlowMountDaoImpl extends BasicDaoimpl<WFProcessMount> implement
 		return (null == result ? 0 : (Long)result);
 	}
 
+	@Override
+	public void mountProcess(WFProcessMount mount) {
+		getCurrentSession().createQuery("update WFProcessMount set mountStatus = ? where id = ? ")
+			.setParameter(0, mount.getMountStatus())
+			.setParameter(1, mount.getId()).executeUpdate();
+		
+	}
+
 	
 }
