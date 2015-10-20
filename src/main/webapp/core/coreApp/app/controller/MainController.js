@@ -36,9 +36,9 @@ Ext.define("core.app.controller.MainController", {
 							if(record.data["id"]=="dept-user"){
 								self.addFunItem({
 									mainView:mainView,
-									funViewXtype:"userlayout",
-									funController:"core.user.controller.UserController",
-									funViewName:"core.user.view.UserLayout"
+									funViewXtype:"deptlayout",
+									funController:"core.user.controller.DeptController",
+									funViewName:"core.user.view.DeptLayout"
 								});
 							/*角色人员管理*/
 							}else if(record.data["id"]=="role-user"){
@@ -52,9 +52,9 @@ Ext.define("core.app.controller.MainController", {
 							}else if(record.data["id"]=="user-user"){
 								self.addFunItem({
 									mainView:mainView,
-									funViewXtype:"rolelayout",
-									funController:"core.user.controller.RoleController",
-									funViewName:"core.user.view.RoleLayout"
+									funViewXtype:"userlayout",
+									funController:"core.user.controller.UserController",
+									funViewName:"core.user.view.UserLayout"
 								});
 							}
 							else if(record.data["id"]=="deployment"){

@@ -13,6 +13,11 @@
 
 package com.zzw.action;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -20,6 +25,10 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import com.zzw.pojo.TreeNode;
+import com.zzw.service.DepartService;
+import com.zzw.util.ZzwUtil;
 
 /**
  * ClassName:DeptAction
@@ -41,13 +50,21 @@ import org.springframework.stereotype.Controller;
 @Results({   
 	  @Result(name="json" ,type="json" ,params={"ignoreHierarchy","false","execludeProperties","result*"})
 	})
-public class DeptAction {
+public class DeptAction extends BaseAction {
 	 // /dept/deptAction!loadTree.action",
 	
-	
-	
+	@Inject
+	private DepartService departServiceImpl;
+	/**
+	 * 
+	 * loadTree: 加载部门
+	 * 
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
 	public void loadTree(){
-		
+		List<TreeNode> list = departServiceImpl.loadDeptTree();
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), list);
 	}
 }
 

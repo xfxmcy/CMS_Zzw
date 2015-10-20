@@ -16,6 +16,8 @@ package com.zzw.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zzw.vo.ZDepartment;
+
 /**
  * ClassName:TreeNode
  * Function: tree node model
@@ -124,6 +126,21 @@ public class TreeNode {
 
 	public void setChildren(List<TreeNode> children) {
 		this.children = children;
+	}
+	/**
+	 * 
+	 * copyPropTreeNode: dept change to treeNode
+	 * 
+	 * @author 李丛阳
+	 * @param dept
+	 * @return
+	 * @since 　Ver 1.1
+	 */
+	public void copyPropTreeNode(ZDepartment dept) {
+		this.setId(dept.getId());
+		this.setCode(dept.getCode());
+		this.setParent((null == dept.getDepartment()) ? "-1" : dept.getDepartment().getId());
+		this.setText(dept.getName());
 	}
 	
 	
