@@ -15,7 +15,7 @@ Ext.define("core.user.view.DeptTree", {
 	    					header.ownerCt.getStore().load();
 	    					header.ownerCt.down('button[ref=treechildIns]').setDisabled(true);
 	    					header.ownerCt.down('button[ref=treeDel]').setDisabled(true);
-	    					var deptForm=header.ownerCt.up("userlayout").down("deptform").getForm();
+	    					var deptForm=header.ownerCt.up("deptlayout").down("deptform").getForm();
 	   					 	deptForm.findField("deptId").setValue("");
 							deptForm.findField("deptName").setValue("");
 							deptForm.findField("deptCode").setValue("");

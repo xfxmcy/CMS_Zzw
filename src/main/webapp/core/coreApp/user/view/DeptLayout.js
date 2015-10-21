@@ -4,7 +4,7 @@
 Ext.define("core.user.view.DeptLayout", {
 			extend : 'Ext.panel.Panel',
 			alias : 'widget.deptlayout',
-			title : "<center height=40>部门人员管理</center>",
+			title : "<center height=40>部门岗位管理</center>",
 			closable:true,
 			defaults : {
 				split : true,// 可以设置好看点的折叠效果
@@ -46,8 +46,8 @@ Ext.define("core.user.view.DeptLayout", {
 									margins : '5 5 5 0',
 									layout : 'fit',
 									items : [{
-												xtype : "usergrid",
-												title:"部门人员"
+												xtype : "rolegrid",
+												title:"角色"
 											}]
 								}]
 					}]

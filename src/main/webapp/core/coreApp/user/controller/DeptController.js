@@ -47,8 +47,8 @@ Ext.define("core.user.controller.DeptController", {
 					"depttree":{
 						itemclick:function(tree,record,item,index,e,eOpts){
 							//节点点击事件
-							var treeForm=tree.up("userlayout").down("deptform").getForm();
-							var store=tree.up("userlayout").down("usergrid").getStore();
+							var treeForm=tree.up("deptlayout").down("deptform").getForm();
+							var store=tree.up("deptlayout").down("usergrid").getStore();
 							if(record.raw){
 								treeForm.findField("deptId").setValue(record.raw.id);
 								treeForm.findField("deptName").setValue(record.raw.text);
@@ -70,7 +70,7 @@ Ext.define("core.user.controller.DeptController", {
 								treeForm.findField("parentId").setValue(record.data.parentId);
 								treeForm.findField("leaf").setValue(record.data.leaf);
 							}
-							tree=tree.up("userlayout").down("depttree");
+							tree=tree.up("deptlayout").down("depttree");
 							var addChildBtn=tree.down("button[ref=treechildIns]");
 							var delBtn=tree.down("button[ref=treeDel]");
 							addChildBtn.setDisabled(false);
@@ -225,7 +225,7 @@ Ext.define("core.user.controller.DeptController", {
 					
 				});
 			},
-			views : ["core.user.view.DeptForm","core.user.view.DeptTree","core.user.view.UserGrid","core.user.view.UserLayout"],
-			stores : ["core.user.store.UserStore","core.user.store.DeptStore"],
-			models : ["core.user.model.UserModel"]
+			views : ["core.user.view.DeptForm","core.user.view.DeptTree","core.user.view.DeptLayout","core.user.view.RoleGrid"],//
+			stores : ["core.user.store.DeptStore","core.user.store.RoleGridStore"],
+			models : ["core.user.model.RoleGridModel"]
 });

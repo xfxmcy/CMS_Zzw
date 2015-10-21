@@ -38,7 +38,7 @@ public class TreeNode {
 	
 	private Boolean leaf = true;   //是否叶子
 	
-	private boolean expandable = true;   //是否展开
+	private boolean expanded = true;   //是否展开
 	
 	private String description;   //描述信息
 	
@@ -80,12 +80,14 @@ public class TreeNode {
 		this.leaf = leaf;
 	}
 
-	public boolean isExpandable() {
-		return expandable;
+
+
+	public boolean isExpanded() {
+		return expanded;
 	}
 
-	public void setExpandable(boolean expandable) {
-		this.expandable = expandable;
+	public void setExpanded(boolean expanded) {
+		this.expanded = expanded;
 	}
 
 	public String getDescription() {
