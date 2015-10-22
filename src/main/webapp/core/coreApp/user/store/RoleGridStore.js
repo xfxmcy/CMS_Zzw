@@ -20,8 +20,10 @@
 	listeners: {
 		load: function(self, records, successful, eOpts ){
 			var selmod = Ext.getCmp('rolegrid').getSelectionModel();
+			//selmod.selectAll();
+			
 			for(var i=0 ; i < records.length ; i++){
-				selmod.select(records[i]);
+				selmod.select(records[i],true);//true  已经选中的  保持选中
 			}	
 		}
 	},

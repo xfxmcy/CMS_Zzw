@@ -48,7 +48,7 @@ Ext.define("core.user.controller.DeptController", {
 						itemclick:function(tree,record,item,index,e,eOpts){
 							//节点点击事件
 							var treeForm=tree.up("deptlayout").down("deptform").getForm();
-							var store=tree.up("deptlayout").down("usergrid").getStore();
+							var store=tree.up("deptlayout").down("rolegrid").getStore();
 							if(record.raw){
 								treeForm.findField("deptId").setValue(record.raw.id);
 								treeForm.findField("deptName").setValue(record.raw.text);

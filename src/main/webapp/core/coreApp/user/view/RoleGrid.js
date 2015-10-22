@@ -32,11 +32,11 @@ Ext.define("core.user.view.RoleGrid",{
 	columns:[
 	 		{xtype: 'rownumberer'},
 	 		
-	 		{text:"角色",dataIndex:"userName",width:200,align:'center',field:{
+	 		{text:"角色",dataIndex:"userName",width:250,align:'center',field:{
 	 			xtype:"textfield"
 	 			}
 	 		},
-	 		{text:"角色编码",dataIndex:"userCode",width:300,field:{
+	 		{text:"角色编码",dataIndex:"userCode",width:350,align:'center',field:{
 	 			xtype:"textfield"
 	 			}
 	 		}

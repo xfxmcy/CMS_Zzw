@@ -1,5 +1,8 @@
 Ext.define("core.app.controller.MainController", {
 	extend : "Ext.app.Controller",
+	mixins : {
+		cyUtils : "core.utils.CyUtils"
+	},
 			init : function() {
 				var self = this;
 				/**
@@ -16,11 +19,11 @@ Ext.define("core.app.controller.MainController", {
 							mainView.add(funPanel);
 							mainView.setActiveTab(funPanel);
 							// grid
-							if(funInfo.gridXtype){
+							/*if(funInfo.gridXtype){
 								var grid = mainView.down(funInfo.gridXtype);
 								var store=grid.getStore();
 								store.load();
-							}
+							}*/
 						}else{									
 							mainView.setActiveTab(funPanel);
 						}
@@ -62,7 +65,7 @@ Ext.define("core.app.controller.MainController", {
 									mainView:mainView,
 									funViewXtype:"deploylayout",
 									funController:"core.jbpm.controller.WfDeployController",
-									gridXtype:"deploygrid",
+									//gridXtype:"deploygrid",
 									funViewName:"core.jbpm.view.DeployLayout"
 								});
 							}else if(record.data["id"]=="process"){
@@ -70,7 +73,7 @@ Ext.define("core.app.controller.MainController", {
 									mainView:mainView,
 									funViewXtype:"processlayout",
 									funController:"core.jbpm.controller.WfProcessController",
-									gridXtype:"processgrid",
+									//gridXtype:"processgrid",
 									funViewName:"core.jbpm.view.ProcessLayout"
 								});
 							}else if(record.data["id"]=="borrowMoney"){
@@ -151,8 +154,16 @@ Ext.define("core.app.controller.MainController", {
 								}
 					 		});
 					 	}
-					 }
-					
+					 },
+					 "#centerid":{
+						 	tabchange:function(tabPanel, newCard, oldCard, eOpts ){
+						 		this.storeReload(newCard);
+						 	}
+						 }
+						
+						
+						
+						
 				});
 				
 			},
