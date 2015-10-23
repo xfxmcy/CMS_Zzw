@@ -4,6 +4,8 @@ var CY = new Object();
 CY.ns = "/CMS_Zzw";
 /*photo ns*/
 CY.nsPhoto = "/CMSPhoto";
+
+CY.user = {};
 /**
  *	processBox 
  */

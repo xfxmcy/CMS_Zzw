@@ -45,6 +45,7 @@ Ext.define('core.app.view.LoginWindow', {
 					xtype : "button",
 					text : '登录',
 					ref:"login",
+					id:"loginWindowLogin",
 					width : 50,
 					margin : "10 10 10 80",
 					handler : function(btn) {

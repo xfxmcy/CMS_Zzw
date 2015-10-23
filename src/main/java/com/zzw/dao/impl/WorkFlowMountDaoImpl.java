@@ -9,7 +9,7 @@ import com.zzw.pojo.Pages;
 import com.zzw.vo.WFProcessMount;
 
 @Repository
-public class WorkFlowMountDaoImpl extends BasicDaoimpl<WFProcessMount> implements WorkFlowMountDao {
+public class WorkFlowMountDaoImpl extends BasicDaoImpl<WFProcessMount> implements WorkFlowMountDao {
 
 	@Override
 	public void saveWfprocessmount(WFProcessMount process) {

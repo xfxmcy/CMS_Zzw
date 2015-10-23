@@ -47,7 +47,7 @@ import com.zzw.vo.ZUser;
  * @see 	 
  */
 @Repository
-public class WorkFlowDaoImpl extends BasicDaoimpl<WFDeployment> implements WorkFlowDao{
+public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkFlowDao{
 
 
 	

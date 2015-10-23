@@ -34,7 +34,7 @@ import com.zzw.vo.ZUser;
  * @see 	 
  */
 @Repository
-public class UserDaoImpl extends BasicDaoimpl<ZUser> implements UserDao {
+public class UserDaoImpl extends BasicDaoImpl<ZUser> implements UserDao {
 
 	
 	

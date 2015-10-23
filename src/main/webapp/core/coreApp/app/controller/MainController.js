@@ -5,6 +5,11 @@ Ext.define("core.app.controller.MainController", {
 	},
 			init : function() {
 				var self = this;
+				//用户已经登录
+				/*if(CY.user.username){
+					var dis = Ext.getCmp("displaylogin");
+					dis.setValue("<font color=black><b>"+CY.user.username+"->"+CY.user.name+"</b></font>");
+				}*/
 				/**
 				 * 动态加载controller并渲染它的主窗体
 				 */
@@ -128,6 +133,20 @@ Ext.define("core.app.controller.MainController", {
 								});
 							}
 						},
+					 "topview":{
+						 afterrender:function(self, eOpts ){
+							 if(CY.user.username){
+								var dis = Ext.getCmp("displaylogin");
+								dis.setValue("<font color=black><b>"+CY.user.username+"->"+CY.user.name+"</b></font>");
+							}
+						 }
+					 },
+					 "loginwindow":{
+						 afterrender:function(self, eOpts ){
+							 self.onkeydown=keyDownSearch;  
+						 }
+					 },
+					 
 					 "loginwindow button[ref=login]":{
 					 	click:function(btn){
 					 		var form=btn.up("form[ref=loginform]").getForm();

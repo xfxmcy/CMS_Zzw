@@ -40,12 +40,12 @@ import com.zzw.dao.BasicDao;
  * @see 	 
  */
 @Repository
-public class BasicDaoimpl<ZZW> implements BasicDao<ZZW> {
+public class BasicDaoImpl<ZZW> implements BasicDao<ZZW> {
 
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = Logger.getLogger(BasicDaoimpl.class);
+	private static final Logger logger = Logger.getLogger(BasicDaoImpl.class);
 	
 	@Inject
 	SessionFactory sessionFactory;

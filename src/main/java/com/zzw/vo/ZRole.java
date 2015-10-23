@@ -58,7 +58,16 @@ public class ZRole implements Serializable {
 	
 	private String code;
 	
+	private boolean checked = false;
 	
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
 	@Column(length = 40)
 	public String getCode() {
 		return code;

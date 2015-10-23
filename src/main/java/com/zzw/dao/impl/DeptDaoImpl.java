@@ -8,7 +8,7 @@ import com.zzw.dao.DeptDao;
 import com.zzw.pojo.TreeNode;
 import com.zzw.vo.ZDepartment;
 @Repository
-public class DeptDaoImpl extends BasicDaoimpl<ZDepartment> implements DeptDao {
+public class DeptDaoImpl extends BasicDaoImpl<ZDepartment> implements DeptDao {
 
 	
 	
