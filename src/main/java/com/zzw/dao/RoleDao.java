@@ -28,7 +28,7 @@ public interface RoleDao {
 	 * @return
 	 * @since 　Ver 1.1
 	 */
-	public List<ZRole> queryZrolePaegd(Map<String,Object> param,Pages page);
+	public List<ZRole> queryZrolePaegdByDept(Map<String,Object> param,Pages page);
 	/**
 	 * 
 	 * queryCountZrolePaegd: 查询总记录数
@@ -38,5 +38,16 @@ public interface RoleDao {
 	 * @return
 	 * @since 　Ver 1.1
 	 */
-	public Long queryCountZrolePaegd(Map<String,Object> param);
+	public Long queryCountZrole();
+	
+	/**
+	 * 
+	 * queryZrolePage: 分页查询roles
+	 * 
+	 * @author 李丛阳
+	 * @param page
+	 * @return
+	 * @since 　Ver 1.1
+	 */
+	public List<ZRole> queryZrolePage(Pages page);
 }

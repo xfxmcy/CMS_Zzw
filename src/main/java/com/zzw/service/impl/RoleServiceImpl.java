@@ -1,8 +1,19 @@
 package com.zzw.service.impl;
 
-import org.springframework.stereotype.Service;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.zzw.dao.RoleDao;
+import com.zzw.pojo.Pages;
 import com.zzw.service.RoleService;
+import com.zzw.vo.ZRole;
 /**
  * 
  * ClassName:RoleServiceImpl  implement  角色接口
@@ -16,8 +27,30 @@ import com.zzw.service.RoleService;
  */
 @Service
 public class RoleServiceImpl implements RoleService {
+	@Inject
+	private RoleDao roleDaoImpl;
 
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	@Override
+	public List<ZRole> doQueryRolesByDepts(String deptId, Pages page) {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("departmentId", deptId);
+		return roleDaoImpl.queryZrolePaegdByDept(param, page);
+	}
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	@Override
+	public Long doQueryCountRoles() {
+		// TODO Auto-generated method stub
+		return roleDaoImpl.queryCountZrole();
+	}
 	
+	
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	@Override
+	public List<ZRole> doQueryRoles(Pages page) {
+		// TODO Auto-generated method stub
+		return roleDaoImpl.queryZrolePage(page);
+	} 
 	
 	
 }

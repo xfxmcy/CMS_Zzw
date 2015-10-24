@@ -24,6 +24,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -57,14 +58,15 @@ public class ZRole implements Serializable {
 	private String name;
 	
 	private String code;
+	// 0 未选中   1选中
+	private String checked = "0";
 	
-	private boolean checked = false;
-	
-	public boolean isChecked() {
+
+	public String getChecked() {
 		return checked;
 	}
 
-	public void setChecked(boolean checked) {
+	public void setChecked(String checked) {
 		this.checked = checked;
 	}
 
@@ -109,7 +111,7 @@ public class ZRole implements Serializable {
 	}*/
 	private Set<ZJob> jobs ;
 	
-	
+	@JSON(serialize=false)
 	@OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY,mappedBy = "role")
 	public Set<ZJob> getJobs() {
 		return jobs;

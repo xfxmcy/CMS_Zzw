@@ -7,7 +7,7 @@
 	pageSize:10,
 	proxy:{
 		type:"ajax",
-		url:CY.ns + "/workflow/wkAction!queryBusinessDevelopment.asp",
+		url:CY.ns + "/role/roleAction!doQueryRolesPagedByDept.asp",
 		reader:{
 			type:"json",
 			root:"rows",
@@ -21,9 +21,11 @@
 		load: function(self, records, successful, eOpts ){
 			var selmod = Ext.getCmp('rolegrid').getSelectionModel();
 			//selmod.selectAll();
-			
+			selmod.deselectAll();
 			for(var i=0 ; i < records.length ; i++){
-				selmod.select(records[i],true);//true  已经选中的  保持选中
+				if("1" === records[i].data.checked){
+					selmod.select(records[i],true);//true  已经选中的  保持选中
+				}	
 			}	
 		}
 	},

@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -88,7 +89,16 @@ public class BasicDaoImpl<ZZW> implements BasicDao<ZZW> {
 		}		
 		return query;
 	}
-
+	public SQLQuery createSqlQueryByMap(String sql, Map<String, Object> param) {
+		
+		SQLQuery query = this.getCurrentSession().createSQLQuery(sql);
+		if(null != param){
+			for (Map.Entry<String, Object> mapEntry : param.entrySet()) {
+				query.setParameter(mapEntry.getKey(), mapEntry.getValue());
+			}
+		}		
+		return query;
+	}
 	@Override
 	public void persistence(ZZW object) {
 		

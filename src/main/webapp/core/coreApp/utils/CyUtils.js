@@ -18,7 +18,7 @@ Ext.define("core.utils.CyUtils", {
 		}
 		/*部门管理*/
 		else if("core.user.view.DeptLayout" == layoutName){
-			layout.down('depttree').getStore().load();
+			//layout.down('depttree').getStore().load();
 			layout.down('rolegrid').getStore().load();
 			
 		}

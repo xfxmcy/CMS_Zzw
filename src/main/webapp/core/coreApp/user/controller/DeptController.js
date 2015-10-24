@@ -56,10 +56,14 @@ Ext.define("core.user.controller.DeptController", {
 								treeForm.findField("treeSign").setValue(record.raw.description);
 								treeForm.findField("parentId").setValue(record.raw.parent);
 								treeForm.findField("leaf").setValue(record.raw.leaf);
-								var proxy = store.getProxy();
+								/*var proxy = store.getProxy();
 									whereSql = " and deptCode='"+record.raw.code+"'";
 									proxy.extraParams = {
 										whereSql : whereSql
+								};*/
+								var proxy = store.getProxy();
+								proxy.extraParams = {
+									deptId : record.raw.id
 								};
 								store.load();
 							}else{

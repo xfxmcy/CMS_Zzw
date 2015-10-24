@@ -1,5 +1,6 @@
 package com.zzw.action;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -8,6 +9,9 @@ import org.apache.struts2.convention.annotation.Results;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import com.zzw.service.RoleService;
+import com.zzw.util.ZzwUtil;
 
 /**
  * 
@@ -30,17 +34,45 @@ import org.springframework.stereotype.Controller;
 })
 public class RoleAction extends PageAction {
 
+	private RoleService roleServiceImpl;
 	
 	
+	// 部门id
+	private String deptId;
+	
+	
+	public String getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+
+	@JSON(serialize=false)
+	public RoleService getRoleServiceImpl() {
+		return roleServiceImpl;
+	}
+
+	public void setRoleServiceImpl(RoleService roleServiceImpl) {
+		this.roleServiceImpl = roleServiceImpl;
+	}
+
 	//@JSON(serialize=false)
 	/**
 	 * 
-	 * doQueryRoles:  分页查询roles
+	 * doQueryRoles:  根据部门分页查询roles
 	 * 
 	 * @author 李丛阳
 	 * @since 　Ver 1.1
 	 */
-	public String doQueryRoles(){
+	public String doQueryRolesPagedByDept(){
+		if(StringUtils.isEmpty(deptId))
+			super.setDataGrid(roleServiceImpl.doQueryRoles(ZzwUtil.createPaged(super.getStart(),super.getLimit())),
+					roleServiceImpl.doQueryCountRoles());
+		else	
+			super.setDataGrid(roleServiceImpl.doQueryRolesByDepts(deptId, ZzwUtil.createPaged(super.getStart(),super.getLimit())),
+				roleServiceImpl.doQueryCountRoles());
 		return BASE_RESULT_JSON;
 	}
 	

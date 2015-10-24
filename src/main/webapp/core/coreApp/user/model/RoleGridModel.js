@@ -6,14 +6,9 @@
  	fields:[
  		{name:"id",type:"string",srotable:true},
  		
- 		{name:"deployment.processName",type:"string",srotable:true},
- 		{name:"deployment.version",type:"string",srotable:true},
- 		{name:"deployment.processKey",type:"string",srotable:true},
+ 		{name:"name",type:"string",srotable:true},
+ 		{name:"code",type:"string",srotable:true},
+ 		{name:"checked",type:"string",srotable:true}
  		
- 		{name:"updateUser.username",type:"string",srotable:true},
- 		
- 		{name:"updateTime",type:"string",srotable:true},
- 		{name:"mountStatus",type:"string",srotable:true},
- 		{name:"departmentCode",type:"string",srotable:true}
  	]
  });
