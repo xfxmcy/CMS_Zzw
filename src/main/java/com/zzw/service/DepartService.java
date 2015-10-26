@@ -3,6 +3,7 @@ package com.zzw.service;
 import java.util.List;
 
 import com.zzw.pojo.TreeNode;
+import com.zzw.vo.ZDepartment;
 
 /**
  * 
@@ -25,5 +26,32 @@ public interface DepartService {
 	 * @since 　Ver 1.1
 	 */
 	public List<TreeNode> loadDeptTree();
+	/**
+	 * 
+	 * doDeleteCascade: 级联删除部门
+	 * 
+	 * @author 李丛阳
+	 * @param dept
+	 * @since 　Ver 1.1
+	 */
+	public void doDeleteDeptCascade(ZDepartment dept);
+	/**
+	 * 
+	 * doSaveDept: save dept
+	 * 
+	 * @author 李丛阳
+	 * @param dept
+	 * @since 　Ver 1.1
+	 */
+	public void doSaveDept(ZDepartment dept);
+	/**
+	 * 
+	 * doUpdateDept: update  dept 
+	 * 
+	 * @author 李丛阳
+	 * @param dept
+	 * @since 　Ver 1.1
+	 */
+	public void doUpdateDept(ZDepartment dept);
 	
 }

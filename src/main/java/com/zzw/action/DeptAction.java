@@ -26,9 +26,11 @@ import org.apache.struts2.convention.annotation.Results;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.zzw.component.ResultInfo;
 import com.zzw.pojo.TreeNode;
 import com.zzw.service.DepartService;
 import com.zzw.util.ZzwUtil;
+import com.zzw.vo.ZDepartment;
 
 /**
  * ClassName:DeptAction
@@ -55,6 +57,19 @@ public class DeptAction extends BaseAction {
 	
 	@Inject
 	private DepartService departServiceImpl;
+	
+	private ZDepartment dept;
+	
+	public ZDepartment getDept() {
+		return dept;
+	}
+
+
+	public void setDept(ZDepartment dept) {
+		this.dept = dept;
+	}
+
+
 	/**
 	 * 
 	 * loadTree: 加载部门
@@ -65,6 +80,45 @@ public class DeptAction extends BaseAction {
 	public void loadTree(){
 		List<TreeNode> list = departServiceImpl.loadDeptTree();
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), list);
+	}
+	
+	/**
+	 * 
+	 * saveDept:	增加部门
+	 * 
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
+	public void saveDept(){
+		ResultInfo info = new ResultInfo();
+		departServiceImpl.doSaveDept(dept);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
+	/**
+	 * 
+	 * updateDept:   修改部门
+	 * 
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
+	public void updateDept(){
+		ResultInfo info = new ResultInfo();
+		departServiceImpl.doUpdateDept(dept);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+		
+	}
+	/**
+	 * 
+	 * deleteDept:  删除部门
+	 * 
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
+	public void deleteDept(){
+		ResultInfo info = new ResultInfo();
+		departServiceImpl.doDeleteDeptCascade(dept);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+		
 	}
 }
 

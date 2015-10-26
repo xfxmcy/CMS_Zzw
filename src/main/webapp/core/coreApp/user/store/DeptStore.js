@@ -4,9 +4,9 @@
 	defaultRootId:"-1",
 	proxy:{
 		api:{
-			remove:"/jbpmItem/pc/deptAction!doDeleteTree.action",  //后台处理删除的url地址
-			save:"/jbpmItem/pc/deptAction!doSaveTree.action",  //后台处理删除的url地址
-			update:"/jbpmItem/pc/deptAction!doUpdateTree.action"  //后台处理删除的url地址
+			remove:CY.ns + "/dept/deptAction!loadTree.asp",  //后台处理删除的url地址
+			save:CY.ns + "/dept/deptAction!loadTree.asp",  //后台处理删除的url地址
+			update:CY.ns + "/dept/deptAction!loadTree.asp"  //后台处理删除的url地址
 		},
 		type:"ajax",
 		url:CY.ns + "/dept/deptAction!loadTree.asp",

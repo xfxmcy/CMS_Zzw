@@ -77,6 +77,21 @@ public class DepartServiceImpl implements DepartService {
 			}
 		}	
 	}
+	@Override
+	public void doDeleteDeptCascade(ZDepartment dept) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void doSaveDept(ZDepartment dept) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void doUpdateDept(ZDepartment dept) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

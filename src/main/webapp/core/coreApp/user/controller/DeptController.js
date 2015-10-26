@@ -53,7 +53,7 @@ Ext.define("core.user.controller.DeptController", {
 								treeForm.findField("deptId").setValue(record.raw.id);
 								treeForm.findField("deptName").setValue(record.raw.text);
 								treeForm.findField("deptCode").setValue(record.raw.code);
-								treeForm.findField("treeSign").setValue(record.raw.description);
+								treeForm.findField("treeSign").setValue("1"); //有值就是修改
 								treeForm.findField("parentId").setValue(record.raw.parent);
 								treeForm.findField("leaf").setValue(record.raw.leaf);
 								/*var proxy = store.getProxy();
@@ -92,7 +92,7 @@ Ext.define("core.user.controller.DeptController", {
 												.getRootNode(); // 得到根节点
 							rootNode.appendChild({
 													text :"",
-													parentId:"root",
+													parentId:"-1",
 													leaf : true
 												});
 							//
@@ -178,14 +178,14 @@ Ext.define("core.user.controller.DeptController", {
 						click:function(btn){
 							var dept=btn.up("deptform");
 							var deptForm=dept.getForm();
-							var deptTree=dept.up("userlayout").down("depttree");
+							var deptTree=dept.up("deptlayout").down("depttree");
 							var treeSign=deptForm.findField("treeSign").getValue();
 							/*首先声明保存操作*/
-							var actionName="/jbpmItem/pc/deptAction!doSaveTree.action";
+							var actionName = CY.ns + "/dept/deptAction!loadTree.asp";
 							var params={};
 							if(treeSign && treeSign!=""){
 								//修改								
-								actionName="/jbpmItem/pc/deptAction!doUpdateTree.action";
+								actionName = CY.ns + "/dept/deptAction!loadTree.asp";
 								params.deptId=deptForm.findField("deptId").getValue();
 								params.treeSign=deptForm.findField("treeSign").getValue();
 							}else{
@@ -210,7 +210,7 @@ Ext.define("core.user.controller.DeptController", {
 									if(resObj.success){
 										//修改成功
 										//将最新model值放入form中并load树形，保持数据一致化
-										var obj=resObj.obj;
+										var obj=resObj.result;
 										deptForm.findField("deptId").setValue(obj["deptId"]);
 										deptForm.findField("deptName").setValue(obj["deptName"]);
 										deptForm.findField("deptCode").setValue(obj["deptCode"]);
