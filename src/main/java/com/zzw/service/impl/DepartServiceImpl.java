@@ -24,6 +24,7 @@ import com.zzw.vo.ZDepartment;
  *
  * @see
  */
+@Transactional
 @Service
 public class DepartServiceImpl implements DepartService {
 
@@ -79,17 +80,23 @@ public class DepartServiceImpl implements DepartService {
 	}
 	@Override
 	public void doDeleteDeptCascade(ZDepartment dept) {
-		// TODO Auto-generated method stub
+		ZDepartment department = deptDaoImpl.query(dept.getClass(), dept.getId());
+		
+		if(null != department)
+			deptDaoImpl.remove(department);
+		//1.删除岗位对应的人  关系  user_job
+		//2.删除岗位        zjob
+		//3.删除部门    	zdepartment
 		
 	}
 	@Override
 	public void doSaveDept(ZDepartment dept) {
-		// TODO Auto-generated method stub
+		deptDaoImpl.persistence(dept);
 		
 	}
 	@Override
 	public void doUpdateDept(ZDepartment dept) {
-		// TODO Auto-generated method stub
+		deptDaoImpl.merge(dept);
 		
 	}
 	

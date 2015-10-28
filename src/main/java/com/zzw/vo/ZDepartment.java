@@ -63,7 +63,7 @@ public class ZDepartment {
 		this.department = department;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY , mappedBy = "department")
+	@OneToMany(fetch = FetchType.LAZY , mappedBy = "department",cascade=CascadeType.REMOVE)
 	public Set<ZDepartment> getDepartments() {
 		return departments;
 	}
@@ -95,7 +95,7 @@ public class ZDepartment {
 	private Set<ZJob> jobs ;
 	
 	
-	@OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY,mappedBy = "department")
+	@OneToMany(cascade = {CascadeType.REMOVE} , fetch = FetchType.LAZY,mappedBy = "department")
 	public Set<ZJob> getJobs() {
 		return jobs;
 	}
@@ -107,7 +107,7 @@ public class ZDepartment {
 
 
 	@Id
-	@Column(length = 40)
+	@Column(length = 50)
 	@GenericGenerator(name="systemUUID",strategy="uuid")
 	@GeneratedValue(generator="systemUUID")
 	public String getId() {

@@ -94,7 +94,7 @@ public class ZUser implements Serializable {
 	private Set<ZJob> jobs ;
 	
 	@JSON(serialize=false)
-	@ManyToMany(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.REMOVE , fetch = FetchType.EAGER)
 	@JoinTable(
             name = "user_job",
             joinColumns = @JoinColumn(name="user_id"),

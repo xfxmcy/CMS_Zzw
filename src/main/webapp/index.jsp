@@ -6,6 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="icon" href="${cy}/img/favicon.ico">
         <title>zzw</title>
         <link rel="stylesheet" type="text/css" href="${cy}/ext4/resources/ext-theme-gray/ext-theme-gray-all.css" />
         <link rel="stylesheet" type="text/css" href="${cy}/core/css/comm.css" />

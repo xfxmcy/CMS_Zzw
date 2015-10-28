@@ -92,6 +92,7 @@ public class DeptAction extends BaseAction {
 	public void saveDept(){
 		ResultInfo info = new ResultInfo();
 		departServiceImpl.doSaveDept(dept);
+		info.settingSuccessResult("添加成功", dept);
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 	}
 	/**
@@ -104,6 +105,7 @@ public class DeptAction extends BaseAction {
 	public void updateDept(){
 		ResultInfo info = new ResultInfo();
 		departServiceImpl.doUpdateDept(dept);
+		info.settingSuccessResult("修改成功", dept);
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 		
 	}
@@ -117,6 +119,7 @@ public class DeptAction extends BaseAction {
 	public void deleteDept(){
 		ResultInfo info = new ResultInfo();
 		departServiceImpl.doDeleteDeptCascade(dept);
+		info.settingSuccessResult("删除成功", dept);
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 		
 	}

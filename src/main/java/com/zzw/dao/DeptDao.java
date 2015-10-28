@@ -16,7 +16,7 @@ import com.zzw.vo.ZDepartment;
  *
  * @see
  */
-public interface DeptDao {
+public interface DeptDao extends BasicDao<ZDepartment> {
 	/**
 	 * 
 	 * queryRootsDeptNode: query roots

@@ -7,7 +7,7 @@ Ext.define("core.user.controller.DeptController", {
 				var self = this;
 				this.control({
 					/**
-					 * 添加人员
+					 * 添加人员   useless
 					 */
 					"usergrid button[ref=add]":{
 						click:function(btn){
@@ -24,7 +24,7 @@ Ext.define("core.user.controller.DeptController", {
 						}
 					},
 					/**
-					 *删除人员
+					 *删除人员  useless
 					 */
 					"usergrid button[ref=delete]":{
 						click:function(btn){
@@ -33,12 +33,30 @@ Ext.define("core.user.controller.DeptController", {
 						}
 					},
 					/**
-					 * 更新人员信息
+					 * 更新人员信息 useless
 					 */
 					"usergrid button[ref=save]":{
 						click:function(btn){
 							var grid=self.findGrid(btn);
 							self.doSave(grid,"userId","ENDUSER","/jbpmItem/pc/userAction");
+						}
+					},
+					/**
+					 * 更新岗位
+					 */
+					"rolegrid button[ref=roleGridAdd]":{
+						click:function(btn){
+							var grid=self.findGrid(btn);
+							//查看item 是否选中
+							var tree=btn.ownerCt.ownerCt.up("deptlayout").down("depttree");
+							var records = tree.getSelectionModel().getSelection();
+							if(!records || 0 === records.length){
+								Ext.Msg.alert("提示","请先选中部门,再进行岗位选择!");
+								return;
+							}
+							else
+								console.info(records[0].data);
+							//self.doSave(grid,"userId","ENDUSER","/jbpmItem/pc/userAction");
 						}
 					},
 					/**
@@ -53,7 +71,7 @@ Ext.define("core.user.controller.DeptController", {
 								treeForm.findField("deptId").setValue(record.raw.id);
 								treeForm.findField("deptName").setValue(record.raw.text);
 								treeForm.findField("deptCode").setValue(record.raw.code);
-								treeForm.findField("treeSign").setValue("1"); //有值就是修改
+								treeForm.findField("treeSign").setValue("1"); //1就是修改
 								treeForm.findField("parentId").setValue(record.raw.parent);
 								treeForm.findField("leaf").setValue(record.raw.leaf);
 								/*var proxy = store.getProxy();
@@ -67,10 +85,11 @@ Ext.define("core.user.controller.DeptController", {
 								};
 								store.load();
 							}else{
+								//未知  什么情况进入 else
 								treeForm.findField("deptId").setValue(record.data.id);
 								treeForm.findField("deptName").setValue(record.data.text);
 								treeForm.findField("deptCode").setValue("");
-								treeForm.findField("treeSign").setValue("");
+								treeForm.findField("treeSign").setValue("0");// 0是增加
 								treeForm.findField("parentId").setValue(record.data.parentId);
 								treeForm.findField("leaf").setValue(record.data.leaf);
 							}
@@ -115,12 +134,12 @@ Ext.define("core.user.controller.DeptController", {
 							var parentNode = tree.getStore()
 												.getNodeById(parentId);
 							if(!parentNode){
-								Ext.Msg.alert("提示","不能为未存在的部门添加")
+								Ext.Msg.alert("提示","不能为未存在的部门添加");
 								return;
 							}
 							// 将leaf属性改变
 							parentNode.data["leaf"] = false;
-							parentNode.updateInfo();
+							//parentNode.updateInfo();
 							// 给它加一个孩子节点
 							parentNode.appendChild({
 														parent:parentId,
@@ -135,8 +154,34 @@ Ext.define("core.user.controller.DeptController", {
 					"depttree button[ref=treeDel]":{
 						//删除部门
 						click:function(btn){
+							
 							var tree=btn.up("depttree");
 							var records = tree.getSelectionModel().getSelection();
+							var id=records[0].data.id;
+							var parentId = records[0].data.parentId
+							//撤销刚添加的节点
+							if(!id || id === ""){
+								//tree 删除根节点
+								if("-1" === parentId){
+									var rootNode = tree.getStore().getRootNode();
+									rootNode.removeChild(records[0]);
+								}else{
+									var parentNode = tree.getStore()
+									.getNodeById(parentId);
+									parentNode.removeChild(records[0]);
+								}
+								//tree.getStore().load();
+								var deptForm=tree.up("deptlayout").down("deptform").getForm();
+								deptForm.findField("deptId").setValue("");
+								deptForm.findField("deptName").setValue("");
+								deptForm.findField("deptCode").setValue("");
+								deptForm.findField("parentId").setValue("");
+								deptForm.findField("treeSign").setValue("");
+								Ext.Msg.alert("提示","删除成功!");
+								return;
+							}
+							
+							
 							if(records.length<1){
 								Ext.Msg.alert("提示","请选择部门");
 								return;
@@ -145,29 +190,38 @@ Ext.define("core.user.controller.DeptController", {
 								Ext.Msg.alert("提示","不能删除未存在部门");
 								return;
 							}
-							var id=records[0].data.id;
-							Ext.Ajax.request({
-								url:"/jbpmItem/pc/deptAction!doDeleteTree.action",
-								params:{ids:id,idName:"deptId"},
-								method:"POST",
-								timeout:4000,
-								success:function(response,opts){
-									var resObj=Ext.decode(response.responseText);
-									if(resObj.success){
-										tree.getStore().load();
-										var deptForm=tree.up("userlayout").down("deptform").getForm();
-										deptForm.findField("deptId").setValue("");
-										deptForm.findField("deptName").setValue("");
-										deptForm.findField("deptCode").setValue("");
-										deptForm.findField("parentId").setValue("");
-										deptForm.findField("treeSign").setValue("");
-										deptForm.findField("leaf").setValue("");
-										Ext.Msg.alert("提示",resObj.obj);
-									}else{
-										Ext.Msg.alert("提示",resObj.obj);
-									}
+							
+							var param = {};
+							param.msg = '删除部门,会级联删除子部门,以及对应的岗位.您确定删除该部门?';
+							param.fn = function(result){
+								if("yes" == result){
+									Ext.Ajax.request({
+										url: CY.ns +"/dept/deptAction!deleteDept.asp",
+										params:{"dept.id":id},
+										method:"POST",
+										timeout:4000,
+										success:function(response,opts){
+											var resObj=Ext.decode(response.responseText);
+											if(resObj.success){
+												tree.getStore().load();
+												var deptForm=tree.up("deptlayout").down("deptform").getForm();
+												deptForm.findField("deptId").setValue("");
+												deptForm.findField("deptName").setValue("");
+												deptForm.findField("deptCode").setValue("");
+												deptForm.findField("parentId").setValue("");
+												deptForm.findField("treeSign").setValue("");
+												//deptForm.findField("leaf").setValue("");
+												Ext.Msg.alert("提示",resObj.info);
+											}else{
+												Ext.Msg.alert("提示",resObj.info);
+											}
+										}
+									});
 								}
-							});
+								
+							};
+							CY.confirmBox(param);
+							
 						}
 					}
 					/**
@@ -181,25 +235,29 @@ Ext.define("core.user.controller.DeptController", {
 							var deptTree=dept.up("deptlayout").down("depttree");
 							var treeSign=deptForm.findField("treeSign").getValue();
 							/*首先声明保存操作*/
-							var actionName = CY.ns + "/dept/deptAction!loadTree.asp";
+							var actionName = CY.ns + "/dept/deptAction!saveDept.asp";
 							var params={};
-							if(treeSign && treeSign!=""){
+							var deptId = deptForm.findField("deptId").getValue();
+							if(deptId && deptId !== ""){
 								//修改								
-								actionName = CY.ns + "/dept/deptAction!loadTree.asp";
-								params.deptId=deptForm.findField("deptId").getValue();
-								params.treeSign=deptForm.findField("treeSign").getValue();
-							}else{
-								//新部门
+								actionName = CY.ns + "/dept/deptAction!updateDept.asp";
+								params["dept.id"] = deptId;
+							}
+							if(!treeSign && treeSign === ""){
+								//直接点击保存
+								Ext.Msg.alert("提示","请先选择部门结构!");
+								return;
 							}
 							var deptName=deptForm.findField("deptName").getValue();
 							var deptCode=deptForm.findField("deptCode").getValue();
 							var parentId=deptForm.findField("parentId").getValue();
 							var leaf=deptForm.findField("leaf").getValue();
-							params.deptName=deptName;
-							params.deptCode=deptCode;
-							params.parentId=parentId;
-							params.leaf=leaf;
-							params.idName="deptId";
+							params["dept.name"]=deptName;
+							params["dept.code"]=deptCode;
+							// -1 是根节点
+							if(parentId && parentId !== "" && parentId !== "-1")
+								params["dept.department.id"]=parentId;
+							//params.leaf=leaf;
 							Ext.Ajax.request({
 								url:actionName,
 								params:params,
@@ -211,14 +269,17 @@ Ext.define("core.user.controller.DeptController", {
 										//修改成功
 										//将最新model值放入form中并load树形，保持数据一致化
 										var obj=resObj.result;
-										deptForm.findField("deptId").setValue(obj["deptId"]);
-										deptForm.findField("deptName").setValue(obj["deptName"]);
-										deptForm.findField("deptCode").setValue(obj["deptCode"]);
-										deptForm.findField("parentId").setValue(obj["parentId"]);
-										deptForm.findField("treeSign").setValue(obj["treeSign"]);
-										deptForm.findField("leaf").setValue(obj["treeSign"]);
+										deptForm.findField("deptId").setValue(obj["id"]);
+										deptForm.findField("deptName").setValue(obj["name"]);
+										deptForm.findField("deptCode").setValue(obj["code"]);
+										if(parentId && parentId !== "" && parentId !== "-1")
+											deptForm.findField("parentId").setValue((obj["department"])["id"]);
+										if(parentId && parentId !== "" && parentId === "-1")
+											deptForm.findField("parentId").setValue("-1");
+										deptForm.findField("treeSign").setValue("1");
+										//deptForm.findField("leaf").setValue(obj["treeSign"]);
 										deptTree.getStore().load();
-										Ext.Msg.alert("提示","修改成功");
+										Ext.Msg.alert("提示",resObj.info);
 									}else{
 										Ext.Msg.alert("提示","修改失败");
 									}
