@@ -68,6 +68,50 @@ public class DeptAction extends BaseAction {
 	public void setDept(ZDepartment dept) {
 		this.dept = dept;
 	}
+	
+	private String jobIds;
+	
+	private String addIds,deleteIds;
+
+	public String getAddIds() {
+		return addIds;
+	}
+
+
+	public void setAddIds(String addIds) {
+		this.addIds = addIds;
+	}
+
+
+	public String getDeleteIds() {
+		return deleteIds;
+	}
+
+
+	public void setDeleteIds(String deleteIds) {
+		this.deleteIds = deleteIds;
+	}
+
+
+	public boolean isJobClean() {
+		return jobClean;
+	}
+
+
+	public void setJobClean(boolean jobClean) {
+		this.jobClean = jobClean;
+	}
+	//清除岗位
+	private boolean jobClean = false;
+	
+	public String getJobIds() {
+		return jobIds;
+	}
+
+
+	public void setJobIds(String jobIds) {
+		this.jobIds = jobIds;
+	}
 
 
 	/**
@@ -122,6 +166,19 @@ public class DeptAction extends BaseAction {
 		info.settingSuccessResult("删除成功", dept);
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 		
+	}
+	/**
+	 * 
+	 * refreshJobs: 更新岗位
+	 * 
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
+	public void refreshJobs(){
+		ResultInfo info = new ResultInfo();
+		departServiceImpl.doUpdateDeptJobs(dept,addIds,deleteIds);
+		info.settingSuccessResult("更新成功", null);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 	}
 }
 

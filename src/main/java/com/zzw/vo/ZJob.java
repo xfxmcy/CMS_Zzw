@@ -59,7 +59,7 @@ public class ZJob {
 	public void setId(String id) {
 		this.id = id;
 	}
-	@ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER )
 	public ZDepartment getDepartment() {
 		return department;
 	}
@@ -67,7 +67,7 @@ public class ZJob {
 	public void setDepartment(ZDepartment department) {
 		this.department = department;
 	}
-	@ManyToOne(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER )
 	public ZRole getRole() {
 		return role;
 	}

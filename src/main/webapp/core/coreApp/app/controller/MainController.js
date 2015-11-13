@@ -178,7 +178,7 @@ Ext.define("core.app.controller.MainController", {
 						 	tabchange:function(tabPanel, newCard, oldCard, eOpts ){
 						 		this.storeReload(newCard);
 						 	}
-						 }
+					 }
 						
 						
 						

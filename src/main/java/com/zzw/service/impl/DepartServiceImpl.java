@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.CascadeType;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -83,7 +84,7 @@ public class DepartServiceImpl implements DepartService {
 		ZDepartment department = deptDaoImpl.query(dept.getClass(), dept.getId());
 		
 		if(null != department)
-			deptDaoImpl.remove(department);
+			deptDaoImpl.remove(department);//cascade=CascadeType.REMOVE
 		//1.删除岗位对应的人  关系  user_job
 		//2.删除岗位        zjob
 		//3.删除部门    	zdepartment
@@ -98,6 +99,21 @@ public class DepartServiceImpl implements DepartService {
 	public void doUpdateDept(ZDepartment dept) {
 		deptDaoImpl.merge(dept);
 		
+	}
+	@Override
+	public void doUpdateDeptJobs(ZDepartment dept, String addIds,
+			String deleteIds) {
+		if(null == dept || null == dept.getId())
+			return;
+		//deptDaoImpl.clearJobs(dept);
+		String[] addId = ((null != addIds && !"".equals(addIds.trim())) ? addIds.split(",") : null);
+		String[] deleteId = ((null != deleteIds && !"".equals(deleteIds.trim())) ? deleteIds.split(",") : null);
+		if(null != addId && 0 < addId.length){
+			deptDaoImpl.addJobs(dept,addId);
+		}
+		if(null != deleteId && 0 < deleteId.length){
+			deptDaoImpl.deleteJobs(dept,deleteId);
+		}
 	}
 	
 	

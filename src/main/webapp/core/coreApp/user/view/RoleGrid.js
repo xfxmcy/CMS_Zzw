@@ -3,14 +3,60 @@
  * */
 
 Ext.define("core.user.view.RoleGrid",{
+	mixins:{
+		gridUtils:"core.utils.GridUtils"
+	},
 	extend:"Ext.grid.Panel",
 	alias:"widget.rolegrid",
 	id:"rolegrid",
 	store:"core.user.store.RoleGridStore",
-	selModel:{
+	
+/*	selModel:{
 		selType:"checkboxmodel",
 		checkOnly:true
-	},
+	},*/
+	selModel : Ext.create('Ext.selection.CheckboxModel',{
+		checkOnly:true,
+		listeners : {
+			/**
+			 * 角色grid 记录跨页选中
+			 */
+			'select':function(sm,colIndex,rowIndex){
+				var roleGrid = Ext.getCmp("rolegrid");
+				var addSelection = roleGrid.getGridAdd();
+				var removeSelection = roleGrid.getGridDelete();
+				var gridChecked = roleGrid.getGridChecked();
+				var record = sm.getStore().getAt(rowIndex);
+				/*删除里包含添加*/
+				/*原始里不包含增加*/
+				if(!gridChecked.containsKey(record.get("id")) && !addSelection.containsKey(record.get("id"))){
+					addSelection.add(record.get("id"),record.get("id"));
+				}	
+				else if(removeSelection.containsKey(record.get("id")))
+					removeSelection.remove(removeSelection.get(record.get("id")));
+				/*if(removeSelection.containsKey(record.get("id"))){
+					removeSelection.remove(removeSelection.get(record.get("id")));
+					return;
+				}	
+				if(!addSelection.containsKey(record.get("id")))
+					addSelection.add(record.get("id"),record.get("id"));*/
+			},
+			'deselect':function(sm,colIndex,rowIndex){
+				var roleGrid = Ext.getCmp("rolegrid");
+				var addSelection = roleGrid.getGridAdd();
+				var removeSelection = roleGrid.getGridDelete();
+				var gridChecked = roleGrid.getGridChecked();
+				var record = sm.getStore().getAt(rowIndex);
+				/*原始里包含删除*/
+				if(gridChecked.containsKey(record.get("id")) && !removeSelection.containsKey(record.get("id"))){
+					removeSelection.add(record.get("id"),record.get("id"));
+				}	
+				else if(addSelection.containsKey(record.get("id")))
+					addSelection.remove(addSelection.get(record.get("id")));
+			}
+			
+		}
+	}),
 	border:0,
 	multiSelect:true,
 	frame:true,

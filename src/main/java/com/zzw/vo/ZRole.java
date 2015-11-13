@@ -53,6 +53,10 @@ public class ZRole implements Serializable {
 
 	}
 	
+	public ZRole(String id) {
+		this.id = id;
+	}
+
 	private String id;
 	
 	private String name;

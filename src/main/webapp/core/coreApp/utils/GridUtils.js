@@ -3,7 +3,13 @@
  * 
  * @author zhangshuaipeng
  */
+/*默认的,新增的,删除的		支持grid跨页操作*/
+var gridChecked = new Ext.util.MixedCollection();
+var gridAdd = new Ext.util.MixedCollection();
+var gridDelete = new Ext.util.MixedCollection();
+
 Ext.define("core.utils.GridUtils", {
+	
 	/**
 	 * 表格通用的删除
 	 * @param {} grid
@@ -178,6 +184,14 @@ Ext.define("core.utils.GridUtils", {
 		}else{
 			return "";
 		}
+	},
+	getGridChecked:function(){
+		return gridChecked;
+	},
+	getGridAdd:function(){
+		return gridAdd;
+	},
+	getGridDelete:function(){
+		return gridDelete;
 	}
-	
 });

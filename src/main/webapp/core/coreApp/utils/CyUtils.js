@@ -19,8 +19,20 @@ Ext.define("core.utils.CyUtils", {
 		/*部门管理*/
 		else if("core.user.view.DeptLayout" == layoutName){
 			//layout.down('depttree').getStore().load();
-			layout.down('rolegrid').getStore().load();
-			
+			var roleStore = layout.down('rolegrid').getStore();
+			var proxy = roleStore.getProxy();
+			proxy.extraParams = {
+				
+			};
+			roleStore.load();
+			//清空分页checked
+			var roleGrid = Ext.getCmp("rolegrid");
+			var gridChecked = roleGrid.getGridChecked();
+			var addSelection = roleGrid.getGridAdd();
+			var removeSelection = roleGrid.getGridDelete();
+			gridChecked.clear();
+			addSelection.clear();
+			removeSelection.clear();
 		}
 		
 	}

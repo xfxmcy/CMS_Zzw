@@ -53,5 +53,17 @@ public interface DepartService {
 	 * @since 　Ver 1.1
 	 */
 	public void doUpdateDept(ZDepartment dept);
+	/**
+	 * 
+	 * doUpdateDeptJobs: update jobs of dept
+	 * 
+	 * @author 李丛阳
+	 * @param dept
+	 * @param addIds	增加的
+	 * @param deleteIds 删除的
+	 * @since 　Ver 1.1
+	 */
+	public void doUpdateDeptJobs(ZDepartment dept, String addIds,
+			String deleteIds);
 	
 }

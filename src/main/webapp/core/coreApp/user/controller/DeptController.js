@@ -54,9 +54,53 @@ Ext.define("core.user.controller.DeptController", {
 								Ext.Msg.alert("提示","请先选中部门,再进行岗位选择!");
 								return;
 							}
-							else
-								console.info(records[0].data);
-							//self.doSave(grid,"userId","ENDUSER","/jbpmItem/pc/userAction");
+							//获得增加和删除	列表   无操作 有提示
+							var roleGrid = Ext.getCmp("rolegrid");
+							var addSelection = roleGrid.getGridAdd();
+							var gridChecked = roleGrid.getGridChecked();
+							var removeSelection = roleGrid.getGridDelete();
+							var flag = false; //改变标志
+							var addIds = "",deleteIds = "";
+							//遍历集合
+							
+							addSelection.each(function(item,index,len){
+								//if(!gridChecked.contains(item)){
+									addIds += item+ ",";
+									flag = true;
+								//}
+							});
+							removeSelection.each(function(item,index,len){
+								flag = true;
+								deleteIds += item+ ",";
+							});
+							if(!flag){
+								Ext.Msg.alert("提示","数据没有变化!");
+								return;
+							}
+							/*var jobs = grid.getSelectionModel().getSelection();
+							var clean = (jobs.length == 0 ? true : false);
+							var jobId = "";*/
+							/*for(var i = 0 ; i<jobs.length ; i++)
+								jobId += jobs[i].data.id + ",";*/
+							Ext.Ajax.request({
+								url: CY.ns +"/dept/deptAction!refreshJobs.asp",
+								//params:{"dept.id":records[0].data.id,"jobIds":jobId,"jobClean":clean},
+								params:{"dept.id":records[0].data.id,"addIds":addIds,"deleteIds":deleteIds},
+								method:"POST",
+								timeout:4000,
+								success:function(response,opts){
+									var resObj=Ext.decode(response.responseText);
+									if(resObj.success){
+										grid.getStore().load();
+										addSelection.clear();
+										removeSelection.clear();
+										gridChecked.clear();
+										Ext.Msg.alert("提示",resObj.info);
+									}else{
+										Ext.Msg.alert("提示",resObj.info);
+									}
+								}
+							});
 						}
 					},
 					/**
@@ -84,6 +128,14 @@ Ext.define("core.user.controller.DeptController", {
 									deptId : record.raw.id
 								};
 								store.load();
+								//清空分页checked
+								var roleGrid = Ext.getCmp("rolegrid");
+								var addSelection = roleGrid.getGridAdd();
+								var removeSelection = roleGrid.getGridDelete();
+								var gridChecked = roleGrid.getGridChecked();
+								addSelection.clear();
+								removeSelection.clear();
+								gridChecked.clear();
 							}else{
 								//未知  什么情况进入 else
 								treeForm.findField("deptId").setValue(record.data.id);
@@ -114,8 +166,6 @@ Ext.define("core.user.controller.DeptController", {
 													parentId:"-1",
 													leaf : true
 												});
-							//
-												
 						}
 					},
 					/**
@@ -146,7 +196,7 @@ Ext.define("core.user.controller.DeptController", {
 														leaf : true
 													});
 							parentNode.expand(); // 打开父节点
-							}
+						}
 					},
 					/**
 					 * 删除部门
@@ -158,7 +208,7 @@ Ext.define("core.user.controller.DeptController", {
 							var tree=btn.up("depttree");
 							var records = tree.getSelectionModel().getSelection();
 							var id=records[0].data.id;
-							var parentId = records[0].data.parentId
+							var parentId = records[0].data.parentId;
 							//撤销刚添加的节点
 							if(!id || id === ""){
 								//tree 删除根节点
