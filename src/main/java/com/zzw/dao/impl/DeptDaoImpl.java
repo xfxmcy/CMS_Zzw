@@ -89,6 +89,9 @@ public class DeptDaoImpl extends BasicDaoImpl<ZDepartment> implements DeptDao {
 			.setParameter(0, deleteId[i]).setParameter(1, dept.getId()).list();
 			if(null != job && 0 < job.size()){
 				for (ZJob zJob : job) {
+					//级联删除 不会删除中间表  会删除 user表  ==> 暂时不适应这种删除
+					getCurrentSession().createSQLQuery("delete from user_job where job_id = ?")
+					.setParameter(0, zJob.getId()).executeUpdate();
 					getCurrentSession().delete(zJob);
 				}
 			}
