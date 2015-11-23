@@ -16,13 +16,7 @@ package com.zzw.vo;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
@@ -65,7 +59,7 @@ public class ZRole implements Serializable {
 	// 0 未选中   1选中
 	private String checked = "0";
 	
-
+	@Transient
 	public String getChecked() {
 		return checked;
 	}

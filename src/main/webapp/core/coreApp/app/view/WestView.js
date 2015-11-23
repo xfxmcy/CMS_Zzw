@@ -35,7 +35,7 @@ Ext.define("core.app.view.WestView",{
 	            		id:"dept-user",
 	            	 	leaf: true 
 	            	},{
-	            		text: "角色人员管理",
+	            		text: "角色管理",
 	            		id:"role-user",
 	            	 	leaf: true             		
 	            	},{

@@ -48,7 +48,7 @@ Ext.define("core.app.controller.MainController", {
 									funController:"core.user.controller.DeptController",
 									funViewName:"core.user.view.DeptLayout"
 								});
-							/*角色人员管理*/
+							/*角色管理*/
 							}else if(record.data["id"]=="role-user"){
 								self.addFunItem({
 									mainView:mainView,

@@ -4,7 +4,7 @@
 Ext.define("core.user.view.RoleLayout", {
 			extend : 'Ext.panel.Panel',
 			alias : 'widget.rolelayout',
-			title : "<center height=40>角色人员管理</center>",
+			title : "<center height=40>角色管理</center>",
 			closable:true,
 			defaults : {
 				split : true,// 可以设置好看点的折叠效果
@@ -12,19 +12,21 @@ Ext.define("core.user.view.RoleLayout", {
 			},
 			layout : 'border',
 			id:"rolelayout",
-			items : [{
+			items : [/*{
 						title : "角色管理",
 						region : 'west',
 						// iconCls:'goodtype_tree',
 						xtype : "roletree",
 						margins : '5 2 5 5',
 						width : 250
-					}, {
+					},*/ {
 						xtype : "panel",
 						title : '角色信息',
 						region : "center",
-						layout : "border",
-						items : [{
+						height : 500,
+						margins : '5 5 5 0',
+						layout : 'fit',
+						items : [/*{
 									xtype : 'panel',
 									region : 'north',
 									// iconCls:'goodtype_tree',
@@ -46,39 +48,38 @@ Ext.define("core.user.view.RoleLayout", {
 									height : 500,
 									margins : '5 5 5 0',
 									layout : 'fit',
-									items : [{
-												xtype : "usergrid",
+									items : [*/{
+												xtype : "rolesgrid"/*,
 												tbar : [{
 															xtype : 'button',
-															text : '添加人员',
+															text : '添加角色',
 															ref : 'roleAdd',
 															iconCls : 'table_add'
+														},{
+															xtype : 'button',
+															text : '修改角色',
+															ref : 'roleAdd',
+															iconCls : 'table_edit'
 														}, {
 															xtype : 'button',
-															text : '移除人员',
+															text : '删除角色',
 															ref : 'roleDelete',
 															iconCls : 'table_remove'
 														}],
 												columns : [{
 															xtype : "rownumberer"
 														}, {
-															text : "用户姓名",
+															text : "角色",
+															align : "center",
 															dataIndex : "userName",
-															width : 100
+															width : 250
 														}, {
-															text : "用户编码",
+															text : "角色编码",
 															dataIndex : "userCode",
-															width : 100
-														}, {
-															text : "性别",
-															dataIndex : "sex",
-															width : 50
-														}, {
-															text : "出生日期",
-															dataIndex : "birthday",
-															width : 150
-														}]
-											}]
-								}]
+															align : "center",
+															width : 250
+														}]*/
+											}/*]
+								}*/]
 					}]
 		});

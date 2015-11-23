@@ -59,18 +59,26 @@
 		<filter-name>struts2</filter-name>
 		<url-pattern>*.asp</url-pattern>
 	</filter-mapping>
-
-	<!-- log4j -->
+	<servlet>
+		　　<servlet-name>default</servlet-name>
+		　　<servlet-class>org.mortbay.jetty.servlet.DefaultServlet</servlet-class>
+		　　<init-param>
+		　　　　<param-name>useFileMappedBuffer</param-name>
+		　　　　<param-value>false</param-value>
+		　　</init-param>
+		　　<load-on-startup>0</load-on-startup>
+	</servlet>
+	<!-- log4j
 	<servlet>
 		<servlet-name>Log4jInit</servlet-name>
 		<servlet-class>com.zzw.util.Log4jInit</servlet-class>
 		<init-param>
 			<param-name>log4j</param-name>
-			<param-value>WEB-INF/classes/log4j.properties</param-value>
+			<param-value>classpath:log4j.properties</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
+	-->
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>index.html</welcome-file>
