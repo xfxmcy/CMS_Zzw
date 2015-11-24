@@ -1,6 +1,9 @@
 package com.zzw.action;
 
+import com.zzw.component.ResultInfo;
+import com.zzw.vo.ZRole;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
@@ -18,10 +21,7 @@ import com.zzw.util.ZzwUtil;
  * ClassName:RoleAction  role action 
  *
  * @author   李丛阳
- * @version  
  * @since    Ver 1.1
- * @Date	 2015	2015年10月23日		下午1:51:50
- *
  * @see
  */
 @Controller
@@ -39,8 +39,18 @@ public class RoleAction extends PageAction {
 	
 	// 部门id
 	private String deptId;
-	
-	
+
+	private ZRole role;
+
+	@JSON(serialize=false)
+	public ZRole getRole() {
+		return role;
+	}
+
+	public void setRole(ZRole role) {
+		this.role = role;
+	}
+
 	public String getDeptId() {
 		return deptId;
 	}
@@ -75,5 +85,46 @@ public class RoleAction extends PageAction {
 				roleServiceImpl.doQueryCountRoles());
 		return BASE_RESULT_JSON;
 	}
-	
+
+	/**
+	 *
+	 * saveRole:  保存角色
+	 *
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
+	public void saveRole(){
+		ResultInfo info = new ResultInfo();
+		roleServiceImpl.doSaveRole(role);
+		info.settingSuccessResult("增加成功", role);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
+	/**
+	 *
+	 * updateRole:  修改角色
+	 *
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
+	public void updateRole(){
+		ResultInfo info = new ResultInfo();
+		roleServiceImpl.doUpdateRole(role);
+		info.settingSuccessResult("修改成功", role);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
+	/**
+	 *
+	 * doDeleteRole:  删除角色
+	 *
+	 * @author 李丛阳
+	 * @since 　Ver 1.1
+	 */
+	public void deleteRole(){
+		ResultInfo info = new ResultInfo();
+		roleServiceImpl.doDeleteRole(role);
+		info.settingSuccessResult("删除成功", role);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
+
+
 }

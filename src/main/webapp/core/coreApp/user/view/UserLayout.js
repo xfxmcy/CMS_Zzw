@@ -4,7 +4,7 @@
 Ext.define("core.user.view.UserLayout", {
 			extend : 'Ext.panel.Panel',
 			alias : 'widget.userlayout',
-			title : "<center height=40>部门人员管理</center>",
+			title : "<center height=40>人员管理</center>",
 			closable:true,
 			defaults : {
 				split : true,// 可以设置好看点的折叠效果
@@ -12,7 +12,7 @@ Ext.define("core.user.view.UserLayout", {
 			},
 			layout : 'border',
 			items : [{
-						title : "部门管理",
+						title : "人员管理",
 						//region : 'west',
 						region : 'center',
 						// iconCls:'goodtype_tree',

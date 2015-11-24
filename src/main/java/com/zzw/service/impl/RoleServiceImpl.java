@@ -30,6 +30,7 @@ public class RoleServiceImpl implements RoleService {
 	@Inject
 	private RoleDao roleDaoImpl;
 
+
 	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
 	@Override
 	public List<ZRole> doQueryRolesByDepts(String deptId, Pages page) {
@@ -50,7 +51,24 @@ public class RoleServiceImpl implements RoleService {
 	public List<ZRole> doQueryRoles(Pages page) {
 		// TODO Auto-generated method stub
 		return roleDaoImpl.queryZrolePage(page);
-	} 
-	
-	
+	}
+
+	@Override
+	public void doSaveRole(ZRole role) {
+		 roleDaoImpl.persistence(role);
+	}
+
+	@Override
+	public void doUpdateRole(ZRole role) {
+		roleDaoImpl.merge(role);
+	}
+
+
+	@Override
+	public void doDeleteRole(ZRole role) {
+
+		roleDaoImpl.removeRoleCascase(role);
+	}
+
+
 }

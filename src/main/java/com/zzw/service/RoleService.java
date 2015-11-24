@@ -47,4 +47,20 @@ public interface RoleService {
 	 * @since 　Ver 1.1
 	 */
 	public List<ZRole> doQueryRoles(Pages createPaged);
+
+	/**
+	 * doSaveRole : save role
+	 * @param role
+     */
+	public void doSaveRole(ZRole role);
+	/**
+	 * doUpdateRole : update role
+	 * @param role
+	 */
+	public void doUpdateRole(ZRole role);
+	/**
+	 * doDeleteRole : delete role
+	 * @param role
+	 */
+	public void doDeleteRole(ZRole role);
 }

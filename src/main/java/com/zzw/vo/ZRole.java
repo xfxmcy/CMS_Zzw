@@ -110,7 +110,7 @@ public class ZRole implements Serializable {
 	private Set<ZJob> jobs ;
 	
 	@JSON(serialize=false)
-	@OneToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY,mappedBy = "role")
+	@OneToMany(cascade = CascadeType.REMOVE , fetch = FetchType.LAZY,mappedBy = "role")
 	public Set<ZJob> getJobs() {
 		return jobs;
 	}

@@ -300,12 +300,13 @@
 			<!-- jetty插件 -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.22</version>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>7.1.6.v20100715</version>
 				<configuration>
-					<contextPath>/CMS_Zzw</contextPath>
+					<stopKey>cy</stopKey>
+					<stopPort>9080</stopPort>
 					<connectors>
-						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
 							<port>8080</port>
 						</connector>
 					</connectors>
@@ -318,6 +319,14 @@
 						<!--<extraClasspath>./lease-core/target/classes</extraClasspath>-->
 						<!--<defaultsDescriptor>E:\servers\jetty-distribution-9.0.6.v20130930\etc\webdefault.xml</defaultsDescriptor>-->
 					</webAppConfig>
+					<!--额外监听   虚拟目录 -->
+					<contextHandlers>
+						<!-- 附件目录服务 -->
+						<contextHandler implementation="org.eclipse.jetty.webapp.WebAppContext">
+							<contextPath>/CMSPhoto</contextPath>
+							<resourceBase>E:\developEnvironment\project_files\CMS_Zzw\upload</resourceBase>
+						</contextHandler>
+					</contextHandlers>
 				</configuration>
 			</plugin>
 		</plugins>

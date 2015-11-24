@@ -3,29 +3,37 @@ Ext.define("core.user.controller.RoleController", {
 			init : function() {
 				var self = this;
 				this.control({
-					"usergrid button[ref=roleAdd]":{
+					/*添加角色*/
+					"rolesgrid button[ref=add]":{
 						click:function(btn){
-							var roleTree=btn.up("rolelayout").down("roletree");
-							var records=roleTree.getSelectionModel().getSelection();
-							if(records.length<=0){
-								Ext.Msg.alert("提示","请选择角色");
-								return;
-							}			
-							Ext.create("core.user.view.DeptUserWindow").show();
+
+							Ext.create("core.user.view.RoleWindow").show();
 						}
 					},
-					"usergrid button[ref=roleDelete]":{
+					/*修改角色*/
+					"rolesgrid button[ref=edit]":{
 						click:function(btn){
-							var grid=btn.up("usergrid");
-							var roleForm=grid.up("rolelayout").down("roleform").getForm();
+							var grid=btn.up("rolesgrid");
 							var records=grid.getSelectionModel().getSelection();
+							if(records.length <= 0){
+								Ext.Msg.alert("提示","请选择要修改的角色!");
+								return;
+							}
+							Ext.create("core.user.view.RoleWindow").show();
+						}
+					},
+					/*删除角色*/
+					"rolesgrid button[ref=delete]":{
+						click:function(btn){
+							var grid=btn.up("rolesgrid");
+							var records=grid.getSelectionModel().getSelection();
+							if(records.length <= 0){
+								Ext.Msg.alert("提示","请选择要修改的角色!");
+								return;
+							}
 							var roleId=roleForm.findField("roleId").getValue();
 							var roleCode=roleForm.findField("roleCode").getValue();
 							var roleName=roleForm.findField("roleName").getValue();
-							if(records.length<=0){
-								Ext.Msg.alert("提示","请选择用户");
-								return;
-							}
 							if(roleId==null || roleId==""){
 								Ext.Msg.alert("提示","角色信息获取错误");
 								return;
@@ -56,7 +64,7 @@ Ext.define("core.user.controller.RoleController", {
 						}
 					},
 					//节点点击事件
-					"roletree":{
+					/*"roletree":{
 						itemclick:function(tree,record,item,index,e,eOpts){
 							var treeForm=tree.up("rolelayout").down("roleform").getForm();
 							var store=tree.up("rolelayout").down("usergrid").getStore();
@@ -81,8 +89,8 @@ Ext.define("core.user.controller.RoleController", {
 							var delBtn=tree.down("button[ref=treeDel]");
 							delBtn.setDisabled(false);
 						}
-					},
-					"roletree button[ref=treeIns]":{
+					},*/
+					/*"roletree button[ref=treeIns]":{
 						click:function(btn){
 							//添加部门
 							var tree=btn.up("roletree");
@@ -96,8 +104,8 @@ Ext.define("core.user.controller.RoleController", {
 							//
 												
 						}
-					},
-					"roletree button[ref=treeDel]":{
+					},*/
+					/*"roletree button[ref=treeDel]":{
 						//删除角色
 						click:function(btn){
 							var tree=btn.up("roletree");
@@ -133,8 +141,8 @@ Ext.define("core.user.controller.RoleController", {
 								}
 							});
 						}
-					}
-					,"roleform button[ref=submit]":{
+					},*/
+					"roleform button[ref=submit]":{
 						//角色信息保存
 						click:function(btn){
 							var role=btn.up("roleform");
@@ -179,13 +187,13 @@ Ext.define("core.user.controller.RoleController", {
 							});
 						}
 					},
-					"deptuserwindow button[ref=cal]":{
+					/*"deptuserwindow button[ref=cal]":{
 						click:function(btn){
 							var window=btn.up("deptuserwindow");
 							window.close();
 						}
-					},
-					"deptuserwindow button[ref=submit]":{
+					},*/
+					/*"deptuserwindow button[ref=submit]":{
 						click:function(btn){
 							var window=btn.up("deptuserwindow");
 							var tree=window.down("deptusertree");
@@ -232,8 +240,8 @@ Ext.define("core.user.controller.RoleController", {
 								Ext.Msg.alert("提示","请选择用户");
 							}
 						}
-					},
-					"deptusertree":{
+					},*/
+					/*"deptusertree":{
 						checkchange:function(node,checked,eOpts){
 						if(node.data.leaf==false){
 						if(checked){
@@ -259,10 +267,10 @@ Ext.define("core.user.controller.RoleController", {
 							}
 						}
 						}					
-					}
+					}*/
 				});
 			},
-			views : ["core.user.view.RoleForm","core.user.view.RoleTree","core.user.view.UserGrid","core.user.view.RoleLayout","core.user.view.DeptUserTree","core.user.view.DeptUserWindow"],
-			stores : ["core.user.store.UserStore","core.user.store.RoleStore","core.user.store.DeptUserStore"],
-			models : ["core.user.model.UserModel","core.user.model.DeptUserModel"]
+			views : ["core.user.view.RoleForm","core.user.view.RoleLayout",/*"core.user.view.DeptUserTree","core.user.view.DeptUserWindow"*/"core.user.view.RolesGrid"],
+			stores : [/*"core.user.store.UserStore","core.user.store.RoleStore","core.user.store.DeptUserStore",*/"core.user.store.RolesGridStore"],
+			models : [/*"core.user.model.UserModel","core.user.model.DeptUserModel",*/"core.user.model.RoleGridModel"]
 });

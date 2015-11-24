@@ -17,7 +17,7 @@ import com.zzw.vo.ZRole;
  *
  * @see
  */
-public interface RoleDao {
+public interface RoleDao extends BasicDao<ZRole>{
 	/**
 	 * 
 	 * queryZrolePaegd: 分页查询角色
@@ -34,7 +34,7 @@ public interface RoleDao {
 	 * queryCountZrolePaegd: 查询总记录数
 	 * 
 	 * @author 李丛阳
-	 * @param param
+	 * @param 
 	 * @return
 	 * @since 　Ver 1.1
 	 */
@@ -50,4 +50,6 @@ public interface RoleDao {
 	 * @since 　Ver 1.1
 	 */
 	public List<ZRole> queryZrolePage(Pages page);
+
+	public void removeRoleCascase(ZRole role);
 }

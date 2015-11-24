@@ -46,4 +46,10 @@ public class RoleDaoImpl extends BasicDaoImpl<ZRole> implements RoleDao {
 				.setMaxResults(page.getCount()).list();
 	}
 
+	@Override
+	public void removeRoleCascase(ZRole role) {
+		getCurrentSession().createSQLQuery("delete j.* from user_job j LEFT JOIN zjob z on z.id = j.job_id where z.role_id = ?").setParameter(0, role.getId()).executeUpdate();
+		this.remove(role);
+	}
+
 }

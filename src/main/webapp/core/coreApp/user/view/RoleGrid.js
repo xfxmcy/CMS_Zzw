@@ -79,7 +79,7 @@ Ext.define("core.user.view.RoleGrid",{
 	 		{xtype: 'rownumberer'},
 	 		{text:"id",dataIndex:"id",width:250,align:'center',hidden:true
 	 		},
-	 		{text:"角色",dataIndex:"name",width:250,align:'center',field:{
+	 		{text:"角色名称",dataIndex:"name",width:250,align:'center',field:{
 	 			xtype:"textfield"
 	 			}
 	 		},

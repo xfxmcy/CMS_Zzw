@@ -22,14 +22,9 @@ Ext.define("core.user.view.RoleForm",{
 				xtype:"textfield",
 				fieldLabel:"角色编码",
 				name:"roleCode"
-			},{
-				xtype:"textfield",
-				fieldLabel:"树形信息",
-				name:"nodeInfo",
-				hidden:true
-			},{
+			}/*,{
 				xtype:"button",
 				ref:"submit",
 				text:"保存"
-			}]
+			}*/]
 });
