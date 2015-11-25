@@ -225,7 +225,7 @@ Ext.define("core.user.controller.UserController", {
 					
 				});
 			},
-			views : ["core.user.view.DeptForm","core.user.view.DeptTree","core.user.view.UserGrid","core.user.view.UserLayout"],
-			stores : ["core.user.store.UserStore","core.user.store.DeptStore"],
+			views : ["core.user.view.UserGrid","core.user.view.UserRoleGrid","core.user.view.UserLayout"],
+			stores : ["core.user.store.UserStore","core.user.store.RoleGridStore"],
 			models : ["core.user.model.UserModel"]
 });

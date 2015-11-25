@@ -13,6 +13,7 @@
 
 package com.zzw.dao;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -66,6 +67,13 @@ public interface BasicDao <ZZW> {
 	 *   		 2015年7月9日 		cy
 	 */
 	void remove (ZZW object);
+
+	/**
+	 * removeGeneral object
+	 * @param id
+	 * @return
+     */
+	void removeGeneral(Class cls,Serializable id);
 	/**
 	 * 
 	 * merge merge

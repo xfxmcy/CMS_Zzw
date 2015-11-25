@@ -25,6 +25,7 @@ import com.zzw.vo.ZRole;
  *
  * @see
  */
+@Transactional
 @Service
 public class RoleServiceImpl implements RoleService {
 	@Inject

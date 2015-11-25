@@ -34,6 +34,11 @@ Ext.define("core.utils.CyUtils", {
 			addSelection.clear();
 			removeSelection.clear();
 		}
-		
+		/*角色管理*/
+		else if("core.user.view.RoleLayout" == layoutName){
+			//layout.down('depttree').getStore().load();
+			var roleStore = layout.down('rolesgrid').getStore();
+			roleStore.load();
+		}
 	}
 });

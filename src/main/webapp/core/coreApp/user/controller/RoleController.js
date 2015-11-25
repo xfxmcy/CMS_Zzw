@@ -6,8 +6,12 @@ Ext.define("core.user.controller.RoleController", {
 					/*添加角色*/
 					"rolesgrid button[ref=add]":{
 						click:function(btn){
-
-							Ext.create("core.user.view.RoleWindow").show();
+							var window = Ext.getCmp("rolewindow");
+							if(window){
+								window.show();
+							}else{
+								Ext.create("core.user.view.RoleWindow").show();
+							}
 						}
 					},
 					/*修改角色*/
@@ -19,7 +23,16 @@ Ext.define("core.user.controller.RoleController", {
 								Ext.Msg.alert("提示","请选择要修改的角色!");
 								return;
 							}
-							Ext.create("core.user.view.RoleWindow").show();
+							var window = Ext.getCmp("rolewindow");
+							if(window){
+								window.show();
+							}else{
+								window = Ext.create("core.user.view.RoleWindow").show();
+							}
+							var roleForm = window.down("roleform").getForm();
+							roleForm.findField("roleName").setValue(records[0].data.name);
+							roleForm.findField("roleCode").setValue(records[0].data.code);
+							roleForm.findField("roleId").setValue(records[0].data.id);
 						}
 					},
 					/*删除角色*/
@@ -31,36 +44,28 @@ Ext.define("core.user.controller.RoleController", {
 								Ext.Msg.alert("提示","请选择要修改的角色!");
 								return;
 							}
-							var roleId=roleForm.findField("roleId").getValue();
-							var roleCode=roleForm.findField("roleCode").getValue();
-							var roleName=roleForm.findField("roleName").getValue();
-							if(roleId==null || roleId==""){
-								Ext.Msg.alert("提示","角色信息获取错误");
-								return;
-							}
-							var ids=[];
-							Ext.Array.each(records,function(model){
-								var idValue=model.get("userId");
-								if(idValue && idValue!=""){
-									ids.push("'"+idValue+"'");
+							var param = {};
+							param.msg = '删除角色,对应的岗位也会被删除.您确定您的操作?';
+							param.fn = function(result) {
+								if ("yes" == result) {
+									Ext.Ajax.request({
+										url: CY.ns + "/role/roleAction!deleteRole.asp",
+										params: {"role.id": records[0].data.id},
+										method: "POST",
+										timeout: 4000,
+										success: function (response, opts) {
+											var resObj = Ext.decode(response.responseText);
+											if (resObj.success) {
+												grid.getStore().load();
+												Ext.Msg.alert("提示", resObj.info);
+											} else {
+												Ext.Msg.alert("提示", resObj.info);
+											}
+										}
+									});
 								}
-							});
-							var strData=" delete ROLE_USER where ROLEID='"+roleId+"' and USERID in ("+ids.join(",")+")";
-							Ext.Ajax.request({
-								url:"/jbpmItem/pc/roleAction!deleteUsers.action",
-								params:{strData:strData,ids:ids.join(","),roleCode:roleCode,roleName:roleName},
-								method:"POST",
-								timeout:4000,
-								success:function(response,opts){
-									var resObj=Ext.decode(response.responseText);
-									if(resObj.success){
-										grid.getStore().load();
-										Ext.Msg.alert("提示",resObj.obj);
-									}else{
-										Ext.Msg.alert("提示",resObj.obj);
-									}
-								}
-							});
+							};
+							CY.confirmBox(param);
 						}
 					},
 					//节点点击事件
@@ -88,21 +93,6 @@ Ext.define("core.user.controller.RoleController", {
 							tree=tree.up("rolelayout").down("roletree");
 							var delBtn=tree.down("button[ref=treeDel]");
 							delBtn.setDisabled(false);
-						}
-					},*/
-					/*"roletree button[ref=treeIns]":{
-						click:function(btn){
-							//添加部门
-							var tree=btn.up("roletree");
-							var rootNode = tree.getStore()
-												.getRootNode(); // 得到根节点
-							rootNode.appendChild({
-													text :"",
-													parentId:"root",
-													leaf : true
-												});
-							//
-												
 						}
 					},*/
 					/*"roletree button[ref=treeDel]":{
@@ -142,27 +132,30 @@ Ext.define("core.user.controller.RoleController", {
 							});
 						}
 					},*/
-					"roleform button[ref=submit]":{
+					"rolewindow button[ref=submit]":{
 						//角色信息保存
 						click:function(btn){
-							var role=btn.up("roleform");
+							var window=btn.up("rolewindow");
+							var role=window.down("roleform");
 							var roleForm=role.getForm();
-							var roleTree=role.up("rolelayout").down("roletree");
-							var nodeInfo=roleForm.findField("nodeInfo").getValue();
-							var actionName="/jbpmItem/pc/roleAction!doSave.action";
-							var params={};
-							if(nodeInfo && nodeInfo!=""){
-								//修改								
-								actionName="/jbpmItem/pc/roleAction!doUpdate.action";
-								params.roleId=roleForm.findField("roleId").getValue();
-							}else{
-								//新部门
+							if(!roleForm.isValid()){
+								Ext.Msg.alert('提示','请认真完成表单...');
+								return;
 							}
-							var roleName=roleForm.findField("roleName").getValue();
-							var roleCode=roleForm.findField("roleCode").getValue();
-							params.roleName=roleName;
-							params.roleCode=roleCode;
-							params.idName="roleId";
+							var store=Ext.getCmp("rolesgrid").getStore();
+							var roleId = roleForm.findField("roleId").getValue();
+							var params={};
+							var actionName= CY.ns + "/role/roleAction!saveRole.asp";
+							if(roleId && roleId !== ""){
+								//修改
+								actionName = CY.ns + "/role/roleAction!updateRole.asp";
+								params["role.id"] = roleId;
+							}
+							var roleName = roleForm.findField("roleName").getValue();
+							var roleCode = roleForm.findField("roleCode").getValue();
+							params["role.name"]=roleName;
+							params["role.code"]=roleCode;
+
 							Ext.Ajax.request({
 								url:actionName,
 								params:params,
@@ -173,15 +166,17 @@ Ext.define("core.user.controller.RoleController", {
 									if(resObj.success){
 										//修改成功
 										//将最新model值放入form中并load树形，保持数据一致化
-										var obj=resObj.obj;
-										roleForm.findField("roleId").setValue(obj["roleId"]);
-										roleForm.findField("roleName").setValue(obj["roleName"]);
-										roleForm.findField("roleCode").setValue(obj["roleCode"]);
-										roleForm.findField("nodeInfo").setValue(obj["nodeInfo"]);
-										roleTree.getStore().load();
-										Ext.Msg.alert("提示","修改成功");
+										//var obj=resObj.obj;
+										roleForm.findField("roleId").setValue("");
+										roleForm.findField("roleName").setValue("");
+										roleForm.findField("roleCode").setValue("");
+										store.load();
+										if(window){
+											window.hide();
+										}
+										Ext.Msg.alert("提示",resObj.info);
 									}else{
-										Ext.Msg.alert("提示","修改失败");
+										Ext.Msg.alert("提示",resObj.info);
 									}
 								}
 							});

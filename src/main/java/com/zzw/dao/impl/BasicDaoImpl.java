@@ -13,6 +13,7 @@
 
 package com.zzw.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -117,6 +118,11 @@ public class BasicDaoImpl<ZZW> implements BasicDao<ZZW> {
 		
 		this.getCurrentSession().delete(object);
 		
+	}
+
+	@Override
+	public void removeGeneral(Class cls,Serializable id) {
+		this.getCurrentSession().delete(getCurrentSession().get(cls,id));
 	}
 
 	@Override

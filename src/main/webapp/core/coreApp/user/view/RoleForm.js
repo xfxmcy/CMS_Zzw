@@ -17,10 +17,13 @@ Ext.define("core.user.view.RoleForm",{
 			},{
 				xtype:"textfield",
 				fieldLabel:"角色名称",
+				selectOnFocus : true,
+				allowBlank : false,
 				name:"roleName"
 			},{
 				xtype:"textfield",
 				fieldLabel:"角色编码",
+				allowBlank : false,
 				name:"roleCode"
 			}/*,{
 				xtype:"button",

@@ -24,6 +24,10 @@ Ext.define("core.user.view.RoleWindow", {
 				text:"取消",
 				ref:"cal",
 				width : 50,
-				margin : "0 0 0 40"
+				margin : "0 0 0 40",
+				handler : function(btn) {
+					var window=btn.up("rolewindow");
+					window.hide();
+				}
 			}]
 	});

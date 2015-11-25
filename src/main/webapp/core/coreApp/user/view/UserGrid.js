@@ -6,15 +6,16 @@ Ext.define("core.user.view.UserGrid",{
 	alias:"widget.usergrid",
 	store:"core.user.store.UserStore",
 	selModel:{
-		selType:"checkboxmodel"
+		//selType:"checkboxmodel"
+		selType:"rowmodel"
 	},
 	border:0,
-	multiSelect:true,
+	multiSelect:false,
 	frame:true,
 	tbar:[
 		{xtype:'button',text:'添加',ref:'add',iconCls:'table_add'},
-		{xtype:'button',text:'删除',ref:'delete',iconCls:'table_remove'},
-		{xtype:'button',text:'保存',ref:'save',iconCls:'table_save'}
+		{xtype:'button',text:'修改',ref:'edit',iconCls:'table_edit'},
+		{xtype:'button',text:'删除',ref:'delete',iconCls:'table_remove'}
 	],
 	bbar:{
 		xtype:'pagingtoolbar',
@@ -26,18 +27,13 @@ Ext.define("core.user.view.UserGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"用户姓名",dataIndex:"userName",width:100,field:{
+		{text:"用户姓名",dataIndex:"userName",width:"45%",field:{
 			xtype:"textfield"
-		}},
-		{text:"用户编码",dataIndex:"userCode",width:100,field:{
+		},align:'center'},
+		{text:"用户编码",dataIndex:"userCode",width:"45%",field:{
 			xtype:"textfield"
-		}},
-		{text:"性别",dataIndex:"sex",width:50,field:{
-			xtype:"textfield"
-		}},{text:"出生日期",dataIndex:"birthday",width:150,field:{
-			xtype:"datefield",
-			width:150
-		}}
+		},align:'center'}
+
 	],
 	initComponent:function(){
 		this.editing=Ext.create("Ext.grid.plugin.CellEditing");

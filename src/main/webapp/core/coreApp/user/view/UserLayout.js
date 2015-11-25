@@ -14,12 +14,20 @@ Ext.define("core.user.view.UserLayout", {
 			items : [{
 						title : "人员管理",
 						//region : 'west',
+						region : 'west',
+						// iconCls:'goodtype_tree',
+						xtype : "usergrid",
+						margins : '5 2 5 5',
+						width : "50%"
+					},{
+						title : "岗位管理",
+						//region : 'west',
 						region : 'center',
 						// iconCls:'goodtype_tree',
-						xtype : "depttree",
-						margins : '5 2 5 5',
-						width : 250
-					}/*, {
+						xtype : "userRolegrid",
+						margins : '5 2 5 5'
+					}
+					/*, {
 						xtype : "panel",
 						title : '部门信息',
 						region : "center",

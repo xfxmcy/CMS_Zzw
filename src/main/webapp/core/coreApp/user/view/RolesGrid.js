@@ -4,12 +4,13 @@
 Ext.define("core.user.view.RolesGrid",{
 	extend:"Ext.grid.Panel",
 	alias:"widget.rolesgrid",
+	id:"rolesgrid",
 	store:"core.user.store.RolesGridStore",
 	selModel:{
 		selType:"rowmodel"
 	},
 	border:0,
-	multiSelect:true,
+	multiSelect:false,
 	frame:true,
 	tbar:[
 		{xtype:'button',text:'添加',ref:'add',iconCls:'table_add'},
@@ -26,10 +27,10 @@ Ext.define("core.user.view.RolesGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"角色名称",dataIndex:"name",width:300,field:{
+		{text:"角色名称",dataIndex:"name",width:"45%",field:{
 			xtype:"textfield"
 		},align:'center'},
-		{text:"角色编码",dataIndex:"code",width:300,field:{
+		{text:"角色编码",dataIndex:"code",width:"45%",field:{
 			xtype:"textfield"
 		},align:'center'}/*,
 		{text:"性别",dataIndex:"sex",width:50,field:{
