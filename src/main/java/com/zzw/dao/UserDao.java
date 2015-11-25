@@ -13,7 +13,10 @@
 
 package com.zzw.dao;
 
+import com.zzw.pojo.Pages;
 import com.zzw.vo.ZUser;
+
+import java.util.List;
 
 /**
  * ClassName:UserDao
@@ -40,5 +43,18 @@ public interface UserDao {
 	 *   		 2015年7月1日 		cy
 	 */
 	public ZUser userLoginDao(ZUser user);
+
+	/**
+	 * queryUsers  query users
+	 * @param paged page
+	 * @return
+     */
+	List<ZUser> queryUsers(Pages paged);
+
+	/**
+	 * queryCountUsers
+	 * @return  query count users
+     */
+	Long queryCountUsers();
 }
 

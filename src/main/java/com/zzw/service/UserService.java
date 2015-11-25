@@ -13,7 +13,10 @@
 
 package com.zzw.service;
 
+import com.zzw.pojo.Pages;
 import com.zzw.vo.ZUser;
+
+import java.util.List;
 
 /**
  * ClassName:UserService
@@ -38,6 +41,19 @@ public interface UserService {
 	 * ──────────────────────────────────
 	 *   		 2015年7月1日 		cy
 	 */
-	public ZUser userLoginService(ZUser user);	
+	public ZUser userLoginService(ZUser user);
+
+	/**
+	 * doQueryUsers query users
+	 * @param paged	page
+	 * @return
+     */
+	List<ZUser> doQueryUsers(Pages paged);
+
+	/**
+	 * doQueryCountUsers
+	 * @return	count
+     */
+	Long doQueryCountUsers();
 }
 

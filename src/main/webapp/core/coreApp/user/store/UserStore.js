@@ -4,10 +4,10 @@
  Ext.define("core.user.store.UserStore",{
  	extend:'Ext.data.Store',
 	model:'core.user.model.UserModel',
-	pageSize:10,
+	pageSize:20,
 	proxy:{
 		type:"ajax",
-		url:"/jbpmItem/pc/userAction!load.action",
+		url:CY.ns + "/user/userAction!doQueryUsers.asp",
 		reader:{
 			type:"json",
 			root:"rows",

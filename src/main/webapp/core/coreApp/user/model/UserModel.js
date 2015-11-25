@@ -5,11 +5,7 @@
  	extend:"Ext.data.Model",
  	fields:[
  		{name:"userId",type:"string",srotable:true},
- 		{name:"userName",type:"string",srotable:true},
- 		{name:"userCode",type:"string",srotable:true},
- 		{name:"treeSign",type:"string",srotable:true},
- 		{name:"parentId",type:"string",srotable:true},
- 		{name:"deptCode",type:"string",srotable:true},
- 		{name:"deptName",type:"string",srotable:true}
+ 		{name:"username",type:"string",srotable:true},
+ 		{name:"usercode",type:"string",srotable:true}
  	]
  });

@@ -15,6 +15,7 @@ package com.zzw.service.impl;
 
 import javax.inject.Inject;
 
+import com.zzw.pojo.Pages;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.zzw.dao.UserDao;
 import com.zzw.service.UserService;
 import com.zzw.vo.ZUser;
+
+import java.util.List;
 
 /**
  * ClassName:UserServiceImpl
@@ -56,6 +59,16 @@ public class UserServiceImpl implements UserService {
 
 		return userDaoImpl.userLoginDao(user);
 
+	}
+
+	@Override
+	public List<ZUser> doQueryUsers(Pages paged) {
+		return userDaoImpl.queryUsers(paged);
+	}
+
+	@Override
+	public Long doQueryCountUsers() {
+		return userDaoImpl.queryCountUsers();
 	}
 
 }

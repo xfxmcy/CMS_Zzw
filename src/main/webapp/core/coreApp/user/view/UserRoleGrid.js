@@ -9,7 +9,7 @@ Ext.define("core.user.view.UserRoleGrid",{
 	extend:"Ext.grid.Panel",
 	alias:"widget.userRolegrid",
 	id:"userRolegrid",
-	store:"core.user.store.RoleGridStore",
+	store:"core.user.store.UserRoleGridStore",
 	
 /*	selModel:{
 		selType:"checkboxmodel",
@@ -22,7 +22,7 @@ Ext.define("core.user.view.UserRoleGrid",{
 			 * 角色grid 记录跨页选中
 			 */
 			'select':function(sm,colIndex,rowIndex){
-				var roleGrid = Ext.getCmp("rolegrid");
+				var roleGrid = Ext.getCmp("userRolegrid");
 				var addSelection = roleGrid.getGridAdd();
 				var removeSelection = roleGrid.getGridDelete();
 				var gridChecked = roleGrid.getGridChecked();
@@ -42,7 +42,7 @@ Ext.define("core.user.view.UserRoleGrid",{
 					addSelection.add(record.get("id"),record.get("id"));*/
 			},
 			'deselect':function(sm,colIndex,rowIndex){
-				var roleGrid = Ext.getCmp("rolegrid");
+				var roleGrid = Ext.getCmp("userRolegrid");
 				var addSelection = roleGrid.getGridAdd();
 				var removeSelection = roleGrid.getGridDelete();
 				var gridChecked = roleGrid.getGridChecked();
@@ -65,11 +65,11 @@ Ext.define("core.user.view.UserRoleGrid",{
 		tooltip : '保存',
 		text : '保存',
 		iconCls : 'table_add',
-		ref : 'roleGridAdd'
+		ref : 'userRoleGridAdd'
 	}],
 	bbar:{
 		xtype:'pagingtoolbar',
-		store:'core.user.store.RoleGridStore',
+		store:'core.user.store.UserRoleGridStore',
 		dock:'bottom',
 		displayInfo:true
 	},

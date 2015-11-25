@@ -59,7 +59,7 @@ public class ZRole implements Serializable {
 	// 0 未选中   1选中
 	private String checked = "0";
 	
-	@Transient
+	// 数据库无用字段
 	public String getChecked() {
 		return checked;
 	}
