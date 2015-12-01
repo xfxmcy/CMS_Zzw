@@ -11,16 +11,12 @@ Ext.define("core.user.controller.UserController", {
 					 */
 					"usergrid button[ref=add]":{
 						click:function(btn){
-							var grid=self.findGrid(btn);
-							var deptForm=grid.up("userlayout").down("deptform").getForm();
-							var keyValue=deptForm.findField("deptId").getValue();
-							if(!keyValue && keyValue==""){
-								Ext.Msg.alert("提示","请选择部门");
+							var window = Ext.getCmp("userwindow");
+							if(window){
+								window.show();
+							}else{
+								Ext.create("core.user.view.UserWindow").show();
 							}
-							var deptCode=deptForm.findField("deptCode").getValue();
-							var deptName=deptForm.findField("deptName").getValue();
-							var foreignmodel={deptName:deptName,deptCode:deptCode,'dept.deptId':keyValue}
-							self.doInsert(grid,{deptName:deptName,deptCode:deptCode},foreignmodel,"/jbpmItem/pc/userAction","userId");
 						}
 					},
 					/**
@@ -28,8 +24,34 @@ Ext.define("core.user.controller.UserController", {
 					 */
 					"usergrid button[ref=delete]":{
 						click:function(btn){
-							var grid=self.findGrid(btn);
-							self.doRemove(grid,"userId","/jbpmItem/pc/userAction");
+							var grid=btn.up("usergrid");
+							var records=grid.getSelectionModel().getSelection();
+							if(records.length <= 0){
+								Ext.Msg.alert("提示","请选择要删除的用户!");
+								return;
+							}
+							var param = {};
+							param.msg = '删除角色,对应的岗位也会被删除.您确定您的操作?';
+							param.fn = function(result) {
+								if ("yes" == result) {
+									Ext.Ajax.request({
+										url: CY.ns + "/user/userAction!doDeleteUser.asp",
+										params: {"user.id": records[0].data.id},
+										method: "POST",
+										timeout: 4000,
+										success: function (response, opts) {
+											var resObj = Ext.decode(response.responseText);
+											if (resObj.success) {
+												grid.getStore().load();
+												Ext.Msg.alert("提示", resObj.info);
+											} else {
+												Ext.Msg.alert("提示", resObj.info);
+											}
+										}
+									});
+								}
+							};
+							CY.confirmBox(param);
 						}
 					},
 					/**
@@ -37,41 +59,51 @@ Ext.define("core.user.controller.UserController", {
 					 */
 					"usergrid button[ref=edit]":{
 						click:function(btn){
-							var grid=self.findGrid(btn);
-							self.doSave(grid,"userId","ENDUSER","/jbpmItem/pc/userAction");
+							var grid=btn.up("usergrid");
+							var records=grid.getSelectionModel().getSelection();
+							if(records.length <= 0){
+								Ext.Msg.alert("提示","请选择要修改的用户!");
+								return;
+							}
+							var window = Ext.getCmp("userwindow");
+							if(window){
+								window.show();
+							}else{
+								window = Ext.create("core.user.view.UserWindow").show();
+							}
+							var userForm = window.down("form").getForm();
+							userForm.findField("username").setValue(records[0].data.username);
+							userForm.findField("usercode").setValue(records[0].data.usercode);
+							userForm.findField("id").setValue(records[0].data.id);
 						}
 					}
 
 					/**
-					 * 保存部门信息
+					 * 保存用户信息
 					 */
-					,"userRolegrid button[ref=userRoleGridAdd]":{
+					,"userwindow form button[ref=submit]":{
 						//部门信息保存
 						click:function(btn){
-							var dept=btn.up("deptform");
-							var deptForm=dept.getForm();
-							var deptTree=dept.up("userlayout").down("depttree");
-							var treeSign=deptForm.findField("treeSign").getValue();
-							/*首先声明保存操作*/
-							var actionName="/jbpmItem/pc/deptAction!doSaveTree.action";
-							var params={};
-							if(treeSign && treeSign!=""){
-								//修改								
-								actionName="/jbpmItem/pc/deptAction!doUpdateTree.action";
-								params.deptId=deptForm.findField("deptId").getValue();
-								params.treeSign=deptForm.findField("treeSign").getValue();
-							}else{
-								//新部门
+							var window=btn.up("userwindow");
+							var dept=window.down("form");
+							var userForm=dept.getForm();
+							if(!userForm.isValid()){
+								Ext.Msg.alert('提示','请认真完成表单...');
+								return;
 							}
-							var deptName=deptForm.findField("deptName").getValue();
-							var deptCode=deptForm.findField("deptCode").getValue();
-							var parentId=deptForm.findField("parentId").getValue();
-							var leaf=deptForm.findField("leaf").getValue();
-							params.deptName=deptName;
-							params.deptCode=deptCode;
-							params.parentId=parentId;
-							params.leaf=leaf;
-							params.idName="deptId";
+							var store=Ext.getCmp("usergrid").getStore();
+							var roleId = userForm.findField("id").getValue();
+							var params={};
+							var actionName= CY.ns + "/user/userAction!doSaveUser.asp";
+							if(roleId && roleId !== ""){
+								//修改
+								actionName = CY.ns + "/user/userAction!doUpdateUser.asp";
+								params["user.id"] = roleId;
+							}
+							var roleName = userForm.findField("username").getValue();
+							var roleCode = userForm.findField("usercode").getValue();
+							params["user.username"]=roleName;
+							params["user.usercode"]=roleCode;
 							Ext.Ajax.request({
 								url:actionName,
 								params:params,
@@ -82,20 +114,47 @@ Ext.define("core.user.controller.UserController", {
 									if(resObj.success){
 										//修改成功
 										//将最新model值放入form中并load树形，保持数据一致化
-										var obj=resObj.obj;
-										deptForm.findField("deptId").setValue(obj["deptId"]);
-										deptForm.findField("deptName").setValue(obj["deptName"]);
-										deptForm.findField("deptCode").setValue(obj["deptCode"]);
-										deptForm.findField("parentId").setValue(obj["parentId"]);
-										deptForm.findField("treeSign").setValue(obj["treeSign"]);
-										deptForm.findField("leaf").setValue(obj["treeSign"]);
-										deptTree.getStore().load();
-										Ext.Msg.alert("提示","修改成功");
+										//var obj=resObj.obj;
+										userForm.findField("id").setValue("");
+										userForm.findField("username").setValue("");
+										userForm.findField("usercode").setValue("");
+										store.load();
+										if(window){
+											window.hide();
+										}
+										Ext.Msg.alert("提示",resObj.info);
 									}else{
-										Ext.Msg.alert("提示","修改失败");
+										Ext.Msg.alert("提示",resObj.info);
 									}
 								}
 							});
+
+						}
+					},
+					"userRolegrid button[ref=userRoleGridAdd]":{
+						click:function(btn) {
+							var grid = Ext.getCmp("usergrid");
+							var records = grid.getSelectionModel().getSelection();
+							if (records.length <= 0) {
+								Ext.Msg.alert("提示", "请选择要修改的用户!");
+								return;
+							}
+
+
+
+
+
+						}
+					},
+					"usergrid": {
+						itemclick: function (grid, record, item, index, e, eOpts ) {
+							var store=grid.up("userlayout").down("userRolegrid").getStore();
+							var proxy = store.getProxy();
+							proxy.extraParams = {
+								userId : record.raw.id
+							};
+							store.load();
+
 						}
 					}
 					

@@ -82,7 +82,7 @@ public class ZJob {
 	
 	private Set<ZUser>  users;
 	
-	@ManyToMany(mappedBy = "jobs" , fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.REMOVE ,mappedBy = "jobs" , fetch = FetchType.LAZY)
 	public Set<ZUser> getUsers() {
 		return users;
 	}

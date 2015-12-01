@@ -41,7 +41,7 @@ Ext.define("core.user.controller.RoleController", {
 							var grid=btn.up("rolesgrid");
 							var records=grid.getSelectionModel().getSelection();
 							if(records.length <= 0){
-								Ext.Msg.alert("提示","请选择要修改的角色!");
+								Ext.Msg.alert("提示","请选择要删除的角色!");
 								return;
 							}
 							var param = {};
@@ -155,7 +155,6 @@ Ext.define("core.user.controller.RoleController", {
 							var roleCode = roleForm.findField("roleCode").getValue();
 							params["role.name"]=roleName;
 							params["role.code"]=roleCode;
-
 							Ext.Ajax.request({
 								url:actionName,
 								params:params,

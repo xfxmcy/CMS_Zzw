@@ -75,5 +75,17 @@ public class UserDaoImpl extends BasicDaoImpl<ZUser> implements UserDao {
 		return (null == result ? 0 : (Long)result);
 	}
 
+	/**
+	 * merger user exclude password
+	 *
+	 * @param user
+	 */
+	@Override
+	public int mergeUser(ZUser user) {
+		return getCurrentSession().createQuery("update ZUser set usercode = ? , username = ? where id = ?")
+				.setParameter(0,user.getUsercode()).setParameter(1,user.getUsername())
+				.setParameter(2,user.getId()).executeUpdate();
+	}
+
 }
 

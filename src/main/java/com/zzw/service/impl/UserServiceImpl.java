@@ -38,6 +38,7 @@ import java.util.List;
  *
  * @see 	 
  */
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -69,6 +70,36 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Long doQueryCountUsers() {
 		return userDaoImpl.queryCountUsers();
+	}
+
+	/**
+	 * save user
+	 *
+	 * @param user user
+	 */
+	@Override
+	public void saveUser(ZUser user) {
+		userDaoImpl.persistence(user);
+	}
+
+	/**
+	 * update user
+	 *
+	 * @param user user
+	 */
+	@Override
+	public void updateUser(ZUser user) {
+		userDaoImpl.mergeUser(user);
+	}
+
+	/**
+	 * delete user
+	 *
+	 * @param user user
+	 */
+	@Override
+	public void deleteUser(ZUser user) {
+		userDaoImpl.remove(user);
 	}
 
 }

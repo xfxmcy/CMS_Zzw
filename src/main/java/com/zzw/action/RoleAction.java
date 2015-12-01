@@ -40,6 +40,16 @@ public class RoleAction extends PageAction {
 	// 部门id
 	private String deptId;
 
+	private String userId;
+	@JSON(serialize=false)
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	private ZRole role;
 
 	@JSON(serialize=false)
@@ -51,6 +61,7 @@ public class RoleAction extends PageAction {
 		this.role = role;
 	}
 
+	@JSON(serialize=false)
 	public String getDeptId() {
 		return deptId;
 	}

@@ -1,7 +1,9 @@
 package com.zzw.action;
+import com.zzw.component.ResultInfo;
 import com.zzw.service.UserService;
 import com.zzw.util.ZzwUtil;
 import com.zzw.vo.ZUser;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.*;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.context.annotation.Scope;
@@ -60,4 +62,37 @@ public class UserAction extends PageAction {
                 userServiceImpl.doQueryCountUsers());
         return BASE_RESULT_JSON;
     }
+
+    /**
+     * save user
+     */
+    public void doSaveUser(){
+        ResultInfo info = new ResultInfo();
+        if(null != user)
+            user.setPassword("123456");
+        userServiceImpl.saveUser(user);
+        info.settingSuccessResult("增加成功", user);
+        ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+    }
+
+    /**
+     * update user
+     */
+    public void doUpdateUser(){
+        ResultInfo info = new ResultInfo();
+        userServiceImpl.updateUser(user);
+        info.settingSuccessResult("修改成功", user);
+        ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+    }
+
+    /**
+     * delete user
+     */
+    public void doDeleteUser(){
+        ResultInfo info = new ResultInfo();
+        userServiceImpl.deleteUser(user);
+        info.settingSuccessResult("删除成功", user);
+        ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+    }
+
 }

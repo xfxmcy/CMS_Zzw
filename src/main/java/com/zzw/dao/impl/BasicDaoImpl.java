@@ -127,9 +127,7 @@ public class BasicDaoImpl<ZZW> implements BasicDao<ZZW> {
 
 	@Override
 	public void merge(ZZW object) {
-		
 		this.getCurrentSession().merge(object);
-		
 	};
 }
 

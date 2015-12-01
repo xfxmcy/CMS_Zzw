@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @see 	 
  */
-public interface UserDao {
+public interface UserDao extends BasicDao<ZUser>{
 	
 	/**
 	 * 
@@ -56,5 +56,11 @@ public interface UserDao {
 	 * @return  query count users
      */
 	Long queryCountUsers();
+
+	/**
+	 * merger user exclude password
+	 * @param user
+     */
+	int mergeUser(ZUser user);
 }
 

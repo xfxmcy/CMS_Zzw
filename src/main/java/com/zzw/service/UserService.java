@@ -55,5 +55,23 @@ public interface UserService {
 	 * @return	count
      */
 	Long doQueryCountUsers();
+
+	/**
+	 * save user
+	 * @param user user
+     */
+	void saveUser(ZUser user);
+
+	/**
+	 * update user
+	 * @param user user
+     */
+	void updateUser(ZUser user);
+
+	/**
+	 * delete user
+	 * @param user	user
+     */
+	void deleteUser(ZUser user);
 }
 

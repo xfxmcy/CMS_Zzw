@@ -4,6 +4,7 @@
 Ext.define("core.user.view.UserGrid",{
 	extend:"Ext.grid.Panel",
 	alias:"widget.usergrid",
+	id:"usergrid",
 	store:"core.user.store.UserStore",
 	selModel:{
 		//selType:"checkboxmodel"
