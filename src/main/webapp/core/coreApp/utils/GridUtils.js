@@ -8,6 +8,13 @@ var gridChecked = new Ext.util.MixedCollection();
 var gridAdd = new Ext.util.MixedCollection();
 var gridDelete = new Ext.util.MixedCollection();
 
+
+var gridUserChecked = new Ext.util.MixedCollection();
+var gridUserAdd = new Ext.util.MixedCollection();
+var gridUserDelete = new Ext.util.MixedCollection();
+
+
+
 Ext.define("core.utils.GridUtils", {
 	
 	/**
@@ -193,5 +200,14 @@ Ext.define("core.utils.GridUtils", {
 	},
 	getGridDelete:function(){
 		return gridDelete;
+	},
+	getUserGridChecked:function(){
+		return gridUserChecked;
+	},
+	getUserGridAdd:function(){
+		return gridUserAdd;
+	},
+	getUserGridDelete:function(){
+		return gridUserDelete;
 	}
 });

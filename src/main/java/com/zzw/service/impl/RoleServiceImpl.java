@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.zzw.vo.ZJob;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +70,55 @@ public class RoleServiceImpl implements RoleService {
 	public void doDeleteRole(ZRole role) {
 
 		roleDaoImpl.removeRoleCascase(role);
+	}
+
+	@Override
+	public List<ZJob> doQueryJobsByUsers(String userId, Pages paged) {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("userId", userId);
+		return roleDaoImpl.queryZJobPaegdByUser(param, paged);
+	}
+
+	/**
+	 * 查询jobs
+	 *
+	 * @param paged
+	 * @return jobs
+	 */
+	@Override
+	public List<ZJob> doQueryJobs(Pages paged) {
+		return roleDaoImpl.queryZJobPaegd(paged);
+	}
+
+	/**
+	 * 查询jobs 数量
+	 *
+	 * @return count
+	 */
+	@Override
+	public Long doQueryCountJobs() {
+		return roleDaoImpl.queryZJobCount();
+	}
+
+	/**
+	 * 更新用户 岗位
+	 *
+	 * @param userId    用户
+	 * @param addIds    add
+	 * @param deleteIds delete
+	 */
+	@Override
+	public void doUpdateUserJobs(String userId, String addIds, String deleteIds) {
+		if(null == userId )
+			return;
+		String[] addId = ((null != addIds && !"".equals(addIds.trim())) ? addIds.split(",") : null);
+		String[] deleteId = ((null != deleteIds && !"".equals(deleteIds.trim())) ? deleteIds.split(",") : null);
+		if(null != addId && 0 < addId.length){
+			roleDaoImpl.addJobs(userId,addId);
+		}
+		if(null != deleteId && 0 < deleteId.length){
+			roleDaoImpl.deleteJobs(userId,deleteId);
+		}
 	}
 
 

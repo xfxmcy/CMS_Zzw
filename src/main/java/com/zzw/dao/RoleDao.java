@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.zzw.pojo.Pages;
+import com.zzw.vo.ZJob;
 import com.zzw.vo.ZRole;
 
 /**
@@ -52,4 +53,39 @@ public interface RoleDao extends BasicDao<ZRole>{
 	public List<ZRole> queryZrolePage(Pages page);
 
 	public void removeRoleCascase(ZRole role);
+
+	/**
+	 * query jobs by user
+	 * @param param
+	 * @param paged
+     * @return	jobs
+     */
+	List<ZJob> queryZJobPaegdByUser(Map<String, Object> param, Pages paged);
+
+	/**
+	 * 查询job 总数
+ 	 * @return
+     */
+	Long queryZJobCount();
+
+	/**
+	 * 分页查询 zjob
+	 * @param paged
+	 * @return
+     */
+	List<ZJob> queryZJobPaegd(Pages paged);
+
+	/**
+	 * add jobs for user
+	 * @param userId	user
+	 * @param addId 	job ids
+     */
+	void addJobs(String userId, String[] addId);
+
+	/**
+	 * delete jobs for user
+	 * @param userId	user
+	 * @param deleteId	job ids
+     */
+	void deleteJobs(String userId, String[] deleteId);
 }

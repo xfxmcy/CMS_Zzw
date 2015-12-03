@@ -79,7 +79,25 @@ public class RoleAction extends PageAction {
 		this.roleServiceImpl = roleServiceImpl;
 	}
 
-	//@JSON(serialize=false)
+	public String getAddIds() {
+		return addIds;
+	}
+
+	public void setAddIds(String addIds) {
+		this.addIds = addIds;
+	}
+
+	private String deleteIds;
+
+	public String getDeleteIds() {
+		return deleteIds;
+	}
+
+	public void setDeleteIds(String deleteIds) {
+		this.deleteIds = deleteIds;
+	}
+
+	private String addIds;
 	/**
 	 * 
 	 * doQueryRoles:  根据部门分页查询roles
@@ -91,12 +109,25 @@ public class RoleAction extends PageAction {
 		if(StringUtils.isEmpty(deptId))
 			super.setDataGrid(roleServiceImpl.doQueryRoles(ZzwUtil.createPaged(super.getStart(),super.getLimit())),
 					roleServiceImpl.doQueryCountRoles());
-		else	
+		else
 			super.setDataGrid(roleServiceImpl.doQueryRolesByDepts(deptId, ZzwUtil.createPaged(super.getStart(),super.getLimit())),
 				roleServiceImpl.doQueryCountRoles());
 		return BASE_RESULT_JSON;
 	}
 
+	/**
+	 *doQueryJobsPagedByUser 根据user 查询 jobs
+	 * @return
+     */
+	public String doQueryJobsPagedByUser(){
+		if(StringUtils.isEmpty(userId))
+			super.setDataGrid(roleServiceImpl.doQueryJobs(ZzwUtil.createPaged(super.getStart(),super.getLimit())),
+					roleServiceImpl.doQueryCountJobs());
+		else
+			super.setDataGrid(roleServiceImpl.doQueryJobsByUsers(userId, ZzwUtil.createPaged(super.getStart(),super.getLimit())),
+					roleServiceImpl.doQueryCountJobs());
+		return BASE_RESULT_JSON;
+	}
 	/**
 	 *
 	 * saveRole:  保存角色
@@ -137,5 +168,13 @@ public class RoleAction extends PageAction {
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 	}
 
-
+	/**
+	 * refresh userjobs
+	 */
+	public void refreshUserJobs(){
+		ResultInfo info = new ResultInfo();
+		roleServiceImpl.doUpdateUserJobs(userId,addIds,deleteIds);
+		info.settingSuccessResult("更新成功", null);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
 }

@@ -1,13 +1,13 @@
 /*
  * ClassName 用户数据集
  */
- Ext.define("core.user.store.UserRoleGridStore",{
+ Ext.define("core.user.store.JobGridStore",{
  	extend:'Ext.data.Store',
-	model:'core.user.model.RoleGridModel',
+	model:'core.user.model.JobGridModel',
 	pageSize:20,
 	proxy:{
 		type:"ajax",
-		url:CY.ns + "/role/roleAction!doQueryRolesPagedByDept.asp",
+		url:CY.ns + "/role/roleAction!doQueryJobsPagedByUser.asp",
 		reader:{
 			type:"json",
 			root:"rows",
@@ -19,14 +19,15 @@
 	},
 	listeners: {
 		load: function(self, records, successful, eOpts ){
-			var selmod = Ext.getCmp('userRolegrid').getSelectionModel();
-			var roleGrid = Ext.getCmp("userRolegrid");
-			var gridChecked = roleGrid.getGridChecked();
-			var addSelection = roleGrid.getGridAdd();
-			var removeSelection = roleGrid.getGridDelete();
+			var selmod = Ext.getCmp('jobgrid').getSelectionModel();
+			var roleGrid = Ext.getCmp("jobgrid");
+			var gridChecked = roleGrid.getUserGridChecked();
+			var addSelection = roleGrid.getUserGridAdd();
+			var removeSelection = roleGrid.getUserGridDelete();
 			var current = gridChecked.get("currentPage");
 			if(!current || current !== self.currentPage)
 				selmod.deselectAll();
+
 			gridChecked.add("currentPage",self.currentPage);
 			//selmod.selectAll();
 			for(var i=0 ; i < records.length ; i++){

@@ -15,14 +15,7 @@ package com.zzw.vo;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -90,5 +83,32 @@ public class ZJob {
 	public void setUsers(Set<ZUser> users) {
 		this.users = users;
 	}
+
+	private String jobName ;
+
+	@Transient
+	public String getJobName() {
+		if(null != department && null != role)
+			return department.getName() + " " + role.getName();
+		return jobName;
+	}
+
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
+	}
+
+
+	// 0 未选中   1选中
+	private String checked = "0";
+
+	// 数据库无用字段
+	public String getChecked() {
+		return checked;
+	}
+
+	public void setChecked(String checked) {
+		this.checked = checked;
+	}
+
 }
 

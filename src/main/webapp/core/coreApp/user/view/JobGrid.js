@@ -2,14 +2,14 @@
  * ClassName 角色列表
  * */
 
-Ext.define("core.user.view.UserRoleGrid",{
+Ext.define("core.user.view.JobGrid",{
 	mixins:{
 		gridUtils:"core.utils.GridUtils"
 	},
 	extend:"Ext.grid.Panel",
-	alias:"widget.userRolegrid",
-	id:"userRolegrid",
-	store:"core.user.store.UserRoleGridStore",
+	alias:"widget.jobgrid",
+	id:"jobgrid",
+	store:"core.user.store.JobGridStore",
 	
 /*	selModel:{
 		selType:"checkboxmodel",
@@ -22,10 +22,10 @@ Ext.define("core.user.view.UserRoleGrid",{
 			 * 角色grid 记录跨页选中
 			 */
 			'select':function(sm,colIndex,rowIndex){
-				var roleGrid = Ext.getCmp("userRolegrid");
-				var addSelection = roleGrid.getGridAdd();
-				var removeSelection = roleGrid.getGridDelete();
-				var gridChecked = roleGrid.getGridChecked();
+				var jobGrid = Ext.getCmp("jobgrid");
+				var addSelection = jobGrid.getUserGridAdd();
+				var removeSelection = jobGrid.getUserGridDelete();
+				var gridChecked = jobGrid.getUserGridChecked();
 				var record = sm.getStore().getAt(rowIndex);
 				/*删除里包含添加*/
 				/*原始里不包含增加*/
@@ -42,10 +42,10 @@ Ext.define("core.user.view.UserRoleGrid",{
 					addSelection.add(record.get("id"),record.get("id"));*/
 			},
 			'deselect':function(sm,colIndex,rowIndex){
-				var roleGrid = Ext.getCmp("userRolegrid");
-				var addSelection = roleGrid.getGridAdd();
-				var removeSelection = roleGrid.getGridDelete();
-				var gridChecked = roleGrid.getGridChecked();
+				var jobGrid = Ext.getCmp("jobgrid");
+				var addSelection = jobGrid.getUserGridAdd();
+				var removeSelection = jobGrid.getUserGridDelete();
+				var gridChecked = jobGrid.getUserGridChecked();
 				var record = sm.getStore().getAt(rowIndex);
 				/*原始里包含删除*/
 				if(gridChecked.containsKey(record.get("id")) && !removeSelection.containsKey(record.get("id"))){
@@ -65,11 +65,11 @@ Ext.define("core.user.view.UserRoleGrid",{
 		tooltip : '保存',
 		text : '保存',
 		iconCls : 'table_add',
-		ref : 'userRoleGridAdd'
+		ref : 'jobAdd'
 	}],
 	bbar:{
 		xtype:'pagingtoolbar',
-		store:'core.user.store.UserRoleGridStore',
+		store:'core.user.store.JobGridStore',
 		dock:'bottom',
 		displayInfo:true
 	},
@@ -79,14 +79,12 @@ Ext.define("core.user.view.UserRoleGrid",{
 	 		{xtype: 'rownumberer'},
 	 		{text:"id",dataIndex:"id",width:250,align:'center',hidden:true
 	 		},
-	 		{text:"角色名称",dataIndex:"name",width:"45%",align:'center',field:{
-	 			xtype:"textfield"
-	 			}
-	 		},
-	 		{text:"角色编码",dataIndex:"code",width:"45%",align:'center',field:{
-	 			xtype:"textfield"
-	 			}
-	 		}
+	 		/*{text:"岗位名称",width:"90%",dataIndex:"department.name",align:'center',xtype:"templatecolumn",tpl: '{id} {department.name}'
+	 		}*/
+			{text:"岗位名称",width:"90%",dataIndex:"jobName",align:'center',field:{
+				xtype:"textfield"
+				}
+			}
 	 		
 	 	],
 	 	initComponent:function(){

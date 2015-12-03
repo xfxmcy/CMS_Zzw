@@ -127,7 +127,7 @@ Ext.define("core.user.controller.DeptController", {
 								proxy.extraParams = {
 									deptId : record.raw.id
 								};
-								store.load();
+
 								//清空分页checked
 								var roleGrid = Ext.getCmp("rolegrid");
 								var addSelection = roleGrid.getGridAdd();
@@ -136,6 +136,7 @@ Ext.define("core.user.controller.DeptController", {
 								addSelection.clear();
 								removeSelection.clear();
 								gridChecked.clear();
+								store.load();
 							}else{
 								//未知  什么情况进入 else
 								treeForm.findField("deptId").setValue(record.data.id);

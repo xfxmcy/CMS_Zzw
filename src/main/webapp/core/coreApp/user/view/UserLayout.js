@@ -24,7 +24,7 @@ Ext.define("core.user.view.UserLayout", {
 						//region : 'west',
 						region : 'center',
 						// iconCls:'goodtype_tree',
-						xtype : "userRolegrid",
+						xtype : "jobgrid",
 						margins : '5 2 5 5'
 					}
 					/*, {

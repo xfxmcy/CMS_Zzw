@@ -3,6 +3,7 @@ package com.zzw.service;
 import java.util.List;
 
 import com.zzw.pojo.Pages;
+import com.zzw.vo.ZJob;
 import com.zzw.vo.ZRole;
 
 /**
@@ -63,4 +64,33 @@ public interface RoleService {
 	 * @param role
 	 */
 	public void doDeleteRole(ZRole role);
+
+	/**
+	 * 根据用户查询jobs
+	 * @param userId	user
+	 * @param paged		page
+     * @return	jobs
+     */
+	List<ZJob> doQueryJobsByUsers(String userId, Pages paged);
+
+	/**
+	 * 查询jobs
+	 * @param paged
+	 * @return	jobs
+     */
+	List<ZJob> doQueryJobs(Pages paged);
+
+	/**
+	 * 查询jobs 数量
+	 * @return	count
+     */
+	Long doQueryCountJobs();
+
+	/**
+	 * 更新用户 岗位
+	 * @param userId	用户
+	 * @param addIds	add
+	 * @param deleteIds	delete
+     */
+	void doUpdateUserJobs(String userId, String addIds, String deleteIds);
 }

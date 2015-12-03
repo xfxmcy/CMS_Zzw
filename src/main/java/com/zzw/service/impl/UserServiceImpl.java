@@ -57,19 +57,8 @@ public class UserServiceImpl implements UserService {
 	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
 	@Override
 	public ZUser userLoginService(ZUser user) {
-
 		return userDaoImpl.userLoginDao(user);
 
-	}
-
-	@Override
-	public List<ZUser> doQueryUsers(Pages paged) {
-		return userDaoImpl.queryUsers(paged);
-	}
-
-	@Override
-	public Long doQueryCountUsers() {
-		return userDaoImpl.queryCountUsers();
 	}
 
 	/**
@@ -82,13 +71,25 @@ public class UserServiceImpl implements UserService {
 		userDaoImpl.persistence(user);
 	}
 
+	@Override
+	public Long doQueryCountUsers() {
+		return userDaoImpl.queryCountUsers();
+	}
+
+	@Override
+	public List<ZUser> doQueryUsers(Pages paged) {
+		return userDaoImpl.queryUsers(paged);
+	}
+
 	/**
 	 * update user
 	 *
 	 * @param user user
 	 */
 	@Override
+
 	public void updateUser(ZUser user) {
+
 		userDaoImpl.mergeUser(user);
 	}
 

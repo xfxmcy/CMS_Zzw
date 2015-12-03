@@ -131,7 +131,7 @@ Ext.define("core.user.controller.UserController", {
 
 						}
 					},
-					"userRolegrid button[ref=userRoleGridAdd]":{
+					"jobgrid button[ref=jobAdd]":{
 						click:function(btn) {
 							var grid = Ext.getCmp("usergrid");
 							var records = grid.getSelectionModel().getSelection();
@@ -139,8 +139,52 @@ Ext.define("core.user.controller.UserController", {
 								Ext.Msg.alert("提示", "请选择要修改的用户!");
 								return;
 							}
-
-
+							//获得增加和删除	列表   无操作 有提示
+							var roleGrid = Ext.getCmp("jobgrid");
+							var addSelection = roleGrid.getUserGridAdd();
+							var gridChecked = roleGrid.getUserGridChecked();
+							var removeSelection = roleGrid.getUserGridDelete();
+							var flag = false; //改变标志
+							var addIds = "",deleteIds = "";
+							//遍历集合
+							addSelection.each(function(item,index,len){
+								//if(!gridChecked.contains(item)){
+								addIds += item+ ",";
+								flag = true;
+								//}
+							});
+							removeSelection.each(function(item,index,len){
+								flag = true;
+								deleteIds += item+ ",";
+							});
+							if(!flag){
+								Ext.Msg.alert("提示","数据没有变化!");
+								return;
+							}
+							/*var jobs = grid.getSelectionModel().getSelection();
+							 var clean = (jobs.length == 0 ? true : false);
+							 var jobId = "";*/
+							/*for(var i = 0 ; i<jobs.length ; i++)
+							 jobId += jobs[i].data.id + ",";*/
+							Ext.Ajax.request({
+								url: CY.ns +"/role/roleAction!refreshUserJobs.asp",
+								//params:{"dept.id":records[0].data.id,"jobIds":jobId,"jobClean":clean},
+								params:{"userId":records[0].data.id,"addIds":addIds,"deleteIds":deleteIds},
+								method:"POST",
+								timeout:4000,
+								success:function(response,opts){
+									var resObj=Ext.decode(response.responseText);
+									if(resObj.success){
+										grid.getStore().load();
+										addSelection.clear();
+										removeSelection.clear();
+										gridChecked.clear();
+										Ext.Msg.alert("提示",resObj.info);
+									}else{
+										Ext.Msg.alert("提示",resObj.info);
+									}
+								}
+							});
 
 
 
@@ -148,19 +192,26 @@ Ext.define("core.user.controller.UserController", {
 					},
 					"usergrid": {
 						itemclick: function (grid, record, item, index, e, eOpts ) {
-							var store=grid.up("userlayout").down("userRolegrid").getStore();
+							var store=grid.up("userlayout").down("jobgrid").getStore();
 							var proxy = store.getProxy();
 							proxy.extraParams = {
 								userId : record.raw.id
 							};
-							store.load();
 
+							var roleGrid = Ext.getCmp("jobgrid");
+							var addSelection = roleGrid.getUserGridAdd();
+							var gridChecked = roleGrid.getUserGridChecked();
+							var removeSelection = roleGrid.getUserGridDelete();
+							addSelection.clear();
+							removeSelection.clear();
+							gridChecked.clear();
+							store.load();
 						}
 					}
 					
 				});
 			},
-			views : ["core.user.view.UserGrid","core.user.view.UserRoleGrid","core.user.view.UserLayout"],
-			stores : ["core.user.store.UserStore","core.user.store.UserRoleGridStore"],
+			views : ["core.user.view.UserGrid","core.user.view.JobGrid","core.user.view.UserLayout"],
+			stores : ["core.user.store.UserStore","core.user.store.JobGridStore"],
 			models : ["core.user.model.UserModel"]
 });

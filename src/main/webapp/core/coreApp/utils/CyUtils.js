@@ -25,6 +25,8 @@ Ext.define("core.utils.CyUtils", {
 				
 			};
 			roleStore.load();
+			//var selmod = Ext.getCmp('rolegrid').getSelectionModel();
+			//selmod.deselectAll();
 			//清空分页checked
 			var roleGrid = Ext.getCmp("rolegrid");
 			var gridChecked = roleGrid.getGridChecked();
@@ -33,12 +35,38 @@ Ext.define("core.utils.CyUtils", {
 			gridChecked.clear();
 			addSelection.clear();
 			removeSelection.clear();
+
 		}
 		/*角色管理*/
 		else if("core.user.view.RoleLayout" == layoutName){
 			//layout.down('depttree').getStore().load();
 			var roleStore = layout.down('rolesgrid').getStore();
 			roleStore.load();
+
+		}
+		/*用户管理*/
+		else if("core.user.view.UserLayout" == layoutName){
+			//layout.down('depttree').getStore().load();
+			//layout.down('usergrid').getSelectionModel().deselectAll();
+			var userStore = layout.down('usergrid').getStore();
+			//清空分页checked
+			var roleGrid = Ext.getCmp("jobgrid");
+			var jobStore = roleGrid.getStore();
+			var proxy = jobStore.getProxy();
+			proxy.extraParams = {
+
+			};
+			var selmod = Ext.getCmp('jobgrid').getSelectionModel();
+			selmod.deselectAll();
+			var gridChecked = roleGrid.getUserGridChecked();
+			var addSelection = roleGrid.getUserGridAdd();
+			var removeSelection = roleGrid.getUserGridDelete();
+			gridChecked.clear();
+			addSelection.clear();
+			removeSelection.clear();
+			jobStore.load();
+			userStore.load();
+
 		}
 	}
 });
