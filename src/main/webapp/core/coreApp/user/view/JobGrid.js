@@ -81,9 +81,7 @@ Ext.define("core.user.view.JobGrid",{
 	 		},
 	 		/*{text:"岗位名称",width:"90%",dataIndex:"department.name",align:'center',xtype:"templatecolumn",tpl: '{id} {department.name}'
 	 		}*/
-			{text:"岗位名称",width:"90%",dataIndex:"jobName",align:'center',field:{
-				xtype:"textfield"
-				}
+			{text:"岗位名称",width:"90%",dataIndex:"jobName",align:'center'
 			}
 	 		
 	 	],

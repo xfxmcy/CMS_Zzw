@@ -78,7 +78,7 @@ public class RoleAction extends PageAction {
 	public void setRoleServiceImpl(RoleService roleServiceImpl) {
 		this.roleServiceImpl = roleServiceImpl;
 	}
-
+	@JSON(serialize=false)
 	public String getAddIds() {
 		return addIds;
 	}
@@ -88,7 +88,7 @@ public class RoleAction extends PageAction {
 	}
 
 	private String deleteIds;
-
+	@JSON(serialize=false)
 	public String getDeleteIds() {
 		return deleteIds;
 	}

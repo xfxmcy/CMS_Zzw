@@ -1,7 +1,4 @@
 Ext.define("core.user.controller.UserController", {
-	mixins:{
-		gridUtils:"core.utils.GridUtils"
-	},
 	extend : "Ext.app.Controller",
 			init : function() {
 				var self = this;
@@ -192,26 +189,30 @@ Ext.define("core.user.controller.UserController", {
 					},
 					"usergrid": {
 						itemclick: function (grid, record, item, index, e, eOpts ) {
-							var store=grid.up("userlayout").down("jobgrid").getStore();
+							var jobGrid = Ext.getCmp("jobgrid");
+							var store=jobGrid.getStore();
 							var proxy = store.getProxy();
 							proxy.extraParams = {
 								userId : record.raw.id
 							};
-
-							var roleGrid = Ext.getCmp("jobgrid");
-							var addSelection = roleGrid.getUserGridAdd();
-							var gridChecked = roleGrid.getUserGridChecked();
-							var removeSelection = roleGrid.getUserGridDelete();
-							addSelection.clear();
-							removeSelection.clear();
-							gridChecked.clear();
+							var addJobSelection = jobGrid.getUserGridAdd();
+							var gridJobChecked = jobGrid.getUserGridChecked();
+							var removeJobSelection = jobGrid.getUserGridDelete();
+							if(0 < addJobSelection.getCount())
+								addJobSelection.clear();
+							if(0 < removeJobSelection.getCount())
+								removeJobSelection.clear();
+							if(0 < gridJobChecked.getCount())
+								gridJobChecked.clear();
 							store.load();
+
+
 						}
 					}
 					
 				});
 			},
-			views : ["core.user.view.UserGrid","core.user.view.JobGrid","core.user.view.UserLayout"],
+			views : ["core.user.view.UserLayout","core.user.view.UserGrid","core.user.view.JobGrid"],
 			stores : ["core.user.store.UserStore","core.user.store.JobGridStore"],
-			models : ["core.user.model.UserModel"]
+			models : ["core.user.model.JobGridModel","core.user.model.UserModel"]
 });

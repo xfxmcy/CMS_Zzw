@@ -28,17 +28,13 @@ Ext.define("core.user.view.UserGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"用户姓名",dataIndex:"username",width:"45%",field:{
-			xtype:"textfield"
-		},align:'center'},
-		{text:"用户编码",dataIndex:"usercode",width:"45%",field:{
-			xtype:"textfield"
-		},align:'center'}
+		{text:"用户姓名",dataIndex:"username",width:"45%",align:'center'},
+		{text:"用户编码",dataIndex:"usercode",width:"45%",align:'center'}
 
 	],
 	initComponent:function(){
-		this.editing=Ext.create("Ext.grid.plugin.CellEditing");
-		this.plugins=[this.editing];
+		/*this.editing=Ext.create("Ext.grid.plugin.CellEditing");
+		this.plugins=[this.editing];*/
 		this.callParent(arguments);
 	}
 });

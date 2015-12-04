@@ -24,7 +24,7 @@ Ext.define("core.utils.CyUtils", {
 			proxy.extraParams = {
 				
 			};
-			roleStore.load();
+
 			//var selmod = Ext.getCmp('rolegrid').getSelectionModel();
 			//selmod.deselectAll();
 			//清空分页checked
@@ -35,6 +35,7 @@ Ext.define("core.utils.CyUtils", {
 			gridChecked.clear();
 			addSelection.clear();
 			removeSelection.clear();
+			roleStore.load();
 
 		}
 		/*角色管理*/
@@ -48,24 +49,29 @@ Ext.define("core.utils.CyUtils", {
 		else if("core.user.view.UserLayout" == layoutName){
 			//layout.down('depttree').getStore().load();
 			//layout.down('usergrid').getSelectionModel().deselectAll();
-			var userStore = layout.down('usergrid').getStore();
+			//var userStore = layout.down('usergrid').getStore();
 			//清空分页checked
-			var roleGrid = Ext.getCmp("jobgrid");
-			var jobStore = roleGrid.getStore();
-			var proxy = jobStore.getProxy();
-			proxy.extraParams = {
-
-			};
-			var selmod = Ext.getCmp('jobgrid').getSelectionModel();
-			selmod.deselectAll();
-			var gridChecked = roleGrid.getUserGridChecked();
-			var addSelection = roleGrid.getUserGridAdd();
-			var removeSelection = roleGrid.getUserGridDelete();
-			gridChecked.clear();
-			addSelection.clear();
-			removeSelection.clear();
-			jobStore.load();
-			userStore.load();
+			/*var selmod = Ext.getCmp('jobgrid').getSelectionModel();
+			selmod.deselectAll();*/
+			var jobgrid = Ext.getCmp("jobgrid");
+			var gridUserChecked = jobgrid.getUserGridChecked();
+			var addUserSelection = jobgrid.getUserGridAdd();
+			var removeUserSelection = jobgrid.getUserGridDelete();
+			gridUserChecked.clear();
+			addUserSelection.clear();
+			removeUserSelection.clear();
+			//jobStore.load();
+			//userStore.load();
+			/**
+			 *  刷新bug
+			 *			关闭Tab后,再次刷新，记住的是上一次的数据选中 暂未解决
+			 *
+			 *
+			 *  解决方案
+			 *  		暂时采取,刷新2次 解决
+			 *
+			 *
+			 */
 
 		}
 	}

@@ -45,6 +45,9 @@
 					//新增未保存的
 					selmod.select(records[i],true);
 				}
+				else{
+					selmod.deselect(records[i]);
+				}
 			}
 			
 		}

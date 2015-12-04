@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import com.zzw.pojo.ZJobModel;
 import com.zzw.vo.ZJob;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -73,10 +74,11 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List<ZJob> doQueryJobsByUsers(String userId, Pages paged) {
+	public List<ZJobModel> doQueryJobsByUsers(String userId, Pages paged) {
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("userId", userId);
-		return roleDaoImpl.queryZJobPaegdByUser(param, paged);
+		List<ZJob> list = roleDaoImpl.queryZJobPaegdByUser(param, paged);
+		return ZJobModel.changeList(list);
 	}
 
 	/**
@@ -86,8 +88,9 @@ public class RoleServiceImpl implements RoleService {
 	 * @return jobs
 	 */
 	@Override
-	public List<ZJob> doQueryJobs(Pages paged) {
-		return roleDaoImpl.queryZJobPaegd(paged);
+	public List<ZJobModel> doQueryJobs(Pages paged) {
+		List<ZJob> list = roleDaoImpl.queryZJobPaegd(paged);
+		return ZJobModel.changeList(list);
 	}
 
 	/**

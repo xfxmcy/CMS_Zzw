@@ -43,7 +43,7 @@
 				}
 				else if(addSelection.containsKey(records[i].get("id"))){
 					//新增未保存的
-
+					selmod.select(records[i],true);
 				}
 			}
 			

@@ -3,6 +3,7 @@ package com.zzw.service;
 import java.util.List;
 
 import com.zzw.pojo.Pages;
+import com.zzw.pojo.ZJobModel;
 import com.zzw.vo.ZJob;
 import com.zzw.vo.ZRole;
 
@@ -71,14 +72,14 @@ public interface RoleService {
 	 * @param paged		page
      * @return	jobs
      */
-	List<ZJob> doQueryJobsByUsers(String userId, Pages paged);
+	List<ZJobModel> doQueryJobsByUsers(String userId, Pages paged);
 
 	/**
 	 * 查询jobs
 	 * @param paged
 	 * @return	jobs
      */
-	List<ZJob> doQueryJobs(Pages paged);
+	List<ZJobModel> doQueryJobs(Pages paged);
 
 	/**
 	 * 查询jobs 数量
