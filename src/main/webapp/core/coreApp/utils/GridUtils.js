@@ -209,5 +209,15 @@ Ext.define("core.utils.GridUtils", {
 	},
 	getUserGridDelete:function(){
 		return gridUserDelete;
+	},
+	clearRoleGridCache:function(){
+		gridChecked.clear();
+		gridAdd.clear();
+		gridDelete.clear();
+	},
+	clearJobGridCache:function(){
+		gridUserChecked.clear();
+		gridUserAdd.clear();
+		gridUserDelete.clear();
 	}
 });

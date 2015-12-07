@@ -3,6 +3,8 @@
  * 
  * @author cy
  */
+var userRoleInit = "0";
+var userJobInit = "0";
 Ext.define("core.utils.CyUtils", {
 	
 	// 重新刷新  store
@@ -19,23 +21,19 @@ Ext.define("core.utils.CyUtils", {
 		/*部门管理*/
 		else if("core.user.view.DeptLayout" == layoutName){
 			//layout.down('depttree').getStore().load();
-			var roleStore = layout.down('rolegrid').getStore();
-			var proxy = roleStore.getProxy();
-			proxy.extraParams = {
-				
-			};
+			if("1" === userRoleInit){
+				var roleStore = layout.down('rolegrid').getStore();
+				var proxy = roleStore.getProxy();
+				proxy.extraParams = {
 
-			//var selmod = Ext.getCmp('rolegrid').getSelectionModel();
-			//selmod.deselectAll();
-			//清空分页checked
-			var roleGrid = Ext.getCmp("rolegrid");
-			var gridChecked = roleGrid.getGridChecked();
-			var addSelection = roleGrid.getGridAdd();
-			var removeSelection = roleGrid.getGridDelete();
-			gridChecked.clear();
-			addSelection.clear();
-			removeSelection.clear();
-			roleStore.load();
+				};
+				var roleGrid = Ext.getCmp("rolegrid");
+				roleGrid.clearRoleGridCache();
+				roleStore.load();
+			}
+			else
+				userRoleInit = "1";
+
 
 		}
 		/*角色管理*/
@@ -47,21 +45,18 @@ Ext.define("core.utils.CyUtils", {
 		}
 		/*用户管理*/
 		else if("core.user.view.UserLayout" == layoutName){
-			//layout.down('depttree').getStore().load();
-			//layout.down('usergrid').getSelectionModel().deselectAll();
-			//var userStore = layout.down('usergrid').getStore();
-			//清空分页checked
-			/*var selmod = Ext.getCmp('jobgrid').getSelectionModel();
-			selmod.deselectAll();*/
-			var jobgrid = Ext.getCmp("jobgrid");
-			var gridUserChecked = jobgrid.getUserGridChecked();
-			var addUserSelection = jobgrid.getUserGridAdd();
-			var removeUserSelection = jobgrid.getUserGridDelete();
-			gridUserChecked.clear();
-			addUserSelection.clear();
-			removeUserSelection.clear();
-			//jobStore.load();
-			//userStore.load();
+			if("1" === userJobInit) {
+				var userStore = layout.down('usergrid').getStore();
+				//清空分页checked
+				var jobgrid = Ext.getCmp("jobgrid");
+				var proxy = jobgrid.getStore().getProxy();
+				proxy.extraParams = {};
+				jobgrid.clearJobGridCache();
+				jobgrid.getStore().load();
+				userStore.load();
+			}
+			else
+				userJobInit = "1";
 			/**
 			 *  刷新bug
 			 *			关闭Tab后,再次刷新，记住的是上一次的数据选中 暂未解决

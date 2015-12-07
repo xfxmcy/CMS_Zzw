@@ -29,7 +29,6 @@
 				selmod.deselectAll();
 
 			gridChecked.add("currentPage",self.currentPage);
-			//selmod.selectAll();
 			for(var i=0 ; i < records.length ; i++){
 				if("1" === records[i].data.checked){
 					//置后  ==> 防止点击刷新按钮(分页组件里的刷新,它刷新 会先触发 deselect 事件(每一条))
@@ -44,9 +43,6 @@
 				else if(addSelection.containsKey(records[i].get("id"))){
 					//新增未保存的
 					selmod.select(records[i],true);
-				}
-				else{
-					selmod.deselect(records[i]);
 				}
 			}
 			

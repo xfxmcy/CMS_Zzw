@@ -44,6 +44,38 @@ Ext.define("core.user.controller.DeptController", {
 					/**
 					 * 更新岗位
 					 */
+					"rolegrid":{
+						itemclick:function(grid, record, item, index, e, eOpts){
+						},
+						/*selectionchange:function(grid, selected, eOpts){
+							alert("2233");
+						},*/
+						select:function(grid, record, index, eOpts){
+							var roleGrid = Ext.getCmp("rolegrid");
+							var addSelection = roleGrid.getGridAdd();
+							var removeSelection = roleGrid.getGridDelete();
+							var gridChecked = roleGrid.getGridChecked();
+							/*删除里包含添加/
+							/原始里不包含增加*/
+							if(!gridChecked.containsKey(record.get("id")) && !addSelection.containsKey(record.get("id"))){
+								addSelection.add(record.get("id"),record.get("id"));
+							}
+							else if(removeSelection.containsKey(record.get("id")))
+								removeSelection.remove(removeSelection.get(record.get("id")));
+						},
+						'deselect':function(grid, record, index, eOpts){
+							var roleGrid = Ext.getCmp("rolegrid");
+							var addSelection = roleGrid.getGridAdd();
+							var removeSelection = roleGrid.getGridDelete();
+							var gridChecked = roleGrid.getGridChecked();
+							/*原始里包含删除*/
+							if(gridChecked.containsKey(record.get("id")) && !removeSelection.containsKey(record.get("id"))){
+								removeSelection.add(record.get("id"),record.get("id"));
+							}
+							else if(addSelection.containsKey(record.get("id")))
+								addSelection.remove(addSelection.get(record.get("id")));
+						}
+					},
 					"rolegrid button[ref=roleGridAdd]":{
 						click:function(btn){
 							var grid=self.findGrid(btn);

@@ -128,6 +128,39 @@ Ext.define("core.user.controller.UserController", {
 
 						}
 					},
+					/*select*/
+					"jobgrid":{
+						itemclick:function(grid, record, item, index, e, eOpts){
+						},
+						/*selectionchange:function(grid, selected, eOpts){
+						 alert("2233");
+						 },*/
+						select:function(grid, record, index, eOpts){
+							var roleGrid = Ext.getCmp("jobgrid");
+							var addSelection = roleGrid.getUserGridAdd();
+							var removeSelection = roleGrid.getUserGridDelete();
+							var gridChecked = roleGrid.getUserGridChecked();
+							/*删除里包含添加/
+							 /原始里不包含增加*/
+							if(!gridChecked.containsKey(record.get("id")) && !addSelection.containsKey(record.get("id"))){
+								addSelection.add(record.get("id"),record.get("id"));
+							}
+							else if(removeSelection.containsKey(record.get("id")))
+								removeSelection.remove(removeSelection.get(record.get("id")));
+						},
+						'deselect':function(grid, record, index, eOpts){
+							var roleGrid = Ext.getCmp("jobgrid");
+							var addSelection = roleGrid.getUserGridAdd();
+							var removeSelection = roleGrid.getUserGridDelete();
+							var gridChecked = roleGrid.getUserGridChecked();
+							/*原始里包含删除*/
+							if(gridChecked.containsKey(record.get("id")) && !removeSelection.containsKey(record.get("id"))){
+								removeSelection.add(record.get("id"),record.get("id"));
+							}
+							else if(addSelection.containsKey(record.get("id")))
+								addSelection.remove(addSelection.get(record.get("id")));
+						}
+					},
 					"jobgrid button[ref=jobAdd]":{
 						click:function(btn) {
 							var grid = Ext.getCmp("usergrid");
