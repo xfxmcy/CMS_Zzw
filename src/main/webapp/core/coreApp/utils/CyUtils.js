@@ -22,6 +22,8 @@ Ext.define("core.utils.CyUtils", {
 		else if("core.user.view.DeptLayout" == layoutName){
 			//layout.down('depttree').getStore().load();
 			if("1" === userRoleInit){
+				var tree = layout.down('depttree');
+				tree.getSelectionModel().deselectAll();
 				var roleStore = layout.down('rolegrid').getStore();
 				var proxy = roleStore.getProxy();
 				proxy.extraParams = {
@@ -29,7 +31,7 @@ Ext.define("core.utils.CyUtils", {
 				};
 				var roleGrid = Ext.getCmp("rolegrid");
 				roleGrid.clearRoleGridCache();
-				roleStore.load();
+				roleStore.loadPage(1);
 			}
 			else
 				userRoleInit = "1";
@@ -46,13 +48,15 @@ Ext.define("core.utils.CyUtils", {
 		/*用户管理*/
 		else if("core.user.view.UserLayout" == layoutName){
 			if("1" === userJobInit) {
-				var userStore = layout.down('usergrid').getStore();
+				var userGrid = layout.down('usergrid');
+				userGrid.getSelectionModel().deselectAll();
+				var userStore = userGrid.getStore();
 				//清空分页checked
 				var jobgrid = Ext.getCmp("jobgrid");
 				var proxy = jobgrid.getStore().getProxy();
 				proxy.extraParams = {};
 				jobgrid.clearJobGridCache();
-				jobgrid.getStore().load();
+				jobgrid.getStore().loadPage(1);
 				userStore.load();
 			}
 			else

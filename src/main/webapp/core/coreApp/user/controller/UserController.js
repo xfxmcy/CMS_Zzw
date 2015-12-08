@@ -205,10 +205,8 @@ Ext.define("core.user.controller.UserController", {
 								success:function(response,opts){
 									var resObj=Ext.decode(response.responseText);
 									if(resObj.success){
-										grid.getStore().load();
-										addSelection.clear();
-										removeSelection.clear();
-										gridChecked.clear();
+										roleGrid.clearJobGridCache();
+										roleGrid.getStore().load();
 										Ext.Msg.alert("提示",resObj.info);
 									}else{
 										Ext.Msg.alert("提示",resObj.info);
@@ -228,15 +226,7 @@ Ext.define("core.user.controller.UserController", {
 							proxy.extraParams = {
 								userId : record.raw.id
 							};
-							var addJobSelection = jobGrid.getUserGridAdd();
-							var gridJobChecked = jobGrid.getUserGridChecked();
-							var removeJobSelection = jobGrid.getUserGridDelete();
-							if(0 < addJobSelection.getCount())
-								addJobSelection.clear();
-							if(0 < removeJobSelection.getCount())
-								removeJobSelection.clear();
-							if(0 < gridJobChecked.getCount())
-								gridJobChecked.clear();
+							jobGrid.clearJobGridCache();
 							store.load();
 
 
