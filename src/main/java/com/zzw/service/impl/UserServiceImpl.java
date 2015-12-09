@@ -103,5 +103,18 @@ public class UserServiceImpl implements UserService {
 		userDaoImpl.remove(user);
 	}
 
+	/**
+	 * query users by role
+	 *
+	 * @param assigneeRoleId
+	 * @return
+	 */
+	@Override
+	public List<ZUser> queryUsersByRoles(String assigneeRoleId) {
+
+
+		return userDaoImpl.doQueryUsersByRoles(assigneeRoleId);
+	}
+
 }
 

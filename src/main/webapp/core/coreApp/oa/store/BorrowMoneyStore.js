@@ -7,7 +7,7 @@
 	pageSize:10,
 	proxy:{
 		type:"ajax",
-		url:"/jbpmItem/pc/borrowMoneyAction!load.action",
+		url:CY.ns + "/app/appAction!doQueryMyApplicationPaged.asp",
 		reader:{
 			type:"json",
 			root:"rows",

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process key="car" name="app" xmlns="http://jbpm.org/4.4/jpdl">
+
+
+   <start g="192,0,48,48" name="start1">
+      <transition g="-52,-22" name="submit" to="assessApplication"/>
+   </start>
+
+
+   <task g="164,97,92,52" name="assessApplication">
+      <assignment-handler class="com.zzw.workflow.assignable.AppAssessAssignable">
+         <field name="assigneeRoleId">
+            <string value="4"/>
+         </field>
+      </assignment-handler>
+      <transition g="-52,-22" name="choose car" to="car"/>
+   </task>
+
+   <task assignee="#{applicant}" g="163,197,92,52" name="car">
+
+      <transition g="-72,-22" name="register car" to="registerCar"/>
+   </task>
+   <task g="157,281,80,40" name="registerCar">
+      <assignment-handler class="com.zzw.workflow.assignable.AppAssessAssignable">
+         <field name="assigneeRoleId">
+            <string value="4"/>
+         </field>
+      </assignment-handler>
+      <transition g="-46,-11" name="pass" to="end1"/>
+      <transition g="370,266:-37,-22" name="reject" to="car"/>
+   </task>
+
+   <end g="163,369,48,48" name="end1"/>
+</process>

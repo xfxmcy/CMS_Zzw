@@ -17,7 +17,7 @@ Ext.define("core.oa.view.BorrowForm",{
 			xtype:"button",
 				ref:"save",
 				iconCls:"table_save",
-				text:"保存"
+				text:"确认申请"
 			},{
 				xtype:"button",
 				ref:"wfEnd",
@@ -57,7 +57,7 @@ Ext.define("core.oa.view.BorrowForm",{
 				xtype:"button",
 				ref:"wfStart",
 				iconCls:"wfstart",
-				text:"启动借款申请流程",
+				text:"启动买车流程",
 				hidden:true
 			},{
 				xtype:"displayfield",
@@ -67,42 +67,41 @@ Ext.define("core.oa.view.BorrowForm",{
 	items:[{
 			xtype:"textfield",
 				fieldLabel:"主键",
-				name:"id",
+				name:"app.id",
 				hidden:true
 			},{
 				xtype:"textfield",
 				fieldLabel:"申请人",
-				name:"createUser",
+				name:"app.createUser",
 				readOnly:true
 			},{
 				xtype:"textfield",
 				fieldLabel:"申请人编码",
-				name:"createUserCode",
+				name:"app.createUserCode",
 				readOnly:true
 			},{
 				xtype:"textfield",
-				fieldLabel:"所属部门",
-				name:"createDept",
-				readOnly:true
+				fieldLabel:"车型",
+				name:"app.vehicleType"
+
 			},{
 				xtype:"textfield",
-				fieldLabel:"所属部门编码",
-				name:"createDeptCode",
-				readOnly:true
+				fieldLabel:"车牌",
+				name:"app.plateNumber"
 			},{
 				xtype:"numberfield",
 				fieldLabel:"申请金额",
-				name:"money",
+				name:"app.money",
 				value:0
 			},{
 				xtype:"textfield",
 				fieldLabel:"申请时间",
-				name:"createTime",
+				name:"app.createTime",
 				readOnly:true
 			},{
 				xtype:"textareafield",
-				fieldLabel:"借款理由",
-				name:"jieYou",
+				fieldLabel:"申请备注",
+				name:"app.remark",
 				width:620,
 				colspan: 2
 			},{

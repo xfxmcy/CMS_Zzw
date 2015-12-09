@@ -87,5 +87,17 @@ public class UserDaoImpl extends BasicDaoImpl<ZUser> implements UserDao {
 				.setParameter(2,user.getId()).executeUpdate();
 	}
 
+	/**
+	 * query users by roleId
+	 *
+	 * @param assigneeRoleId
+	 * @return
+	 */
+	@Override
+	public List<ZUser> doQueryUsersByRoles(String assigneeRoleId) {
+		return getCurrentSession().createQuery("SELECT DISTINCT u.* from zuser u LEFT JOIN user_job uj ON uj.user_id = u.id" +
+				" LEFT JOIN zjob job ON uj.job_id = job.id WHERE job.role_id = ?").setParameter(0,assigneeRoleId).list();
+	}
+
 }
 

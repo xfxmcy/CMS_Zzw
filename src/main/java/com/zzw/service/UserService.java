@@ -73,5 +73,12 @@ public interface UserService {
 	 * @param user	user
      */
 	void deleteUser(ZUser user);
+
+	/**
+	 * query users by role
+	 * @param assigneeRoleId
+	 * @return
+     */
+	List<ZUser> queryUsersByRoles(String assigneeRoleId);
 }
 

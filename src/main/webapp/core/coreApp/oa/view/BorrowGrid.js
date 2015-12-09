@@ -5,14 +5,14 @@ Ext.define("core.oa.view.BorrowGrid",{
 	extend:"Ext.grid.Panel",
 	alias:"widget.borrowgrid",
 	store:"core.oa.store.BorrowMoneyStore",
-	selModel:{
+	/*selModel:{
 		selType:"checkboxmodel"
-	},
+	},*/
 	border:0,
 	multiSelect:true,
 	frame:true,
 	tbar:[
-		{xtype:'button',text:'添加',ref:'add',iconCls:'table_add'},
+		{xtype:'button',text:'申请',ref:'add',iconCls:'table_add'},
 		{xtype:'button',text:'删除',ref:'delete',iconCls:'table_remove'}
 	],
 	bbar:{
@@ -25,11 +25,12 @@ Ext.define("core.oa.view.BorrowGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"申请人",dataIndex:"createUser",width:100},
-		{text:"所属部门",dataIndex:"createDept",width:100},
-		{text:"申请金额",dataIndex:"money",width:100},
-		{text:"申请时间",dataIndex:"createTime",width:150},
-		{text:"借款理由",dataIndex:"jieYou",width:300}
+		{text:"申请人",align:'center',dataIndex:"user.username",width:'18%'},
+		{text:"车型",align:'center',dataIndex:"vehicleType",width:'15%'},
+		{text:"车牌",align:'center',dataIndex:"plateNumber",width:'15%'},
+		{text:"金额",align:'center',dataIndex:"money",width:'18%'},
+		{text:"申请时间",align:'center',dataIndex:"createTime",width:'20%'},
+		{text:"状态",align:'center',dataIndex:"state",width:'10%'}
 	],
 	initComponent:function(){
 		this.callParent(arguments);

@@ -81,7 +81,7 @@ Ext.define("core.app.controller.MainController", {
 									//gridXtype:"processgrid",
 									funViewName:"core.jbpm.view.ProcessLayout"
 								});
-							}else if(record.data["id"]=="borrowMoney"){
+							}else if(record.data["id"]=="buyCar"){
 								self.addFunItem({
 									mainView:mainView,
 									funViewXtype:"borrowlayout",

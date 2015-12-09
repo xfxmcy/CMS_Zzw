@@ -120,6 +120,8 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 			"borrowform button[ref=return]" : {
 				click : function(btn) {
 					var form = btn.up("borrowform");
+					var formObj = form.getForm();
+					formObj.reset();
 					var grid = form.up("borrowlayout").down("borrowgrid");
 					self.hideWfButtons(form);
 					form.hide();
@@ -149,39 +151,50 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 					var form = btn.up("borrowlayout").down("borrowform");
 					var grid = form.up("borrowlayout").down("borrowgrid");
 					var formObj = form.getForm();
-					var id = formObj.findField("id").getValue();
-					var ActionName = '/jbpmItem/pc/borrowMoneyAction!doSave.action';
-					var msg = "保存成功";
+					var id = formObj.findField("application.id").getValue();
+					var ActionName = CY.ns + "/app/appAction!doSaveApplication.asp";
 					if (id != null && id != "") {
-						ActionName = '/jbpmItem/pc/borrowMoneyAction!doUpdate.action';
-						msg = "更新成功";
+						ActionName = CY.ns + "/app/appAction!doUpdateApplication.asp";
 					}
-					form.submit({
+					var params={};
+					/*form.submit({
 						clientValidation : true,
 						url : ActionName,
 						success : function(form, action) {
 							var resObj = Ext
 									.decode(action.response.responseText);
 							if (resObj.success) {
-								var obj = resObj.obj;
-								form.findField("createUser")
-										.setValue(obj.createUser);
-								form.findField("createUserCode")
-										.setValue(obj.createUserCode);
-								form.findField("createDept")
-										.setValue(obj.createDept);
-								form.findField("createDeptCode")
-										.setValue(obj.createDeptCode);
+								var obj = resObj.result;
 								form.findField("createTime")
 										.setValue(obj.createTime);
 								grid.getStore().load();
-								Ext.Msg.alert("提示", msg);
+								Ext.Msg.alert("提示", resObj.info);
 							} else {
-								Ext.Msg.alert("提示", resObj.obj);
+								Ext.Msg.alert("提示", resObj.info);
 							}
 						},
 						failure : function(form, action) {
-							Ext.Msg.alert("提示",Ext.decode(action.response.reponseText).obj)
+							Ext.Msg.alert("提示",Ext.decode(action.response.responseText).info);
+						}
+					});*/
+					params["application.state"] = "0";
+					Ext.Ajax.request({
+						url: ActionName,
+						//params:{"dept.id":records[0].data.id,"jobIds":jobId,"jobClean":clean},
+						params:{"app.money":"232312"},
+						method:"POST",
+						timeout:4000,
+						success:function(response,opts){
+							var resObj=Ext.decode(response.responseText);
+							if(resObj.success){
+								var obj = resObj.result;
+								form.findField("app.createTime")
+										.setValue(obj.createTime);
+								grid.getStore().load();
+								Ext.Msg.alert("提示",resObj.info);
+							}else{
+								Ext.Msg.alert("提示",resObj.info);
+							}
 						}
 					});
 				}

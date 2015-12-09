@@ -79,8 +79,8 @@ Ext.define("core.app.view.WestView",{
 	       	 	expanded: true,
 	        	children: [
 	            	{ 
-	            		id:"borrowMoney",
-	            		text: "借款申请", 
+	            		id:"buyCar",
+	            		text: "申请买车",
 	            	 	leaf: true 
 	            	}
 	        	]

@@ -62,5 +62,12 @@ public interface UserDao extends BasicDao<ZUser>{
 	 * @param user
      */
 	int mergeUser(ZUser user);
+
+	/**
+	 * query users by roleId
+	 * @param assigneeRoleId
+	 * @return
+     */
+	List<ZUser> doQueryUsersByRoles(String assigneeRoleId);
 }
 

@@ -139,7 +139,18 @@ public class ZUser implements Serializable {
 	public void setMounts(Set<WFProcessMount> mounts) {
 		this.mounts = mounts;
 	}
-	
-	
+
+
+	private Set<ZApplication> applications;
+
+	@JSON(serialize=false)
+	@OneToMany(fetch=FetchType.LAZY,mappedBy="user")
+	public Set<ZApplication> getApplications() {
+		return applications;
+	}
+
+	public void setApplications(Set<ZApplication> applications) {
+		this.applications = applications;
+	}
 }
 

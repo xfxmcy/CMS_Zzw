@@ -13,9 +13,15 @@
 
 package com.zzw.workflow.assignable;
 
+import com.zzw.service.UserService;
+import com.zzw.util.BeanAutowire;
+import com.zzw.vo.ZUser;
 import org.jbpm.api.model.OpenExecution;
 import org.jbpm.api.task.Assignable;
 import org.jbpm.api.task.AssignmentHandler;
+
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * ClassName:AppAssessAssignable
@@ -29,7 +35,7 @@ import org.jbpm.api.task.AssignmentHandler;
  *
  * @see 	 
  */
-public class AppAssessAssignable implements AssignmentHandler {
+public class AppAssessAssignable extends BeanAutowire implements AssignmentHandler {
 
 	/**
 	 * serialVersionUID:serialVersionUID
@@ -38,12 +44,18 @@ public class AppAssessAssignable implements AssignmentHandler {
 	
 	private static final long serialVersionUID = 1L;
 
+	public String assigneeRoleId;
+
+	@Inject
+	private UserService userServiceImpl ;
+
 	@Override
 	public void assign(Assignable assignable, OpenExecution execution)
 			throws Exception {
 		//assignable.
 		//assignable.setAssignee("");
-
+		List<ZUser> list = userServiceImpl.queryUsersByRoles(assigneeRoleId);
+		assignable.addCandidateUser(assigneeRoleId);
 	}
 
 }
