@@ -59,4 +59,11 @@ public interface WorkFlowMountDao extends BasicDao<WFProcessMount>{
 	 * @since 　Ver 1.1
 	 */
 	public void mountProcess(WFProcessMount mount);
+
+	/**
+	 * query WFMountByKey
+	 * @param key
+	 * @return
+	 */
+	List<WFProcessMount> doQueryWFMountByKey(String key);
 }

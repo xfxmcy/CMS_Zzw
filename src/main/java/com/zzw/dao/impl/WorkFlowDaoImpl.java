@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.zzw.vo.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -29,10 +30,6 @@ import org.springframework.stereotype.Repository;
 
 import com.zzw.dao.WorkFlowDao;
 import com.zzw.pojo.Pages;
-import com.zzw.vo.WFDeployment;
-import com.zzw.vo.ZJob;
-import com.zzw.vo.ZRole;
-import com.zzw.vo.ZUser;
 
 /**
  * ClassName:WorkFlowDaoImpl
@@ -148,6 +145,8 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 		super.remove(deploy);
 		
 	}
+
+
 
 }
 

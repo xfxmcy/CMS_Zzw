@@ -14,6 +14,7 @@
 package com.zzw.workflow.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jbpm.api.RepositoryService;
 
@@ -52,7 +53,6 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 * queryCountMyTasks:query count for my tasks
 	 *
 	 * @param user
-	 * @param page
 	 * @return
 	 *   ver     date      		author
 	 * ──────────────────────────────────
@@ -142,5 +142,19 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 * @since 　Ver 1.1
 	 */
 	public void mountProcess(WFProcessMount mount);
+
+	/**
+	 * 启动流程实例
+	 * @param key	key
+	 * @param param	 流程变量
+     */
+	void startProcessByKey(String key, Map<String, Object> param);
+
+	/**
+	 * 根据key 查询流程挂载
+	 * @param key
+	 * @return
+     */
+	WFProcessMount queryWFProcessMountByKey(String key);
 }
 

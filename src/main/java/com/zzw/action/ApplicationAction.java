@@ -38,18 +38,9 @@ import java.util.Date;
 })
 public class ApplicationAction extends PageAction {
 
-    private JbpmFacadeService jbpmFacadeServiceImpl;
-
     private ApplicationService applicationServiceImpl;
 
-    @JSON(serialize=false)
-    public JbpmFacadeService getJbpmFacadeServiceImpl() {
-        return jbpmFacadeServiceImpl;
-    }
 
-    public void setJbpmFacadeServiceImpl(JbpmFacadeService jbpmFacadeServiceImpl) {
-        this.jbpmFacadeServiceImpl = jbpmFacadeServiceImpl;
-    }
     @JSON(serialize=false)
     public ApplicationService getApplicationServiceImpl() {
         return applicationServiceImpl;
@@ -90,9 +81,8 @@ public class ApplicationAction extends PageAction {
         Object result = ServletActionContext.getRequest().getSession().getAttribute(ResourceUtil.getUserAdmin());
         if(null != result)
             app.setUser((ZUser) result);
-        app.setCreateTime(new Date());
-        applicationServiceImpl.doSaveApplication(app);
-        info.settingSuccessResult("新增成功", app);
+        applicationServiceImpl.doSaveApplication(app,info);
+        app.setUser(null);//避免懒加载
         ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
     }
     /**

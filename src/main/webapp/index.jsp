@@ -22,6 +22,7 @@
 			//Ext.getCmp("loginwindow").close();
 			CY.user.username = "${userAdmin.username}";
 			CY.user.name = "${userAdmin.username}";
+			CY.user.usercode = "${userAdmin.usercode}";
 		}
 		Ext.onReady(function(){
 			

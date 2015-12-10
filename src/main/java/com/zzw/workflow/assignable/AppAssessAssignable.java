@@ -15,6 +15,7 @@ package com.zzw.workflow.assignable;
 
 import com.zzw.service.UserService;
 import com.zzw.util.BeanAutowire;
+import com.zzw.util.ZzwUtil;
 import com.zzw.vo.ZUser;
 import org.jbpm.api.model.OpenExecution;
 import org.jbpm.api.task.Assignable;
@@ -55,7 +56,7 @@ public class AppAssessAssignable extends BeanAutowire implements AssignmentHandl
 		//assignable.
 		//assignable.setAssignee("");
 		List<ZUser> list = userServiceImpl.queryUsersByRoles(assigneeRoleId);
-		assignable.addCandidateUser(assigneeRoleId);
+		assignable.addCandidateUser(ZzwUtil.getListUserIds(list));
 	}
 
 }

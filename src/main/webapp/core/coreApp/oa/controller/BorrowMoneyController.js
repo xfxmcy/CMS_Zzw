@@ -137,6 +137,8 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 					formObj.reset();
 					grid = form.up("borrowlayout").down("borrowgrid");
 					grid.hide();
+					formObj.findField("app.createUser").setValue(CY.user.username);
+					formObj.findField("app.createUserCode").setValue(CY.user.usercode);
 					form.show();
 				}
 			},
@@ -151,33 +153,38 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 					var form = btn.up("borrowlayout").down("borrowform");
 					var grid = form.up("borrowlayout").down("borrowgrid");
 					var formObj = form.getForm();
-					var id = formObj.findField("application.id").getValue();
+					var id = formObj.findField("app.id").getValue();
 					var ActionName = CY.ns + "/app/appAction!doSaveApplication.asp";
 					if (id != null && id != "") {
 						ActionName = CY.ns + "/app/appAction!doUpdateApplication.asp";
 					}
-					var params={};
-					/*form.submit({
-						clientValidation : true,
-						url : ActionName,
-						success : function(form, action) {
-							var resObj = Ext
-									.decode(action.response.responseText);
-							if (resObj.success) {
-								var obj = resObj.result;
-								form.findField("createTime")
-										.setValue(obj.createTime);
-								grid.getStore().load();
-								Ext.Msg.alert("提示", resObj.info);
-							} else {
-								Ext.Msg.alert("提示", resObj.info);
-							}
-						},
-						failure : function(form, action) {
-							Ext.Msg.alert("提示",Ext.decode(action.response.responseText).info);
+					var param = {};
+					param.msg = '确认提交该申请?';
+					param.fn = function(result) {
+						if ("yes" == result) {
+							form.submit({
+								clientValidation: true,
+								url: ActionName,
+								success: function (form, action) {
+									var resObj = Ext
+											.decode(action.response.responseText);
+									console.info(resObj);
+									if (resObj.success) {
+										var obj = resObj.result;
+										grid.getStore().load();
+										Ext.Msg.alert("提示", resObj.info);
+									} else {
+										Ext.Msg.alert("提示", resObj.info);
+									}
+								},
+								failure: function (form, action) {
+									Ext.Msg.alert("提示", Ext.decode(action.response.responseText).info);
+								}
+							});
 						}
-					});*/
-					params["application.state"] = "0";
+					};
+					CY.confirmBox(param);
+					/*params["application.state"] = "0";
 					Ext.Ajax.request({
 						url: ActionName,
 						//params:{"dept.id":records[0].data.id,"jobIds":jobId,"jobClean":clean},
@@ -196,7 +203,7 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 								Ext.Msg.alert("提示",resObj.info);
 							}
 						}
-					});
+					});*/
 				}
 			},
 			"borrowform button[ref=wfStart]" : {

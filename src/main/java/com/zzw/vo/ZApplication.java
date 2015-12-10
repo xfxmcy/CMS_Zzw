@@ -105,12 +105,27 @@ public class ZApplication {
 
     private ZUser user;
 
-    @ManyToOne(fetch = FetchType.EAGER )
+    @ManyToOne(fetch = FetchType.EAGER)
     public ZUser getUser() {
         return user;
     }
 
     public void setUser(ZUser user) {
         this.user = user;
+    }
+
+    /**
+     * 流程key
+     */
+
+    private String key;
+
+    @Transient
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

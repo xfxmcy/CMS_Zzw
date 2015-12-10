@@ -71,6 +71,12 @@ Ext.define("core.oa.view.BorrowForm",{
 				hidden:true
 			},{
 				xtype:"textfield",
+				fieldLabel:"key",
+				name:"app.key",
+				value:"car",
+				hidden:true
+			},{
+				xtype:"textfield",
 				fieldLabel:"申请人",
 				name:"app.createUser",
 				readOnly:true
@@ -82,23 +88,34 @@ Ext.define("core.oa.view.BorrowForm",{
 			},{
 				xtype:"textfield",
 				fieldLabel:"车型",
+				allowBlank : false,
 				name:"app.vehicleType"
 
 			},{
 				xtype:"textfield",
+				fieldLabel:"状态",
+				value:0,
+				name:"app.state",
+				hidden:true
+
+			},{
+				xtype:"textfield",
 				fieldLabel:"车牌",
+				allowBlank : false,
 				name:"app.plateNumber"
 			},{
 				xtype:"numberfield",
 				fieldLabel:"申请金额",
 				name:"app.money",
-				value:0
-			},{
+				allowBlank : false,
+				value:0,
+				colspan: 2
+			},/*{
 				xtype:"textfield",
 				fieldLabel:"申请时间",
 				name:"app.createTime",
 				readOnly:true
-			},{
+			},*/{
 				xtype:"textareafield",
 				fieldLabel:"申请备注",
 				name:"app.remark",

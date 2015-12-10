@@ -115,6 +115,7 @@ Ext.define("core.app.controller.MainController", {
 									var resObj=Ext.decode(response.responseText);
 									var resultInfo = resObj.resultInfo;
 									if(resultInfo.success){
+										CY.user = {};
 										var dis=Ext.getCmp("displaylogin");
 										dis.setValue("<font color=black><b>未登录</b></font>");
 										//dis.up("mainview").down("taskjobgrid").getStore().load();
@@ -162,6 +163,7 @@ Ext.define("core.app.controller.MainController", {
 									var resultInfo = resObj.resultInfo;
 									if(resultInfo.success){
 										var userObj=resultInfo.result;
+										CY.user = userObj;
 										var dis=Ext.getCmp("displaylogin");
 										dis.up("mainview").down("taskjobgrid").getStore().load();
 										dis.setValue("<font color=black><b>" + userName+"->"+userName+"</b></font>");

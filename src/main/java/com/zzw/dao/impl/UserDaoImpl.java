@@ -95,8 +95,8 @@ public class UserDaoImpl extends BasicDaoImpl<ZUser> implements UserDao {
 	 */
 	@Override
 	public List<ZUser> doQueryUsersByRoles(String assigneeRoleId) {
-		return getCurrentSession().createQuery("SELECT DISTINCT u.* from zuser u LEFT JOIN user_job uj ON uj.user_id = u.id" +
-				" LEFT JOIN zjob job ON uj.job_id = job.id WHERE job.role_id = ?").setParameter(0,assigneeRoleId).list();
+		return getCurrentSession().createSQLQuery("SELECT DISTINCT u.* from zuser u LEFT JOIN user_job uj ON uj.user_id = u.id" +
+				" LEFT JOIN zjob job ON uj.job_id = job.id WHERE job.role_id = ?").addEntity(ZUser.class).setParameter(0,assigneeRoleId).list();
 	}
 
 }

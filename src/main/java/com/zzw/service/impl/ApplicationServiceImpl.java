@@ -2,16 +2,23 @@ package com.zzw.service.impl;/**
  * Created by Administrator on 2015/12/9.
  */
 
+import com.zzw.component.ResultInfo;
 import com.zzw.dao.ApplicationDao;
 import com.zzw.pojo.Pages;
 import com.zzw.service.ApplicationService;
+import com.zzw.vo.WFProcessMount;
 import com.zzw.vo.ZApplication;
+import com.zzw.workflow.service.JbpmFacadeService;
+import org.apache.struts2.json.annotations.JSON;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with CMS_Zzw
@@ -25,6 +32,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Inject
     private ApplicationDao applicationDaoImpl;
+
+    @Inject
+    private JbpmFacadeService jbpmFacadeServiceImpl;
+
+
     /**
      * query My application
      *
@@ -56,8 +68,29 @@ public class ApplicationServiceImpl implements ApplicationService {
      * @param application
      */
     @Override
-    public void doSaveApplication(ZApplication application) {
+    public void doSaveApplication(ZApplication application,ResultInfo info) {
+
+
+
+        WFProcessMount wfProcessMount = jbpmFacadeServiceImpl.queryWFProcessMountByKey(application.getKey());
+        if(null == wfProcessMount || "0".equals(wfProcessMount.getMountStatus())){
+            info.settingSuccessResult("流程未挂载,不能进行申请!", application);
+            return;
+        }
+
+        application.setId(null);
+        application.setCreateTime(new Date());
         applicationDaoImpl.persistence(application);
+        /**
+         * 启动流程
+         * 流程变量
+         */
+        Map<String, Object> param = new HashMap<String, Object>();
+        /*流程启动者*/
+        param.put("applicant",application.getUser() == null ? "1" : application.getUser().getId());
+
+        jbpmFacadeServiceImpl.startProcessByKey(application.getKey(),param);
+        info.settingSuccessResult("申请成功", application);
     }
 
     /**

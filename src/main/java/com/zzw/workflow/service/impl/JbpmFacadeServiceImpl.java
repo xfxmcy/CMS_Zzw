@@ -15,10 +15,7 @@ package com.zzw.workflow.service.impl;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.inject.Inject;
 
@@ -270,7 +267,6 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	@Override
 	public List<WFProcessMount> queryBusinessProcessMount(Pages page) {
 		
-		// TODO Auto-generated method stub
 		return workFlowMountDaoImpl.queryBusinessProcessMount(page);
 		
 	}
@@ -290,9 +286,32 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		 workFlowMountDaoImpl.mountProcess(mount);
 	}
 
+	/**
+	 * 启动流程实例
+	 *
+	 * @param key   key
+	 * @param param 流程变量
+	 */
+	@Override
+	public void startProcessByKey(String key, Map<String, Object> param) {
 
-	
+	}
 
-	
+	/**
+	 * 根据key 查询流程挂载
+	 * @param key
+	 * @return
+	 */
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	@Override
+	public WFProcessMount queryWFProcessMountByKey(String key) {
+		List<WFProcessMount> list = workFlowMountDaoImpl.doQueryWFMountByKey(key);
+		if(null != list && 0 < list.size())
+			return list.get(0);
+		return null;
+
+	}
+
+
 }
 

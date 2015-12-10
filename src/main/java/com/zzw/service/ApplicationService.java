@@ -1,5 +1,6 @@
 package com.zzw.service;
 
+import com.zzw.component.ResultInfo;
 import com.zzw.pojo.Pages;
 import com.zzw.vo.ZApplication;
 
@@ -29,7 +30,7 @@ public interface ApplicationService {
      * submit an application
      * @param application
      */
-    void doSaveApplication(ZApplication application);
+    void doSaveApplication(ZApplication application,ResultInfo info);
 
     /**
      * update an application

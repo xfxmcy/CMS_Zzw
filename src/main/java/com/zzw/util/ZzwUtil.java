@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -174,6 +175,20 @@ public class ZzwUtil {
 		if(null != admin)
 			return (ZUser)admin; 
 		return null ;
+	}
+
+	/**
+	 * 根据user list 得出 usrIds
+	 * @param list
+	 * @return
+     */
+	public static String getListUserIds(List<ZUser> list){
+		if(null == list || 0 == list.size())
+			return "1";
+		StringBuffer stringBuffer = new StringBuffer();
+		for (ZUser user : list)
+			stringBuffer.append(user.getId()+",");
+		return stringBuffer.substring(0,stringBuffer.length()-1);
 	}
 }
 

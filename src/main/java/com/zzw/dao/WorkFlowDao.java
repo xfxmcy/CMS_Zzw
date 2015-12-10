@@ -111,5 +111,6 @@ public interface WorkFlowDao extends BasicDao<WFDeployment>{
 	 *   		 2015年7月9日 		cy
 	 */
 	public void removeWFDevelopment(WFDeployment deploy);
+
 }
 

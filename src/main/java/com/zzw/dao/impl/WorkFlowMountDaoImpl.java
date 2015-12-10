@@ -38,5 +38,15 @@ public class WorkFlowMountDaoImpl extends BasicDaoImpl<WFProcessMount> implement
 		
 	}
 
-	
+	/**
+	 * query WFMountByKey
+	 *
+	 * @param key
+	 * @return
+	 */
+	@Override
+	public List<WFProcessMount> doQueryWFMountByKey(String key) {
+		return getCurrentSession().createSQLQuery("select wp.* from wfprocessmount wp LEFT JOIN wfdeployment deploy ON wp.deployment_id = deploy.id" +
+				" where deploy.processKey = ?").addEntity(WFProcessMount.class).setParameter(0,key).list();
+	}
 }
