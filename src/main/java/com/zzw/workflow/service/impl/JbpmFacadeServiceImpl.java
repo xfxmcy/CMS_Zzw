@@ -20,14 +20,7 @@ import java.util.*;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import org.jbpm.api.DeploymentQuery;
-import org.jbpm.api.ExecutionService;
-import org.jbpm.api.HistoryService;
-import org.jbpm.api.NewDeployment;
-import org.jbpm.api.ProcessDefinition;
-import org.jbpm.api.ProcessDefinitionQuery;
-import org.jbpm.api.RepositoryService;
-import org.jbpm.api.TaskService;
+import org.jbpm.api.*;
 import org.jbpm.api.model.ActivityCoordinates;
 import org.jbpm.api.task.Task;
 import org.jbpm.pvm.internal.util.StringUtil;
@@ -93,7 +86,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		List<Task> result = workFlowDaoImpl.queryMyTaskIncludeGroup(user, page);
 		
 		
-		return transformToTaskModel(result);
+		return transformToTaskModel(user,result);
 	}
 	
 	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
@@ -112,7 +105,8 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	 * ──────────────────────────────────
 	 *   		 2015年7月3日 		cy
 	 */
-	private List<WfTaskJobPojo> transformToTaskModel(List<Task> result) {
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	private List<WfTaskJobPojo> transformToTaskModel(ZUser user ,List<Task> result) {
 		List<WfTaskJobPojo> taskJobs = new ArrayList<WfTaskJobPojo>();
 		if(null == result || 0 == result.size())
 			return taskJobs;
@@ -121,6 +115,21 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 			pojo = new WfTaskJobPojo();
 			pojo.setTaskId(task.getId());
 			pojo.setTaskName(task.getName());
+			pojo.setAssigne(user.getUsername());
+			/*
+			   根据流程实例ID 查询 流程部署 名称
+
+			ProcessInstanceQuery instance = executionService.createProcessInstanceQuery().processInstanceId(task.getExecutionId());
+			List<ProcessInstance> instanceList = instance.list();
+			if(null != instanceList && 0 < instanceList.size()) {
+			List<ProcessDefinition> definitionList = repositoryService.createProcessDefinitionQuery().processDefinitionId(instanceList.get(0).getProcessDefinitionId()).list();
+				if(null != definitionList && 0 < definitionList.size()) {
+				pojo.setProcessName(definitionList.get(0).getName());
+			}*/
+
+
+			pojo.setProcessName(workFlowDaoImpl.queryJBPMDeployNameByInstanceId(task.getExecutionId()));
+
 			pojo.setCreateTime(ZzwUtil.formatDateTime(task.getCreateTime()));
 			taskJobs.add(pojo);
 		}
@@ -230,7 +239,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		String realPath = ResourceUtil.getUploadPath();
 		//jpdl 文件定义
 		File jpdl = new File(realPath + deploy.getFilePath());
-		String deployId = repositoryService.createDeployment().addResourceFromFile(jpdl).deploy();
+		String deployId = repositoryService.createDeployment().addResourceFromFile(jpdl).setName(deploy.getProcessName()).deploy();
 		if(StringUtils.isEmpty(deployId))
 			return;
 		List<ProcessDefinition> processDefinitios = repositoryService.createProcessDefinitionQuery()
@@ -293,8 +302,11 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	 * @param param 流程变量
 	 */
 	@Override
-	public void startProcessByKey(String key, Map<String, Object> param) {
-
+	public String startProcessByKey(String key, Map<String, Object> param) {
+		ProcessInstance instance = executionService.startProcessInstanceByKey(key, param);
+		if(null != instance)
+			return instance.getId();
+		return  null;
 	}
 
 	/**

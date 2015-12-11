@@ -37,5 +37,9 @@ public class BeanAutowire implements BeanFactoryAware {
 
     }
 
+    public static BeanFactory getFactory(){
+        return beanFactory;
+    }
+
 }
 

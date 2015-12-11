@@ -17,7 +17,7 @@
       <transition g="-52,-22" name="choose car" to="car"/>
    </task>
 
-   <task assignee="#{applicant}" g="163,197,92,52" name="car">
+   <task assignee="${applicant}" g="163,197,92,52" name="car">
 
       <transition g="-72,-22" name="register car" to="registerCar"/>
    </task>

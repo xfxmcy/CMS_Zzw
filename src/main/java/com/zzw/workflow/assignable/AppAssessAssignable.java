@@ -20,6 +20,7 @@ import com.zzw.vo.ZUser;
 import org.jbpm.api.model.OpenExecution;
 import org.jbpm.api.task.Assignable;
 import org.jbpm.api.task.AssignmentHandler;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -36,7 +37,8 @@ import java.util.List;
  *
  * @see 	 
  */
-public class AppAssessAssignable extends BeanAutowire implements AssignmentHandler {
+
+public class AppAssessAssignable  implements AssignmentHandler {
 
 	/**
 	 * serialVersionUID:serialVersionUID
@@ -47,7 +49,7 @@ public class AppAssessAssignable extends BeanAutowire implements AssignmentHandl
 
 	public String assigneeRoleId;
 
-	@Inject
+
 	private UserService userServiceImpl ;
 
 	@Override
@@ -55,6 +57,7 @@ public class AppAssessAssignable extends BeanAutowire implements AssignmentHandl
 			throws Exception {
 		//assignable.
 		//assignable.setAssignee("");
+		userServiceImpl = (UserService) BeanAutowire.getFactory().getBean("userServiceImpl");
 		List<ZUser> list = userServiceImpl.queryUsersByRoles(assigneeRoleId);
 		assignable.addCandidateUser(ZzwUtil.getListUserIds(list));
 	}

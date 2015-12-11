@@ -70,14 +70,19 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public void doSaveApplication(ZApplication application,ResultInfo info) {
 
-
-
         WFProcessMount wfProcessMount = jbpmFacadeServiceImpl.queryWFProcessMountByKey(application.getKey());
         if(null == wfProcessMount || "0".equals(wfProcessMount.getMountStatus())){
             info.settingSuccessResult("流程未挂载,不能进行申请!", application);
             return;
         }
 
+        Map<String, Object> param = new HashMap<String, Object>();
+        /*流程启动者*/
+        param.put("applicant",application.getUser() == null ? "1" : application.getUser().getId());
+
+        String processInstanceId = jbpmFacadeServiceImpl.startProcessByKey(application.getKey(),param);
+
+        application.setProcessInstanceId(processInstanceId);
         application.setId(null);
         application.setCreateTime(new Date());
         applicationDaoImpl.persistence(application);
@@ -85,11 +90,7 @@ public class ApplicationServiceImpl implements ApplicationService {
          * 启动流程
          * 流程变量
          */
-        Map<String, Object> param = new HashMap<String, Object>();
-        /*流程启动者*/
-        param.put("applicant",application.getUser() == null ? "1" : application.getUser().getId());
 
-        jbpmFacadeServiceImpl.startProcessByKey(application.getKey(),param);
         info.settingSuccessResult("申请成功", application);
     }
 

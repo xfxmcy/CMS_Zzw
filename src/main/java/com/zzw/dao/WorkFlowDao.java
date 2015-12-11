@@ -112,5 +112,11 @@ public interface WorkFlowDao extends BasicDao<WFDeployment>{
 	 */
 	public void removeWFDevelopment(WFDeployment deploy);
 
+	/**
+	 * 根据流程实例ID 查询 流程部署 名称
+	 * @param executionId	流程实例ID
+	 * @return
+     */
+	String queryJBPMDeployNameByInstanceId(String executionId);
 }
 

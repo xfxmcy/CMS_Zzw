@@ -114,6 +114,16 @@ public class ZApplication {
         this.user = user;
     }
 
+    private String processInstanceId;
+
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
+
     /**
      * 流程key
      */

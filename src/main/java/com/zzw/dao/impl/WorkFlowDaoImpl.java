@@ -22,6 +22,7 @@ import javax.inject.Inject;
 
 import com.zzw.vo.*;
 import org.apache.commons.collections.CollectionUtils;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -146,6 +147,27 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 		
 	}
 
+	/**
+	 * 根据流程实例ID 查询 流程部署 名称
+	 *
+	 * @param executionId 流程实例ID
+	 * @return
+	 */
+	@Override
+	public String queryJBPMDeployNameByInstanceId(String executionId) {
+
+		List<String> list = getCurrentSession().createSQLQuery("SELECT" +
+				" deploy.NAME_" +
+				" FROM" +
+				" jbpm4_deployment deploy" +
+				" inner JOIN jbpm4_deployprop prop ON deploy.DBID_ = prop.DEPLOYMENT_" +
+				" AND prop.KEY_ = 'pdid' " +
+				" inner JOIN jbpm4_execution execu ON prop.STRINGVAL_ = execu.PROCDEFID_" +
+				" where execu.ID_ = ?").addScalar("NAME_", Hibernate.STRING).setParameter(0, executionId).list();
+		if(null != list && 0 < list.size())
+			return list.get(0);
+		return null;
+	}
 
 
 }

@@ -148,7 +148,7 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 * @param key	key
 	 * @param param	 流程变量
      */
-	void startProcessByKey(String key, Map<String, Object> param);
+	String startProcessByKey(String key, Map<String, Object> param);
 
 	/**
 	 * 根据key 查询流程挂载
