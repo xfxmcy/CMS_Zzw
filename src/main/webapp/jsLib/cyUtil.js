@@ -91,4 +91,22 @@ CY.confirmBox  = function(param){
 		}
 	);
 };
+/*
+* 车辆申请
+*   状态转换
+* */
+CY.changeStateValue = function(value){
+    if("0" == value)
+        return "审核中";
+    else if("1" == value)
+        return "待选车";
+    else if("2" == value)
+        return "注册审核中";
+    else if("3" == value)
+        return "注册打回";
+    else if("4" == value)
+        return "注册成功";
+}
+
+
 

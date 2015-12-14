@@ -145,7 +145,16 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 			"borrowgrid button[ref=delete]" : {
 				click : function(btn) {
 					var grid = self.findGrid(btn);
-					self.doRemove(grid, "id", "/jbpmItem/pc/borrowMoneyAction");
+					var records = grid.getSelectionModel().getSelection();
+					if(records.length<1){
+						Ext.Msg.alert("提示","请选择要删除的记录");
+						return;
+					}
+					if("0" == records[0].data.state|| "2" == records[0].data.state || "4" == records[0].data.state){
+						Ext.Msg.alert("提示","该记录(待审核,注册成功)不能删除!");
+						return;
+					}
+
 				}
 			},
 			"borrowform button[ref=save]" : {

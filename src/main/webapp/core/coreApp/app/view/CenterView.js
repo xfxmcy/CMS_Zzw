@@ -16,9 +16,12 @@ Ext.define("core.app.view.CenterView",{
 //		iconCls:'home',
 		bodyPadding :5,
 		layout:'fit',
-		items:{
+		items:[{
 			xtype:'taskjobgrid'
-		},
+		},{
+            xtype:"taskjobform",
+            hidden:true
+        }],
 		tabConfig  : {//标签配置参数
 			
         }

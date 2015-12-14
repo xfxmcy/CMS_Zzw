@@ -85,6 +85,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setProcessInstanceId(processInstanceId);
         application.setId(null);
         application.setCreateTime(new Date());
+        application.setStatus("1");
         applicationDaoImpl.persistence(application);
         /**
          * 启动流程

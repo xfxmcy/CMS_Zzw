@@ -10,6 +10,10 @@ Ext.define("core.utils.CyUtils", {
 	// 重新刷新  store
 	storeReload:function(layout){
 		var layoutName = Ext.getClass(layout).getName();
+		/*首页*/
+		if("Ext.panel.Panel" == layoutName){
+			layout.down('taskjobgrid').getStore().load();
+		}
 		/*流程部署*/
 		if("core.jbpm.view.DeployLayout" == layoutName){
 			layout.down('deploygrid').getStore().load();

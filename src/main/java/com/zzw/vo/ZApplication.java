@@ -47,6 +47,18 @@ public class ZApplication {
      * 车型
      */
     private String vehicleType;
+    /**
+     * 逻辑删除  1.未删除  0 已删除
+     */
+    private  String status;
+    @Column(length = 2)
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     private String remark;
 

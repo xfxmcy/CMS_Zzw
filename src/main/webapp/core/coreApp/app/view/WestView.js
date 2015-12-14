@@ -82,7 +82,11 @@ Ext.define("core.app.view.WestView",{
 	            		id:"buyCar",
 	            		text: "申请买车",
 	            	 	leaf: true 
-	            	}
+	            	},{
+						id:"alreadyTask",
+						text: "已办任务",
+						leaf: true
+					}
 	        	]
     		}
 		}]

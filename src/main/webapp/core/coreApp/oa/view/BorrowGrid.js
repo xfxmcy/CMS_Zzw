@@ -9,7 +9,7 @@ Ext.define("core.oa.view.BorrowGrid",{
 		selType:"checkboxmodel"
 	},*/
 	border:0,
-	multiSelect:true,
+	multiSelect:false,
 	frame:true,
 	tbar:[
 		{xtype:'button',text:'申请',ref:'add',iconCls:'table_add'},
@@ -30,7 +30,11 @@ Ext.define("core.oa.view.BorrowGrid",{
 		{text:"车牌",align:'center',dataIndex:"plateNumber",width:'15%'},
 		{text:"金额",align:'center',dataIndex:"money",width:'18%'},
 		{text:"申请时间",align:'center',dataIndex:"createTime",width:'20%'},
-		{text:"状态",align:'center',dataIndex:"state",width:'10%'}
+		{text:"状态",align:'center',dataIndex:"state",width:'10%',
+			renderer: function(value) {
+				return CY.changeStateValue(value);
+			}
+		}
 	],
 	initComponent:function(){
 		this.callParent(arguments);

@@ -4,7 +4,7 @@ Ext.define("core.oa.view.BorrowLayout", {
 			title : "<center height=40>申请买车</center>",
 			closable:true,
 			defaults : {
-				bodyStyle : 'padding:1px'
+				//bodyStyle : 'padding:1px'
 			},
 			layout : 'fit',
 			items:[{

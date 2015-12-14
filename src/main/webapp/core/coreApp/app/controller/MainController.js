@@ -88,7 +88,15 @@ Ext.define("core.app.controller.MainController", {
 									funController:"core.oa.controller.BorrowMoneyController",
 									funViewName:"core.oa.view.BorrowLayout"
 								});
+							}else if(record.data["id"]=="alreadyTask"){
+								self.addFunItem({
+									mainView:mainView,
+									funViewXtype:"alreadyTasklayout",
+									funController:"core.oa.controller.AlreadyTaskController",
+									funViewName:"core.oa.view.AlreadyTaskLayout"
+								});
 							}
+
 						}
 					},
 					"topview button[ref=login]":{
@@ -188,7 +196,7 @@ Ext.define("core.app.controller.MainController", {
 				});
 				
 			},
-			views : ["core.app.view.CenterView", "core.app.view.WestView","core.app.view.TopView", "core.app.view.MainView","core.app.view.TaskJobGrid"],
+			views : ["core.app.view.CenterView", "core.app.view.WestView","core.app.view.TopView", "core.app.view.MainView","core.app.view.TaskJobGrid","core.app.view.TaskJobForm"],
 			stores : ["core.app.store.TaskJobStore"],
 			models : ["core.app.model.TaskJobModel"]
 });
