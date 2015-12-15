@@ -19,8 +19,8 @@ Ext.define("core.app.view.TaskJobGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"流程名称",dataIndex:"processName",align:'center',width:'20%'},
 		{text:"任务名称",dataIndex:"taskName",align:'center',width:'20%'},
+		{text:"流程名称",dataIndex:"processName",align:'center',width:'20%'},
 		{text:"执行人",dataIndex:"assigne",align:'center',width:'19%'},
 		{text:"创建时间",dataIndex:"createTime",align:'center',width:'18%'},
 		{
@@ -35,10 +35,36 @@ Ext.define("core.app.view.TaskJobGrid",{
 					var rec = grid.getStore().getAt(rowIndex);
 					var taskForm = grid.up("centerview").down("taskjobform");
 					var taskGrid = grid.up("centerview").down("taskjobgrid");
-					taskGrid.hide();
-					taskForm.show();
-
-
+					var businessId = rec.data.idValue;
+					if(!businessId){
+						Ext.Msg.alert("提示","程序异常");
+						return;
+					}
+					Ext.Ajax.request({
+						url: CY.ns + "/app/appAction!doQueryApplicationById.asp",
+						params:{"app.id":businessId},
+						method: "POST",
+						timeout: 4000,
+						success: function (response, opts) {
+							var resObj = Ext.decode(response.responseText);
+							var result = resObj.result;
+							console.info(result);
+							if (resObj.success) {
+								if(result.user){
+									taskForm.getForm().findField('app.createUser').setValue(result.user.username);
+									taskForm.getForm().findField('app.createUserCode').setValue(result.user.usercode);
+								}
+								taskForm.getForm().findField('app.vehicleType').setValue(result.vehicleType);
+								taskForm.getForm().findField('app.state').setValue(result.state);
+								taskForm.getForm().findField('app.plateNumber').setValue(result.plateNumber);
+								taskForm.getForm().findField('app.money').setValue(result.money);
+								taskGrid.hide();
+								taskForm.show();
+							}else{
+								Ext.Msg.alert("提示",resObj.info);
+							}
+						}
+					});
 				}
 			}]
 		}

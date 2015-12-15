@@ -156,5 +156,11 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 * @return
      */
 	WFProcessMount queryWFProcessMountByKey(String key);
+
+	/**
+	 * 根据流程实例Id 删除流程
+	 * @param processInstanceId
+     */
+	void removeProcess(String processInstanceId);
 }
 

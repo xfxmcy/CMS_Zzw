@@ -129,7 +129,9 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 
 
 			pojo.setProcessName(workFlowDaoImpl.queryJBPMDeployNameByInstanceId(task.getExecutionId()));
-
+			Object businessId = executionService.getVariable(task.getExecutionId(),"businessId");
+			if(null != businessId)
+				pojo.setIdValue((String) businessId);
 			pojo.setCreateTime(ZzwUtil.formatDateTime(task.getCreateTime()));
 			taskJobs.add(pojo);
 		}
@@ -321,6 +323,18 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		if(null != list && 0 < list.size())
 			return list.get(0);
 		return null;
+
+	}
+
+	/**
+	 * 根据流程实例Id 删除流程
+	 *
+	 * @param processInstanceId
+	 */
+	@Override
+	public void removeProcess(String processInstanceId) {
+		executionService.deleteProcessInstanceCascade(processInstanceId);
+		//ProcessInstance processInstance = executionService.createProcessInstanceQuery().processInstanceId(processInstanceId).uniqueResult();
 
 	}
 

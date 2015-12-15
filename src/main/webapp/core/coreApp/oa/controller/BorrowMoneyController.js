@@ -154,7 +154,31 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 						Ext.Msg.alert("提示","该记录(待审核,注册成功)不能删除!");
 						return;
 					}
-
+					var param = {};
+					param.msg = '确认删除该流程?';
+					param.fn = function(result) {
+						if ("yes" == result) {
+							Ext.Ajax.request({
+								url:CY.ns + "/app/appAction!doDeleteApplicationById.asp",
+								params:{'app.id':records[0].data.id,
+										'app.processInstanceId':records[0].data.processInstanceId},
+								method:"POST",
+								timeout:4000,
+								success: function (response,opts) {
+									var resObj = Ext
+											.decode(response.responseText);
+									if (resObj.success) {
+										var obj = resObj.result;
+										grid.getStore().load();
+										Ext.Msg.alert("提示", resObj.info);
+									} else {
+										Ext.Msg.alert("提示", resObj.info);
+									}
+								}
+							});
+						}
+					};
+					CY.confirmBox(param);
 				}
 			},
 			"borrowform button[ref=save]" : {
@@ -167,17 +191,20 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 					if (id != null && id != "") {
 						ActionName = CY.ns + "/app/appAction!doUpdateApplication.asp";
 					}
+
+					var box ;
 					var param = {};
 					param.msg = '确认提交该申请?';
 					param.fn = function(result) {
 						if ("yes" == result) {
+							box	= CY.processBox({title:'提示',msg:'请等待...'});
 							form.submit({
 								clientValidation: true,
 								url: ActionName,
 								success: function (form, action) {
+									box.closeCY();
 									var resObj = Ext
 											.decode(action.response.responseText);
-									console.info(resObj);
 									if (resObj.success) {
 										var obj = resObj.result;
 										grid.getStore().load();
@@ -187,6 +214,7 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 									}
 								},
 								failure: function (form, action) {
+									box.closeCY();
 									Ext.Msg.alert("提示", Ext.decode(action.response.responseText).info);
 								}
 							});
@@ -298,8 +326,8 @@ Ext.define("core.oa.controller.BorrowMoneyController", {
 		});
 	},
 	views : ["core.oa.view.BorrowForm", "core.oa.view.BorrowGrid",
-			"core.oa.view.BorrowLayout", "core.oa.view.RoleUserTree",
+			"core.oa.view.BorrowLayout",
 			"core.oa.view.WfTaskWindow","core.oa.view.TaskConments"],
-	stores : ["core.oa.store.BorrowMoneyStore", "core.oa.store.RoleUserStore"],
-	models : ["core.oa.model.BorrowMoneyModel", "core.oa.model.RoleUserModel"]
+	stores : ["core.oa.store.BorrowMoneyStore"],
+	models : ["core.oa.model.BorrowMoneyModel"]
 });

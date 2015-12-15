@@ -51,7 +51,7 @@ CY.processBox = function (param){
     msgBox = Ext.MessageBox.show({   	  
         title: (param == undefined || param.title == undefined) ? 'Please wait':param.title,   
 
-        msg: 'Uploading...',   
+        msg: (param == undefined || param.msg == undefined) ? 'Uploading...':param.msg,
 
         progressText: '',   
 

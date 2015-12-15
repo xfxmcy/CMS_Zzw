@@ -5,7 +5,7 @@ Ext.define("core.oa.view.AlreadyTaskForm",{
 				type : "table",
 				columns : 2
 			},
-	id:"borrowform",
+	id:"alreadytaskform",
 	align:"left",
 	defaults:{
 			margin:"10 0 0 15",

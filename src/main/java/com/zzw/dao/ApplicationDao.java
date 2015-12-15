@@ -25,4 +25,8 @@ public interface ApplicationDao extends BasicDao<ZApplication>{
      * @return
      */
     List<ZApplication> queryMyApplication(String id, Pages paged);
+    /*
+        remove application
+     */
+    void removeApplication(ZApplication app);
 }

@@ -14,6 +14,7 @@
  		{name:"createDept",type:"string",srotable:true},
  		{name:"plateNumber",type:"string",srotable:true},
  		{name:"state",type:"string",srotable:true},
- 		{name:"createTime",type:"string",srotable:true}
+ 		{name:"createTime",type:"string",srotable:true},
+		{name:"processInstanceId",type:"string",srotable:true}
  	]
  });

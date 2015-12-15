@@ -79,18 +79,24 @@ public class ApplicationServiceImpl implements ApplicationService {
         Map<String, Object> param = new HashMap<String, Object>();
         /*流程启动者*/
         param.put("applicant",application.getUser() == null ? "1" : application.getUser().getId());
-
-        String processInstanceId = jbpmFacadeServiceImpl.startProcessByKey(application.getKey(),param);
-
-        application.setProcessInstanceId(processInstanceId);
+        param.put("modelName","com.zzw.vo.ZApplication");
+        /**
+         * persistence
+         */
         application.setId(null);
         application.setCreateTime(new Date());
         application.setStatus("1");
         applicationDaoImpl.persistence(application);
+
+        param.put("businessId",application.getId());
         /**
          * 启动流程
          * 流程变量
          */
+        String processInstanceId = jbpmFacadeServiceImpl.startProcessByKey(application.getKey(),param);
+
+        application.setProcessInstanceId(processInstanceId);
+        applicationDaoImpl.merge(application);
 
         info.settingSuccessResult("申请成功", application);
     }
@@ -103,5 +109,26 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public void doUpdateApplication(ZApplication application) {
         applicationDaoImpl.merge(application);
+    }
+
+    /**
+     * query app  by id
+     *
+     * @param app
+     */
+    @Override
+    public void doQueryApplicationById(ZApplication app) {
+        app = applicationDaoImpl.query(ZApplication.class,app.getId());
+    }
+
+    /**
+     * delete app
+     *
+     * @param app
+     */
+    @Override
+    public void doDetelteApplication(ZApplication app) {
+        jbpmFacadeServiceImpl.removeProcess(app.getProcessInstanceId());
+        applicationDaoImpl.removeApplication(app);
     }
 }

@@ -95,8 +95,7 @@ Ext.define("core.app.view.TaskJobForm",{
 				xtype:"textfield",
 				fieldLabel:"状态",
 				value:0,
-				name:"app.state",
-				hidden:true
+				name:"app.state"
 
 			},{
 				xtype:"textfield",

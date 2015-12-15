@@ -27,7 +27,7 @@ public class ApplicationDaoImpl extends  BasicDaoImpl<ZApplication> implements A
      */
     @Override
     public Long queryCountMyApplication(String id) {
-        Object result = getCurrentSession().createQuery("select count(*) from ZApplication where user.id = ?")
+        Object result = getCurrentSession().createQuery("select count(*) from ZApplication where user.id = ? and status='1'")
                 .setParameter(0,id).uniqueResult();
         return (null == result ? 0 : (Long)result);
     }
@@ -41,8 +41,13 @@ public class ApplicationDaoImpl extends  BasicDaoImpl<ZApplication> implements A
      */
     @Override
     public List<ZApplication> queryMyApplication(String id, Pages paged) {
-        return getCurrentSession().createQuery("from ZApplication where user.id = ?")
+        return getCurrentSession().createQuery("from ZApplication where user.id = ? and status='1'")
                 .setParameter(0,id).setFirstResult(paged.getBeginIndex())
                 .setMaxResults(paged.getCount()).list();
+    }
+
+    @Override
+    public void removeApplication(ZApplication app) {
+        getCurrentSession().createQuery("update ZApplication set status = '0' where id = ?").setParameter(0,app.getId()).executeUpdate();
     }
 }

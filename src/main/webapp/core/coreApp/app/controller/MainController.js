@@ -109,36 +109,47 @@ Ext.define("core.app.controller.MainController", {
 								}
 							}
 						},
+					"taskjobform button[ref=return]":{
+						click:function(btn){
+							var form = btn.up("taskjobform");
+							var formObj = form.getForm();
+							formObj.reset();
+							var grid = form.up("centerview").down("taskjobgrid");
+							//self.hideWfButtons(form);
+							form.hide();
+							grid.show();
+						}
+					},
 					"topview button[ref=exit]":{
 							click:function(btn){
 								/*var form=Ext.getCmp("loginwindow").down("form[ref=loginform]").getForm();
 					 			var userName=form.findField("userName").getValue();
 					 			var passWord=form.findField("password").getValue();*/
 								Ext.Ajax.request({
-								url:CY.ns + "/sys/loginAction!userLogout.asp",
-								//params:{userCode:userName,passWord:passWord},
-								method:"POST",
-								timeout:4000,
-								success:function(response,opts){
-									var resObj=Ext.decode(response.responseText);
-									var resultInfo = resObj.resultInfo;
-									if(resultInfo.success){
-										CY.user = {};
-										var dis=Ext.getCmp("displaylogin");
-										dis.setValue("<font color=black><b>未登录</b></font>");
-										//dis.up("mainview").down("taskjobgrid").getStore().load();
-										//Ext.create("core.app.view.LoginWindow").show();
-										var window=Ext.getCmp("loginwindow");
-										if(window){
-											window.show();
+									url:CY.ns + "/sys/loginAction!userLogout.asp",
+									//params:{userCode:userName,passWord:passWord},
+									method:"POST",
+									timeout:4000,
+									success:function(response,opts){
+										var resObj=Ext.decode(response.responseText);
+										var resultInfo = resObj.resultInfo;
+										if(resultInfo.success){
+											CY.user = {};
+											var dis=Ext.getCmp("displaylogin");
+											dis.setValue("<font color=black><b>未登录</b></font>");
+											//dis.up("mainview").down("taskjobgrid").getStore().load();
+											//Ext.create("core.app.view.LoginWindow").show();
+											var window=Ext.getCmp("loginwindow");
+											if(window){
+												window.show();
+											}else{
+												Ext.create("core.app.view.LoginWindow").show();
+											}
 										}else{
-											Ext.create("core.app.view.LoginWindow").show();
+											Ext.Msg.alert("提示",resultInfo.info);
 										}
-									}else{
-										Ext.Msg.alert("提示",resultInfo.info);
+
 									}
-								
-								}
 								});
 							}
 						},

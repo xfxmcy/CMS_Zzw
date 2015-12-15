@@ -37,4 +37,16 @@ public interface ApplicationService {
      * @param application
      */
     void doUpdateApplication(ZApplication application);
+
+    /**
+     * query app  by id
+     * @param app
+     */
+    void doQueryApplicationById(ZApplication app);
+
+    /**
+     * delete app
+     * @param app
+     */
+    void doDetelteApplication(ZApplication app);
 }

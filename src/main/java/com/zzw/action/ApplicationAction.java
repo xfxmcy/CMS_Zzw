@@ -94,4 +94,25 @@ public class ApplicationAction extends PageAction {
         info.settingSuccessResult("修改成功", app);
         ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
     }
+
+    /**
+     * query application by id
+     */
+    public void doQueryApplicationById(){
+        ResultInfo info = new ResultInfo();
+        applicationServiceImpl.doQueryApplicationById(app);
+        info.settingSuccessResult("修改成功", app);
+        ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+    }
+
+    /**
+     * delete process
+     */
+    public void doDeleteApplicationById(){
+        ResultInfo info = new ResultInfo();
+        applicationServiceImpl.doDetelteApplication(app);
+        info.settingSuccessResult("删除成功", app);
+        ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+    }
+
 }
