@@ -15,50 +15,27 @@ Ext.define("core.app.view.TaskJobForm",{
 		},
 	tbar:[{
 			xtype:"button",
-				ref:"save",
+				ref:"button_first",
 				iconCls:"table_save",
-				text:"确认申请"
+				text:"",
+				hidden:true
 			},{
 				xtype:"button",
-				ref:"wfEnd",
+				ref:"button_second",
 				iconCls:"wfend",
-				text:"撤销",
+				text:"",
 				hidden:true
 			},{
 				xtype:"button",
-				ref:"wfReturn",
+				ref:"button_third",
 				iconCls:"wfreturn",
-				text:"取回",
-				hidden:true
-			},{
-				xtype:"button",
-				ref:"wfBack",
-				iconCls:"wfback",
-				text:"回退",
-				hidden:true
-			},{
-				xtype:"button",
-				ref:"wfNext",
-				iconCls:"wfnext",
-				text:"送交",
-				hidden:true
-			},{
-				xtype:"button",
-				ref:"wfTake",
-				iconCls:"wftake",
-				text:"处理任务",
+				text:"",
 				hidden:true
 			},{
 				xtype:"button",
 				ref:"return",
 				iconCls:"return",
 				text:"返回"
-			},{
-				xtype:"button",
-				ref:"wfStart",
-				iconCls:"wfstart",
-				text:"启动买车流程",
-				hidden:true
 			},{
 				xtype:"displayfield",
 				value:"流程已经结束",
@@ -109,17 +86,19 @@ Ext.define("core.app.view.TaskJobForm",{
 				allowBlank : false,
 				value:0,
 				colspan: 2
-			},/*{
-				xtype:"textfield",
-				fieldLabel:"申请时间",
-				name:"app.createTime",
-				readOnly:true
-			},*/{
+			},{
 				xtype:"textareafield",
 				fieldLabel:"申请备注",
 				name:"app.remark",
 				width:620,
 				colspan: 2
+			},{
+				xtype:"textareafield",
+				fieldLabel:"审批备注",
+				name:"assess",
+				width:620,
+				colspan: 2,
+				hidden:true
 			},{
 				xtype:"textareafield",
 				fieldLabel:"流程定义ID",
@@ -135,6 +114,12 @@ Ext.define("core.app.view.TaskJobForm",{
 				fieldLabel:"流程状态",
 				name:"status",
 				hidden:true
+			},{
+				xtype:"textfield",
+				fieldLabel:"任务ID",
+				name:"taskId",
+				hidden:true
+
 			}],
 	initComponent:function(){
 		this.callParent(arguments);

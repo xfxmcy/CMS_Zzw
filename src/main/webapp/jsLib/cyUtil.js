@@ -106,7 +106,65 @@ CY.changeStateValue = function(value){
         return "注册打回";
     else if("4" == value)
         return "注册成功";
+}/*
+ * 车辆申请
+ *   状态转换value
+ * */
+CY.changeValueState = function(value){
+    if("0" == value)
+        return "审核中";
+    else if("1" == value)
+        return "待选车";
+    else if("2" == value)
+        return "注册审核中";
+    else if("3" == value)
+        return "注册打回";
+    else if("4" == value)
+        return "注册成功";
 }
 
+/**
+ * 根据taskId 查询 transitions
+ * @param value
+ */
+CY.queryTransitionByTaskId = function(param){
+    Ext.Ajax.request({
+        url: CY.ns + "/workflow/wkAction!queryTransitions.asp",
+        params: {"id": param.id},
+        method: "POST",
+        timeout: 4000,
+        success: function (response, opts) {
+            var resObj = Ext.decode(response.responseText);
+            var result = resObj.result;
+            if (resObj.success) {
+                param.fn(result);
+            }
+            else
+                Ext.Msg.alert("提示","任务异常!");
+        }
+    });
+}
+/**
+ * set transition
+ */
+CY.setTransitionIntoForm = function(transition,taskForm){
+    if(transition && transition.length > 0 ){
+        var button = taskForm.down("button[ref=button_first]");
+        button.setText(transition[0].name);
+        button.cyValue = transition[0].name;
+        button.show();
+    }
+    if(transition && transition.length > 1 ){
+        var buttonSecond = taskForm.down("button[ref=button_second]");
+        buttonSecond.setText(transition[1].name);
+        buttonSecond.cyValue = transition[1].name;
+        buttonSecond.show();
+    }
+    if(transition && transition.length > 2 ){
+        var buttonThird = taskForm.down("button[ref=button_third]");
+        buttonThird.setText(transition[2].name);
+        buttonThird.cyValue = transition[2].name;
+        buttonThird.show();
+    }
 
-
+}

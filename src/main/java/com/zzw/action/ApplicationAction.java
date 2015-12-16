@@ -100,7 +100,7 @@ public class ApplicationAction extends PageAction {
      */
     public void doQueryApplicationById(){
         ResultInfo info = new ResultInfo();
-        applicationServiceImpl.doQueryApplicationById(app);
+        app = applicationServiceImpl.doQueryApplicationById(app);
         info.settingSuccessResult("修改成功", app);
         ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
     }

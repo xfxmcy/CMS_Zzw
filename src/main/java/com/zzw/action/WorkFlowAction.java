@@ -22,6 +22,8 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import com.zzw.pojo.CompleteTask;
+import com.zzw.pojo.ZTransition;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
@@ -78,6 +80,18 @@ public class WorkFlowAction extends PageAction {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	private CompleteTask comp;
+
+
+	@JSON(serialize=false)
+	public CompleteTask getComp() {
+		return comp;
+	}
+
+	public void setComp(CompleteTask comp) {
+		this.comp = comp;
 	}
 
 	private WFProcessMount mount ;
@@ -277,6 +291,27 @@ public class WorkFlowAction extends PageAction {
 		jbpmFacadeServiceImpl.mountProcess(mount);
 		info.settingSuccessResult("操作成功", null);
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
+
+	/**
+	 * query jbpm  task transiition
+	 */
+	public void queryTransitions(){
+		ResultInfo info = new ResultInfo();
+		List<ZTransition> list = jbpmFacadeServiceImpl.doQueryTransitionByTaskId(id);
+		info.settingSuccessResult("操作成功", list);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+	}
+
+	/**
+	 * 完成任务
+	 */
+	public void completeTaskByTaskId(){
+		ResultInfo info = new ResultInfo();
+		jbpmFacadeServiceImpl.doCompleteTransitionByTaskId(comp);
+		info.settingSuccessResult("操作成功", comp);
+		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+
 	}
 }
 

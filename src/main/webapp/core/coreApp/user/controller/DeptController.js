@@ -7,41 +7,6 @@ Ext.define("core.user.controller.DeptController", {
 				var self = this;
 				this.control({
 					/**
-					 * 添加人员   useless
-					 */
-					"usergrid button[ref=add]":{
-						click:function(btn){
-							var grid=self.findGrid(btn);
-							var deptForm=grid.up("userlayout").down("deptform").getForm();
-							var keyValue=deptForm.findField("deptId").getValue();
-							if(!keyValue && keyValue==""){
-								Ext.Msg.alert("提示","请选择部门");
-							}
-							var deptCode=deptForm.findField("deptCode").getValue();
-							var deptName=deptForm.findField("deptName").getValue();
-							var foreignmodel={deptName:deptName,deptCode:deptCode,'dept.deptId':keyValue}
-							self.doInsert(grid,{deptName:deptName,deptCode:deptCode},foreignmodel,"/jbpmItem/pc/userAction","userId");
-						}
-					},
-					/**
-					 *删除人员  useless
-					 */
-					"usergrid button[ref=delete]":{
-						click:function(btn){
-							var grid=self.findGrid(btn);
-							self.doRemove(grid,"userId","/jbpmItem/pc/userAction");
-						}
-					},
-					/**
-					 * 更新人员信息 useless
-					 */
-					"usergrid button[ref=save]":{
-						click:function(btn){
-							var grid=self.findGrid(btn);
-							self.doSave(grid,"userId","ENDUSER","/jbpmItem/pc/userAction");
-						}
-					},
-					/**
 					 * 更新岗位
 					 */
 					"rolegrid":{

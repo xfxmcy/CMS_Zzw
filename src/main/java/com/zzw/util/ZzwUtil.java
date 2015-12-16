@@ -17,16 +17,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.zzw.pojo.ZTransition;
 import org.apache.struts2.ServletActionContext;
-import org.dom4j.Attribute;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
+import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 
 import com.alibaba.fastjson.JSONObject;
@@ -160,6 +157,44 @@ public class ZzwUtil {
 			return null;
 		}
 		
+	}
+
+	/**
+	 * get jpdl transition
+	 * @param jpdl
+	 * @return
+     */
+	public static List<ZTransition> getJPDLTransitionByTask(File jpdl, String nodeName){
+		/*读取XML文件,获得document对象*/
+		SAXReader reader = new SAXReader();
+		Document  document = null;
+		Element root = null ;
+		List<Element> transition = null ;
+		List<ZTransition> result = new ArrayList<ZTransition>();
+		ZTransition ztran = null;
+		try {
+			document = reader.read(jpdl);
+			root = document.getRootElement();
+			// 有namespace 需要加 前缀
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("t","http://jbpm.org/4.4/jpdl");
+			XPath xpath = document.createXPath("/t:process/t:task[@name='" + nodeName + "']/t:transition");
+			xpath.setNamespaceURIs(param);
+			transition = xpath.selectNodes(document);
+			if (null == transition || 0 == transition.size())
+				return result;
+			for(Element e : transition){
+				ztran = new ZTransition();
+				ztran.setName(e.attributeValue("name"));
+				ztran.setTo(e.attributeValue("to"));
+				result.add(ztran);
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
 	}
 	/**
 	 * 

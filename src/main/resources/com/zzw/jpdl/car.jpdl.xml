@@ -14,12 +14,12 @@
             <string value="4"/>
          </field>
       </assignment-handler>
-      <transition g="-52,-22" name="choose car" to="car"/>
+      <transition g="-52,-22" name="pass" to="car"/>
    </task>
 
    <task assignee="${applicant}" g="163,197,92,52" name="car">
 
-      <transition g="-72,-22" name="register car" to="registerCar"/>
+      <transition g="-72,-22" name="choose car" to="registerCar"/>
    </task>
    <task g="157,281,80,40" name="registerCar">
       <assignment-handler class="com.zzw.workflow.assignable.AppAssessAssignable">

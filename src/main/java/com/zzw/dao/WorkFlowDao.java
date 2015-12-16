@@ -118,5 +118,12 @@ public interface WorkFlowDao extends BasicDao<WFDeployment>{
 	 * @return
      */
 	String queryJBPMDeployNameByInstanceId(String executionId);
+
+	/**
+	 * query development_ by taskid
+	 * @param id
+	 * @return
+     */
+	String queryDevelopmentByTaskId(String id);
 }
 

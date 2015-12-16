@@ -169,6 +169,28 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 		return null;
 	}
 
+	/**
+	 * query development_ by taskid
+	 *
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public String queryDevelopmentByTaskId(String id) {
+		List<String> list = getCurrentSession().createSQLQuery("SELECT" +
+				" lob.NAME_" +
+				" FROM" +
+				" jbpm4_lob lob" +
+				" inner JOIN  jbpm4_deployprop prop on lob.DEPLOYMENT_ = prop.DEPLOYMENT_ "+
+				" AND prop.KEY_ = 'pdid' " +
+				" inner JOIN jbpm4_execution execu ON prop.STRINGVAL_ = execu.PROCDEFID_" +
+				" INNER JOIN jbpm4_task  task on task.EXECUTION_ID_ = execu.ID_" +
+				" where task.DBID_ = ?").addScalar("NAME_", Hibernate.STRING).setParameter(0, id).list();
+		if(null != list && 0 < list.size())
+			return list.get(0);
+		return null;
+	}
+
 
 }
 

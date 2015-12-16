@@ -4,6 +4,10 @@
 Ext.define("core.app.view.TaskJobGrid",{
 	extend:"Ext.grid.Panel",
 	alias:"widget.taskjobgrid",
+	id:"taskjobgrid",
+	mixins : {
+		formUtils : "core.utils.FormUtils"
+	},
 	store:"core.app.store.TaskJobStore",
 	border:0,
 	title:"待办事务提醒",
@@ -40,31 +44,44 @@ Ext.define("core.app.view.TaskJobGrid",{
 						Ext.Msg.alert("提示","程序异常");
 						return;
 					}
-					Ext.Ajax.request({
-						url: CY.ns + "/app/appAction!doQueryApplicationById.asp",
-						params:{"app.id":businessId},
-						method: "POST",
-						timeout: 4000,
-						success: function (response, opts) {
-							var resObj = Ext.decode(response.responseText);
-							var result = resObj.result;
-							console.info(result);
-							if (resObj.success) {
-								if(result.user){
-									taskForm.getForm().findField('app.createUser').setValue(result.user.username);
-									taskForm.getForm().findField('app.createUserCode').setValue(result.user.usercode);
+					var param = {};
+					param.id = rec.data.taskId;
+					param.fn = function(transition) {
+						Ext.Ajax.request({
+							url: CY.ns + "/app/appAction!doQueryApplicationById.asp",
+							params: {"app.id": businessId},
+							method: "POST",
+							timeout: 4000,
+							success: function (response, opts) {
+								var resObj = Ext.decode(response.responseText);
+								var result = resObj.result;
+								if (resObj.success) {
+									if (result.user) {
+										taskForm.getForm().findField('app.createUser').setValue(result.user.username);
+										taskForm.getForm().findField('app.createUserCode').setValue(result.user.usercode);
+									}
+									taskForm.getForm().findField('app.vehicleType').setValue(result.vehicleType);
+									taskForm.getForm().findField('app.state').setValue(CY.changeStateValue(result.state));
+									taskForm.getForm().findField('app.plateNumber').setValue(result.plateNumber);
+									taskForm.getForm().findField('app.money').setValue(result.money);
+									taskForm.getForm().findField('app.remark').setValue(result.remark);
+									taskForm.getForm().findField('taskId').setValue(rec.data.taskId);
+									taskGrid.readOnlyFields(taskForm.getForm());
+									CY.setTransitionIntoForm(transition,taskForm);
+									var field = taskForm.getForm().findField('assess');
+									field.setReadOnly(false);
+									field.show();
+									taskGrid.hide();
+									taskForm.show();
+								} else {
+									Ext.Msg.alert("提示", resObj.info);
 								}
-								taskForm.getForm().findField('app.vehicleType').setValue(result.vehicleType);
-								taskForm.getForm().findField('app.state').setValue(result.state);
-								taskForm.getForm().findField('app.plateNumber').setValue(result.plateNumber);
-								taskForm.getForm().findField('app.money').setValue(result.money);
-								taskGrid.hide();
-								taskForm.show();
-							}else{
-								Ext.Msg.alert("提示",resObj.info);
 							}
-						}
-					});
+						});
+					};
+					CY.queryTransitionByTaskId(param);
+
+
 				}
 			}]
 		}

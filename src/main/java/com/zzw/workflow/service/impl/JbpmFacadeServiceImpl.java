@@ -19,6 +19,9 @@ import java.util.*;
 
 import javax.inject.Inject;
 
+import com.zzw.pojo.CompleteTask;
+import com.zzw.pojo.ZTransition;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jbpm.api.*;
 import org.jbpm.api.model.ActivityCoordinates;
@@ -336,6 +339,35 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 		executionService.deleteProcessInstanceCascade(processInstanceId);
 		//ProcessInstance processInstance = executionService.createProcessInstanceQuery().processInstanceId(processInstanceId).uniqueResult();
 
+	}
+
+	/**
+	 * 根据 taskId 查询 transition
+	 *
+	 * @param id taskId
+	 * @return
+	 */
+	@Override
+	public List<ZTransition> doQueryTransitionByTaskId(String id) {
+		String developmentLobName = workFlowDaoImpl.queryDevelopmentByTaskId(id);
+		if(StringUtils.isEmpty(developmentLobName))
+			return null;
+		File file = new File(developmentLobName);
+		if(!file.exists())
+			return null;
+		String nodeName = taskService.getTask(id).getName();
+		return ZzwUtil.getJPDLTransitionByTask(file, nodeName);
+	}
+
+	/**
+	 * complete transition
+	 *
+	 * @param comp
+	 */
+	@Override
+	public void doCompleteTransitionByTaskId(CompleteTask comp) {
+		taskService.addTaskComment(comp.getTaskId(),comp.getAssess());
+		taskService.completeTask(comp.getTaskId(),comp.getTransition());
 	}
 
 

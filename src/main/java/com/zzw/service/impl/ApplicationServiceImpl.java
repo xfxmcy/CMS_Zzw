@@ -117,8 +117,8 @@ public class ApplicationServiceImpl implements ApplicationService {
      * @param app
      */
     @Override
-    public void doQueryApplicationById(ZApplication app) {
-        app = applicationDaoImpl.query(ZApplication.class,app.getId());
+    public ZApplication doQueryApplicationById(ZApplication app) {
+       return applicationDaoImpl.query(ZApplication.class,app.getId());
     }
 
     /**

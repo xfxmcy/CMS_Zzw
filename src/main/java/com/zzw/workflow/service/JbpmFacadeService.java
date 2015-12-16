@@ -16,6 +16,8 @@ package com.zzw.workflow.service;
 import java.util.List;
 import java.util.Map;
 
+import com.zzw.pojo.CompleteTask;
+import com.zzw.pojo.ZTransition;
 import org.jbpm.api.RepositoryService;
 
 import com.zzw.pojo.Pages;
@@ -162,5 +164,18 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 * @param processInstanceId
      */
 	void removeProcess(String processInstanceId);
+
+	/**
+	 * 根据 taskId 查询 transition
+	 * @param id	taskId
+	 * @return
+     */
+	List<ZTransition> doQueryTransitionByTaskId(String id);
+
+	/**
+	 * complete transition
+	 * @param comp
+     */
+	void doCompleteTransitionByTaskId(CompleteTask comp);
 }
 

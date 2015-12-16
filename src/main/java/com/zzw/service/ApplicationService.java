@@ -42,7 +42,7 @@ public interface ApplicationService {
      * query app  by id
      * @param app
      */
-    void doQueryApplicationById(ZApplication app);
+    ZApplication doQueryApplicationById(ZApplication app);
 
     /**
      * delete app
