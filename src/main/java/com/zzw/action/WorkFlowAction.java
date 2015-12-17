@@ -308,6 +308,8 @@ public class WorkFlowAction extends PageAction {
 	 */
 	public void completeTaskByTaskId(){
 		ResultInfo info = new ResultInfo();
+		ZUser user = (ZUser) ServletActionContext.getRequest().getSession().getAttribute(ResourceUtil.getUserAdmin());
+		comp.setUserId(user.getId());
 		jbpmFacadeServiceImpl.doCompleteTransitionByTaskId(comp);
 		info.settingSuccessResult("操作成功", comp);
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);

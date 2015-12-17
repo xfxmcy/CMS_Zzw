@@ -13,6 +13,7 @@
 
 package com.zzw.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -114,7 +115,7 @@ public class ZzwUtil {
 			try {
 				response.setCharacterEncoding("utf-8");
 				writer =  response.getWriter();
-				String res = JSONObject.toJSONString(result);
+				String res = JSONObject.toJSONStringWithDateFormat(result,"yyyy-MM-dd HH:mm:ss");
 				writer.write(res);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -164,7 +165,7 @@ public class ZzwUtil {
 	 * @param jpdl
 	 * @return
      */
-	public static List<ZTransition> getJPDLTransitionByTask(File jpdl, String nodeName){
+	public static List<ZTransition> getJPDLTransitionByTask(String jpdl, String nodeName){
 		/*读取XML文件,获得document对象*/
 		SAXReader reader = new SAXReader();
 		Document  document = null;
@@ -173,7 +174,7 @@ public class ZzwUtil {
 		List<ZTransition> result = new ArrayList<ZTransition>();
 		ZTransition ztran = null;
 		try {
-			document = reader.read(jpdl);
+			document = reader.read(new ByteArrayInputStream(jpdl.getBytes("utf-8")));
 			root = document.getRootElement();
 			// 有namespace 需要加 前缀
 			Map<String, Object> param = new HashMap<String, Object>();

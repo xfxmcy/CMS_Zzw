@@ -49,12 +49,23 @@ Ext.define("core.app.view.TaskJobGrid",{
 					param.fn = function(transition) {
 						Ext.Ajax.request({
 							url: CY.ns + "/app/appAction!doQueryApplicationById.asp",
-							params: {"app.id": businessId},
+							params: {"app.id": businessId,"business":1},
 							method: "POST",
 							timeout: 4000,
 							success: function (response, opts) {
 								var resObj = Ext.decode(response.responseText);
 								var result = resObj.result;
+								var assessList = result.assessList;
+								var assess ="";
+								if(assessList && 0 < assessList.length){
+									for(var i = 0 ; i < assessList.length ;i++){
+										assess += "<font style='color: salmon'>办理人&nbsp;&nbsp;&nbsp;</font>    "+ assessList[i].username
+												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;审批时间&nbsp;&nbsp;&nbsp;</font>     "+assessList[i].tIME_
+												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;所用时间&nbsp;&nbsp;&nbsp;</font>    "+ assessList[i].countTime
+												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;审批结果&nbsp;&nbsp;&nbsp;</font>    " + assessList[i].oUTCOME_
+												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;备注&nbsp;&nbsp;&nbsp;</font>" + assessList[i].mESSAGE_ + "<br/><br/>";
+									}
+								}
 								if (resObj.success) {
 									if (result.user) {
 										taskForm.getForm().findField('app.createUser').setValue(result.user.username);
@@ -65,14 +76,19 @@ Ext.define("core.app.view.TaskJobGrid",{
 									taskForm.getForm().findField('app.plateNumber').setValue(result.plateNumber);
 									taskForm.getForm().findField('app.money').setValue(result.money);
 									taskForm.getForm().findField('app.remark').setValue(result.remark);
+									taskForm.getForm().findField('app.id').setValue(result.id);
 									taskForm.getForm().findField('taskId').setValue(rec.data.taskId);
 									taskGrid.readOnlyFields(taskForm.getForm());
 									CY.setTransitionIntoForm(transition,taskForm);
 									var field = taskForm.getForm().findField('assess');
+									field.setValue('');
 									field.setReadOnly(false);
 									field.show();
 									taskGrid.hide();
+									var display = new Ext.form.field.Display({name:'assessDisplay',colspan: 2,width:'100%',fieldLabel: '审批过程', value: assess});
+									taskForm.insert(12,display);
 									taskForm.show();
+									//taskGrid.resetFormInfo(taskForm);
 								} else {
 									Ext.Msg.alert("提示", resObj.info);
 								}

@@ -1,5 +1,6 @@
 package com.zzw.dao;
 
+import com.zzw.pojo.HistoryAssess;
 import com.zzw.pojo.Pages;
 import com.zzw.vo.ZApplication;
 
@@ -29,4 +30,17 @@ public interface ApplicationDao extends BasicDao<ZApplication>{
         remove application
      */
     void removeApplication(ZApplication app);
+
+    /**
+     * 更改状态,为流程
+     * @param state
+     * @param businessId
+     */
+    void updateStateForJBPM(String state, String businessId);
+
+    /**
+     * 查询历史审批
+     * @param id
+     */
+    List<HistoryAssess> queryHistoryAssess(String id);
 }

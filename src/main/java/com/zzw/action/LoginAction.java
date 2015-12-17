@@ -121,7 +121,7 @@ public class LoginAction extends BaseAction{
 	 *   		 2015年7月2日 		cy
 	 */
 	public String userLogout(){
-		ServletActionContext.getRequest().getSession().removeAttribute("userAdmin");
+		ServletActionContext.getRequest().getSession().removeAttribute(ResourceUtil.getUserAdmin());
 		settingSuccessResult("注销成功",null);
 		return BASE_RESULT_JSON;
 	}

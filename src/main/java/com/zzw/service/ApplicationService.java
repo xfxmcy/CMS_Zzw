@@ -2,6 +2,7 @@ package com.zzw.service;
 
 import com.zzw.component.ResultInfo;
 import com.zzw.pojo.Pages;
+import com.zzw.pojo.ZApplicationModel;
 import com.zzw.vo.ZApplication;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public interface ApplicationService {
      * query app  by id
      * @param app
      */
-    ZApplication doQueryApplicationById(ZApplication app);
+    ZApplicationModel doQueryApplicationById(ZApplication app, String business);
 
     /**
      * delete app

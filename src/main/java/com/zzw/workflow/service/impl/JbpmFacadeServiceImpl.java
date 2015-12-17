@@ -15,15 +15,19 @@ package com.zzw.workflow.service.impl;
 
 import java.io.File;
 import java.io.InputStream;
+import java.sql.Blob;
 import java.util.*;
 
 import javax.inject.Inject;
 
+import com.zzw.dao.ApplicationDao;
 import com.zzw.pojo.CompleteTask;
 import com.zzw.pojo.ZTransition;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.convention.annotation.Result;
 import org.jbpm.api.*;
+import org.jbpm.api.history.HistoryTask;
 import org.jbpm.api.model.ActivityCoordinates;
 import org.jbpm.api.task.Task;
 import org.jbpm.pvm.internal.util.StringUtil;
@@ -71,7 +75,9 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	
 	@Inject
 	private WorkFlowMountDao workFlowMountDaoImpl;
-	
+
+	@Inject
+	private ApplicationDao applicationDao;
 
 	
 	public void createDeployment(String filePath,Long version,String id) {
@@ -349,14 +355,21 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	 */
 	@Override
 	public List<ZTransition> doQueryTransitionByTaskId(String id) {
-		String developmentLobName = workFlowDaoImpl.queryDevelopmentByTaskId(id);
-		if(StringUtils.isEmpty(developmentLobName))
+		Blob blob = workFlowDaoImpl.queryDevelopmentByTaskId(id);
+		String developmentLob  = "";
+		try {
+			developmentLob = new String(blob.getBytes(1, (int)blob.length()));
+			if (StringUtils.isEmpty(developmentLob))
+				return null;
+			/*File file = new File(developmentLob);
+			if (!file.exists())
+				return null;*/
+			String nodeName = taskService.getTask(id).getName();
+			return ZzwUtil.getJPDLTransitionByTask(developmentLob, nodeName);
+		}catch (Exception e){
 			return null;
-		File file = new File(developmentLobName);
-		if(!file.exists())
-			return null;
-		String nodeName = taskService.getTask(id).getName();
-		return ZzwUtil.getJPDLTransitionByTask(file, nodeName);
+		}
+
 	}
 
 	/**
@@ -366,9 +379,28 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	 */
 	@Override
 	public void doCompleteTransitionByTaskId(CompleteTask comp) {
-		taskService.addTaskComment(comp.getTaskId(),comp.getAssess());
+		String state = null;
+		//更改 application state
+		if("pass".equals(comp.getTransition())){
+			state = "1";
+			taskService.takeTask(comp.getTaskId(),comp.getUserId());
+		}else if("choose car".equals(comp.getTransition())){
+			state = "2";
+		}else if("passRegister".equals(comp.getTransition())){
+			state = "4";
+			taskService.takeTask(comp.getTaskId(),comp.getUserId());
+		}else if("reject".equals(comp.getTransition())){
+			state = "3";
+			taskService.takeTask(comp.getTaskId(),comp.getUserId());
+		}
 		taskService.completeTask(comp.getTaskId(),comp.getTransition());
+		taskService.addTaskComment(comp.getTaskId(),comp.getAssess());
+		if(null != state)
+			applicationDao.updateStateForJBPM(state,comp.getBusinessId());
+
 	}
+
+
 
 
 }

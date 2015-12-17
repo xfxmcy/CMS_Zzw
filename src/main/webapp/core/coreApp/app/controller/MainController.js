@@ -112,6 +112,8 @@ Ext.define("core.app.controller.MainController", {
 					"taskjobform button[ref=return]":{
 						click:function(btn){
 							var form = btn.up("taskjobform");
+							var ass = form.getForm().findField("assessDisplay");
+							ass.ownerCt.remove(ass);
 							var formObj = form.getForm();
 							formObj.reset();
 							var grid = form.up("centerview").down("taskjobgrid");
@@ -206,6 +208,7 @@ Ext.define("core.app.controller.MainController", {
 								var transitionTo = btn.cyValue;
 								var assess = btn.up("taskjobform").getForm().findField('assess').getValue();
 								var taskId = btn.up("taskjobform").getForm().findField('taskId').getValue();
+								var id = btn.up("taskjobform").getForm().findField('app.id').getValue();
 								var taskgrid = Ext.getCmp("taskjobgrid");
 								var taskform =  btn.up("taskjobform");
 								var param = {};
@@ -218,7 +221,8 @@ Ext.define("core.app.controller.MainController", {
 											url: CY.ns + "/workflow/wkAction!completeTaskByTaskId.asp",
 											params: {"comp.transition": transitionTo,
 											         "comp.assess":assess,
-													 "comp.taskId":taskId},
+													 "comp.taskId":taskId,
+													 "comp.businessId":id},
 											method: "POST",
 											timeout: 4000,
 											success: function (response, opts) {
@@ -227,6 +231,8 @@ Ext.define("core.app.controller.MainController", {
 												if (resObj.success) {
 													//切换到  列表
 													taskgrid.getStore().load();
+													var ass = taskform.getForm().findField("assessDisplay");
+													ass.ownerCt.remove(ass);
 													taskform.hide();
 													taskgrid.show();
 													Ext.Msg.alert("提示", resObj.info);
@@ -239,8 +245,95 @@ Ext.define("core.app.controller.MainController", {
 								};
 								CY.confirmBox(param);
 							}
+					},
+					/*jbpm*/
+					"taskjobform button[ref=button_second]":{
+						click:function(btn){
+							var transitionTo = btn.cyValue;
+							var assess = btn.up("taskjobform").getForm().findField('assess').getValue();
+							var taskId = btn.up("taskjobform").getForm().findField('taskId').getValue();
+							var id = btn.up("taskjobform").getForm().findField('app.id').getValue();
+							var taskgrid = Ext.getCmp("taskjobgrid");
+							var taskform =  btn.up("taskjobform");
+							var param = {};
+							var box ;
+							param.msg = '确认您的操作?';
+							param.fn = function(result) {
+								if ("yes" == result) {
+									box	= CY.processBox({"title":"提示",msg:"请等待..."});
+									Ext.Ajax.request({
+										url: CY.ns + "/workflow/wkAction!completeTaskByTaskId.asp",
+										params: {"comp.transition": transitionTo,
+											"comp.assess":assess,
+											"comp.taskId":taskId,
+											"comp.businessId":id},
+										method: "POST",
+										timeout: 4000,
+										success: function (response, opts) {
+											box.closeCY();
+											var resObj = Ext.decode(response.responseText);
+											if (resObj.success) {
+												//切换到  列表
+												taskgrid.getStore().load();
+												var ass = taskform.getForm().findField("assessDisplay");
+												ass.ownerCt.remove(ass);
+												taskform.hide();
+												taskgrid.show();
+												Ext.Msg.alert("提示", resObj.info);
+											} else {
+												Ext.Msg.alert("提示", resObj.info);
+											}
+										}
+									});
+								}
+							};
+							CY.confirmBox(param);
+						}
+					},
+					/*jbpm*/
+					"taskjobform button[ref=button_third]":{
+						click:function(btn){
+							var transitionTo = btn.cyValue;
+							var assess = btn.up("taskjobform").getForm().findField('assess').getValue();
+							var taskId = btn.up("taskjobform").getForm().findField('taskId').getValue();
+							var id = btn.up("taskjobform").getForm().findField('app.id').getValue();
+							var taskgrid = Ext.getCmp("taskjobgrid");
+							var taskform =  btn.up("taskjobform");
+							var param = {};
+							var box ;
+							param.msg = '确认您的操作?';
+							param.fn = function(result) {
+								if ("yes" == result) {
+									box	= CY.processBox({"title":"提示",msg:"请等待..."});
+									Ext.Ajax.request({
+										url: CY.ns + "/workflow/wkAction!completeTaskByTaskId.asp",
+										params: {"comp.transition": transitionTo,
+											"comp.assess":assess,
+											"comp.taskId":taskId,
+											"comp.businessId":id},
+										method: "POST",
+										timeout: 4000,
+										success: function (response, opts) {
+											box.closeCY();
+											var resObj = Ext.decode(response.responseText);
+											if (resObj.success) {
+												//切换到  列表
+												taskgrid.getStore().load();
+												var ass = taskform.getForm().findField("assessDisplay");
+												ass.ownerCt.remove(ass);
+												taskform.hide();
+												taskgrid.show();
+												Ext.Msg.alert("提示", resObj.info);
+											} else {
+												Ext.Msg.alert("提示", resObj.info);
+											}
+										}
+									});
+								}
+							};
+							CY.confirmBox(param);
+						}
 					}
-
 						
 						
 						

@@ -15,12 +15,31 @@ public class CompleteTask {
 
     }
 
+    private String businessId;
+
+    public String getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId;
+    }
+
     private String taskId;
 
     private String assess;
 
     private String transition;
 
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getTaskId() {
         return taskId;

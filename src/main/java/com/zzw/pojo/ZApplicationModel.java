@@ -1,11 +1,10 @@
-package com.zzw.vo;/**
+package com.zzw.pojo;/**
  * Created by Administrator on 2015/12/9.
  */
 
-import com.zzw.pojo.HistoryAssess;
+import com.zzw.vo.ZUser;
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,15 +16,11 @@ import java.util.List;
  * Date: 2015/12/9
  * Time: 11:16
  */
-@Entity
-public class ZApplication {
+public class ZApplicationModel {
 
-    public ZApplication() {
+    public ZApplicationModel() {
     }
-    @Id
-    @Column(length = 50)
-    @GenericGenerator(name="systemUUID",strategy="uuid")
-    @GeneratedValue(generator="systemUUID")
+
     public String getId() {
         return id;
     }
@@ -53,7 +48,6 @@ public class ZApplication {
      * 逻辑删除  1.未删除  0 已删除
      */
     private  String status;
-    @Column(length = 2)
     public String getStatus() {
         return status;
     }
@@ -119,7 +113,6 @@ public class ZApplication {
 
     private ZUser user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
     public ZUser getUser() {
         return user;
     }
@@ -142,9 +135,7 @@ public class ZApplication {
      * 流程key
      */
 
-    private String key;
-    @JSON(serialize = true)
-    @Transient
+    private String key ;
     public String getKey() {
         return key;
     }
@@ -152,8 +143,6 @@ public class ZApplication {
     public void setKey(String key) {
         this.key = key;
     }
-    @Transient
-    @JSON(serialize = true)
     public List<HistoryAssess> getAssessList() {
         return assessList;
     }
@@ -162,7 +151,7 @@ public class ZApplication {
         this.assessList = assessList;
     }
 
-    List<HistoryAssess> assessList;
+    private List<HistoryAssess> assessList;
 
 
 }

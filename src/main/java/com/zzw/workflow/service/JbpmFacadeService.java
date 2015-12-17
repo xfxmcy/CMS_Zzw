@@ -177,5 +177,6 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 * @param comp
      */
 	void doCompleteTransitionByTaskId(CompleteTask comp);
+
 }
 

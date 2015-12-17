@@ -13,6 +13,7 @@
 
 package com.zzw.dao.impl;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -176,16 +177,16 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 	 * @return
 	 */
 	@Override
-	public String queryDevelopmentByTaskId(String id) {
-		List<String> list = getCurrentSession().createSQLQuery("SELECT" +
-				" lob.NAME_" +
+	public Blob queryDevelopmentByTaskId(String id) {
+		List<Blob> list = getCurrentSession().createSQLQuery("SELECT" +
+				" lob.BLOB_VALUE_" +
 				" FROM" +
 				" jbpm4_lob lob" +
 				" inner JOIN  jbpm4_deployprop prop on lob.DEPLOYMENT_ = prop.DEPLOYMENT_ "+
 				" AND prop.KEY_ = 'pdid' " +
 				" inner JOIN jbpm4_execution execu ON prop.STRINGVAL_ = execu.PROCDEFID_" +
 				" INNER JOIN jbpm4_task  task on task.EXECUTION_ID_ = execu.ID_" +
-				" where task.DBID_ = ?").addScalar("NAME_", Hibernate.STRING).setParameter(0, id).list();
+				" where task.DBID_ = ?").addScalar("BLOB_VALUE_", Hibernate.BLOB).setParameter(0, id).list();
 		if(null != list && 0 < list.size())
 			return list.get(0);
 		return null;

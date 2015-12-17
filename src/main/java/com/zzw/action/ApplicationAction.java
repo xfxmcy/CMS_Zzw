@@ -3,6 +3,7 @@ package com.zzw.action;/**
  */
 
 import com.zzw.component.ResultInfo;
+import com.zzw.pojo.ZApplicationModel;
 import com.zzw.service.ApplicationService;
 import com.zzw.util.ResourceUtil;
 import com.zzw.util.ZzwUtil;
@@ -59,6 +60,16 @@ public class ApplicationAction extends PageAction {
         this.app = app;
     }
 
+    private String business ;
+
+    public String getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(String business) {
+        this.business = business;
+    }
+
     /**
      * query my application paged
      * @return
@@ -100,8 +111,8 @@ public class ApplicationAction extends PageAction {
      */
     public void doQueryApplicationById(){
         ResultInfo info = new ResultInfo();
-        app = applicationServiceImpl.doQueryApplicationById(app);
-        info.settingSuccessResult("修改成功", app);
+        ZApplicationModel result = applicationServiceImpl.doQueryApplicationById(app, business);
+        info.settingSuccessResult("查询成功", result);
         ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
     }
 

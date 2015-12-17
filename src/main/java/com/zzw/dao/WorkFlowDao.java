@@ -13,6 +13,7 @@
 
 package com.zzw.dao;
 
+import java.sql.Blob;
 import java.util.List;
 
 import org.jbpm.api.task.Task;
@@ -124,6 +125,6 @@ public interface WorkFlowDao extends BasicDao<WFDeployment>{
 	 * @param id
 	 * @return
      */
-	String queryDevelopmentByTaskId(String id);
+	Blob queryDevelopmentByTaskId(String id);
 }
 

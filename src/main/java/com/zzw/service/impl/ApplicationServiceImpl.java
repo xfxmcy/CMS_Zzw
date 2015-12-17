@@ -4,17 +4,21 @@ package com.zzw.service.impl;/**
 
 import com.zzw.component.ResultInfo;
 import com.zzw.dao.ApplicationDao;
+import com.zzw.pojo.HistoryAssess;
 import com.zzw.pojo.Pages;
+import com.zzw.pojo.ZApplicationModel;
 import com.zzw.service.ApplicationService;
 import com.zzw.vo.WFProcessMount;
 import com.zzw.vo.ZApplication;
 import com.zzw.workflow.service.JbpmFacadeService;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.struts2.json.annotations.JSON;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -117,8 +121,26 @@ public class ApplicationServiceImpl implements ApplicationService {
      * @param app
      */
     @Override
-    public ZApplication doQueryApplicationById(ZApplication app) {
-       return applicationDaoImpl.query(ZApplication.class,app.getId());
+    public ZApplicationModel doQueryApplicationById(ZApplication app, String business) {
+        ZApplicationModel zm = new ZApplicationModel() ;
+        ZApplication result = applicationDaoImpl.query(ZApplication.class, app.getId());
+        //查询流程审批信息
+        List<HistoryAssess> list;
+        if("1".equals(business)) {
+            list = applicationDaoImpl.queryHistoryAssess(app.getId());
+            if (null != list && 0 < list.size())
+                result.setAssessList(list);
+
+        }
+        if(null != result)
+            try {
+                BeanUtils.copyProperties(zm,result);
+                zm.setAssessList(result.getAssessList());
+                zm.setKey("222222");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return zm;
     }
 
     /**
