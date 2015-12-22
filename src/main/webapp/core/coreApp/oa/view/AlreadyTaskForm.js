@@ -14,55 +14,10 @@ Ext.define("core.oa.view.AlreadyTaskForm",{
 			msgTarget:"side" //提示信息现在的位置
 		},
 	tbar:[{
-			xtype:"button",
-				ref:"save",
-				iconCls:"table_save",
-				text:"确认申请"
-			},{
-				xtype:"button",
-				ref:"wfEnd",
-				iconCls:"wfend",
-				text:"撤销",
-				hidden:true
-			},{
-				xtype:"button",
-				ref:"wfReturn",
-				iconCls:"wfreturn",
-				text:"取回",
-				hidden:true
-			},{
-				xtype:"button",
-				ref:"wfBack",
-				iconCls:"wfback",
-				text:"回退",
-				hidden:true
-			},{
-				xtype:"button",
-				ref:"wfNext",
-				iconCls:"wfnext",
-				text:"送交",
-				hidden:true
-			},{
-				xtype:"button",
-				ref:"wfTake",
-				iconCls:"wftake",
-				text:"处理任务",
-				hidden:true
-			},{
 				xtype:"button",
 				ref:"return",
 				iconCls:"return",
 				text:"返回"
-			},{
-				xtype:"button",
-				ref:"wfStart",
-				iconCls:"wfstart",
-				text:"启动买车流程",
-				hidden:true
-			},{
-				xtype:"displayfield",
-				value:"流程已经结束",
-				hidden:true
 			}],
 	items:[{
 			xtype:"textfield",
@@ -88,7 +43,7 @@ Ext.define("core.oa.view.AlreadyTaskForm",{
 			},{
 				xtype:"textfield",
 				fieldLabel:"车型",
-				allowBlank : false,
+				//allowBlank : false,
 				name:"app.vehicleType"
 
 			},{
@@ -101,14 +56,13 @@ Ext.define("core.oa.view.AlreadyTaskForm",{
 			},{
 				xtype:"textfield",
 				fieldLabel:"车牌",
-				allowBlank : false,
+				//allowBlank : false,
 				name:"app.plateNumber"
 			},{
 				xtype:"numberfield",
 				fieldLabel:"申请金额",
 				name:"app.money",
-				allowBlank : false,
-				value:0,
+				//allowBlank : false,
 				colspan: 2
 			},/*{
 				xtype:"textfield",
@@ -121,6 +75,17 @@ Ext.define("core.oa.view.AlreadyTaskForm",{
 				name:"app.remark",
 				width:620,
 				colspan: 2
+			},{
+				xtype:"displayfield",
+				fieldLabel:"流程批注",
+				name:"outDetail",
+				fieldStyle:'color:salmon',
+				colspan: 2
+			},{
+				xtype:"displayfield",
+				fieldLabel:"流程走向",
+				fieldStyle:'color:salmon',
+				name:"outcome"
 			},{
 				xtype:"textareafield",
 				fieldLabel:"流程定义ID",

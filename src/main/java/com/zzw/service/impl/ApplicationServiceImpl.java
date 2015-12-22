@@ -136,7 +136,6 @@ public class ApplicationServiceImpl implements ApplicationService {
             try {
                 BeanUtils.copyProperties(zm,result);
                 zm.setAssessList(result.getAssessList());
-                zm.setKey("222222");
             } catch (Exception e) {
                 e.printStackTrace();
             }

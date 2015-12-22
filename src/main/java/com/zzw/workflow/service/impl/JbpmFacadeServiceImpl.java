@@ -21,8 +21,7 @@ import java.util.*;
 import javax.inject.Inject;
 
 import com.zzw.dao.ApplicationDao;
-import com.zzw.pojo.CompleteTask;
-import com.zzw.pojo.ZTransition;
+import com.zzw.pojo.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.Result;
@@ -37,8 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zzw.dao.WorkFlowDao;
 import com.zzw.dao.WorkFlowMountDao;
-import com.zzw.pojo.Pages;
-import com.zzw.pojo.WfTaskJobPojo;
 import com.zzw.util.ResourceUtil;
 import com.zzw.util.ZzwUtil;
 import com.zzw.vo.WFDeployment;
@@ -400,7 +397,31 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 
 	}
 
+	/**
+	 * query already task
+	 *
+	 * @param user
+	 * @param paged
+	 * @return
+	 */
+	@Override
+	public List<HistoryAssess> queryMyAlreadyTasks(ZUser user, Pages paged) {
+		List<HistoryAssess> result = workFlowDaoImpl.queryMyAlreadyTasks(user.getId(),paged);
 
+		return result;
+	}
+
+	/**
+	 * query count already task
+	 *
+	 * @param user
+	 * @return
+	 */
+	@Override
+	public Long queryCountMyAlreadyTasks(ZUser user) {
+
+		return workFlowDaoImpl.queryCountMyApplication(user.getId());
+	}
 
 
 }

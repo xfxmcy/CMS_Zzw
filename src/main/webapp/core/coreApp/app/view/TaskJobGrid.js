@@ -60,9 +60,9 @@ Ext.define("core.app.view.TaskJobGrid",{
 								if(assessList && 0 < assessList.length){
 									for(var i = 0 ; i < assessList.length ;i++){
 										assess += "<font style='color: salmon'>办理人&nbsp;&nbsp;&nbsp;</font>    "+ assessList[i].username
-												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;审批时间&nbsp;&nbsp;&nbsp;</font>     "+assessList[i].tIME_
-												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;所用时间&nbsp;&nbsp;&nbsp;</font>    "+ assessList[i].countTime
-												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;审批结果&nbsp;&nbsp;&nbsp;</font>    " + assessList[i].oUTCOME_
+												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;处理时间&nbsp;&nbsp;&nbsp;</font>     "+assessList[i].tIME_
+												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;所用时长&nbsp;&nbsp;&nbsp;</font>    "+ assessList[i].countTime
+												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;处理结果&nbsp;&nbsp;&nbsp;</font>    " + assessList[i].oUTCOME_
 												+"<font style='color: salmon'>&nbsp;&nbsp;&nbsp;备注&nbsp;&nbsp;&nbsp;</font>" + assessList[i].mESSAGE_ + "<br/><br/>";
 									}
 								}

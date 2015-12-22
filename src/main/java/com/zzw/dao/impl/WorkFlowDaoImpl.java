@@ -13,6 +13,7 @@
 
 package com.zzw.dao.impl;
 
+import java.math.BigInteger;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,12 +22,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.zzw.pojo.HistoryAssess;
 import com.zzw.vo.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.Transformers;
 import org.jbpm.api.task.Task;
 import org.springframework.stereotype.Repository;
 
@@ -190,6 +193,61 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 		if(null != list && 0 < list.size())
 			return list.get(0);
 		return null;
+	}
+
+	/**
+	 * query my already tasks
+	 *
+	 * @param id
+	 * @param paged
+	 * @return
+	 */
+	@Override
+	public List<HistoryAssess> queryMyAlreadyTasks(String id, Pages paged) {
+		return getCurrentSession().createSQLQuery("SELECT " +
+               /* " detail.DBID_" +*/
+				" u.username," +
+				" ht.OUTCOME_," +
+				" ht.DURATION_," +
+				" ht.ASSIGNEE_," +
+				" detail.TIME_," +
+				" detail.MESSAGE_," +
+				" var.STRING_VALUE_ as modelName," +
+				" varBus.STRING_VALUE_ as businessId"+
+				" FROM" +
+				" jbpm4_hist_detail detail" +
+				" INNER JOIN jbpm4_hist_task ht ON ht.DBID_ = detail.HTASK_" +
+				" INNER JOIN jbpm4_hist_procinst hin ON ht.EXECUTION_ = hin.ID_" +
+				" INNER JOIN zapplication app ON hin.ID_ = app.processInstanceId" +
+				" LEFT JOIN zuser u ON u.id = ht.ASSIGNEE_" +
+				" LEFT JOIN jbpm4_variable var on var.EXECUTION_ = hin.DBID_ and var.KEY_ = 'modelName'"+
+				" LEFT JOIN jbpm4_variable varBus on varBus.EXECUTION_ = hin.DBID_ and varBus.KEY_ = 'businessId'"+
+				" WHERE" +
+				//注册到非 Hibernate pojo 中：
+				" ht.ASSIGNEE_ = ? and ht.END_ is not null order by detail.TIME_ desc").addScalar("TIME_", Hibernate.TIMESTAMP)
+				.addScalar("OUTCOME_",Hibernate.STRING)
+				.addScalar("username",Hibernate.STRING)
+				.addScalar("DURATION_",Hibernate.BIG_INTEGER)
+				.addScalar("ASSIGNEE_",Hibernate.STRING)
+				.addScalar("MESSAGE_",Hibernate.STRING)
+				.addScalar("modelName",Hibernate.STRING)
+				.addScalar("businessId",Hibernate.STRING)
+				.setResultTransformer(Transformers.aliasToBean(HistoryAssess.class)).setParameter(0,id)
+				.setFirstResult(paged.getBeginIndex())
+				.setMaxResults(paged.getCount()).list();
+	}
+
+	/**
+	 * query count
+	 *
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public Long queryCountMyApplication(String id) {
+		Object result = getCurrentSession().createSQLQuery("select count(*) from jbpm4_hist_task where ASSIGNEE_ = ? and END_ is not null")
+				.setParameter(0,id).uniqueResult();
+		return (null == result ? 0 : ((BigInteger)result).longValue());
 	}
 
 

@@ -19,6 +19,25 @@ public class HistoryAssess {
 
 
     }
+    private String modelName;
+
+    private String businessId;
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public String getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId;
+    }
 
     private String DBID_;
 
@@ -43,7 +62,7 @@ public class HistoryAssess {
     public void setDBID_(String DBID_) {
         this.DBID_ = DBID_;
     }
-
+    @JSON(format="yyyy-MM-dd HH:mm:ss")
     public Date getTIME_() {
         return TIME_;
     }

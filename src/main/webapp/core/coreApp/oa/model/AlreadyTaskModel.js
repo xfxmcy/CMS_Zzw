@@ -7,13 +7,12 @@
  	extend:"Ext.data.Model",
  	fields:[
  		{name:"id",type:"string",srotable:true},
- 		{name:"money",type:"double",srotable:true},
- 		{name:"remark",type:"string",srotable:true},
-		{name:"user.username",type:"string",srotable:true},
- 		{name:"vehicleType",type:"string",srotable:true},
- 		{name:"createDept",type:"string",srotable:true},
- 		{name:"plateNumber",type:"string",srotable:true},
- 		{name:"state",type:"string",srotable:true},
- 		{name:"createTime",type:"string",srotable:true}
+ 		{name:"username",type:"string",srotable:true},
+ 		{name:"OUTCOME_",type:"string",srotable:true},
+		{name:"TIME_",type:"string",srotable:true},
+ 		{name:"countTime",type:"string",srotable:true},
+ 		{name:"businessId",type:"string",srotable:true},
+ 		{name:"modelName",type:"string",srotable:true},
+ 		{name:"MESSAGE_",type:"string",srotable:true}
  	]
  });

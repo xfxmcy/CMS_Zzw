@@ -2,7 +2,17 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	id="WebApp_ID" version="3.0">
+	id="WebApp_ID" version="3.0" metadata-complete="true">
+	<!--
+			问题现象：
+		在Maven中使用Jetty运行web项目有时会抛出如下异常：java.lang.ArrayIndexOutOfBoundsException: 48188
+
+		问题原因：
+		默认Jetty会解析程序中的注解信息，需要取消对注解信息。
+
+		解决方法：
+		在web.xml中web-app标签中添加属性metadata-complete="true"。
+	-->
 	<display-name>CMS_Zzw</display-name>
 	<error-page>
 		<error-code>404</error-code>

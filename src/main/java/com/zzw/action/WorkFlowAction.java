@@ -23,6 +23,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import com.zzw.pojo.CompleteTask;
+import com.zzw.pojo.HistoryAssess;
 import com.zzw.pojo.ZTransition;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -169,7 +170,21 @@ public class WorkFlowAction extends PageAction {
 		List<WfTaskJobPojo> result = jbpmFacadeServiceImpl.queryMyTasks(user, ZzwUtil.createPaged(super.getStart(),super.getLimit()));
 		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountMyTasks(user));
 		return BASE_RESULT_JSON;
-	} 
+	}
+
+	/**
+	 * query already task
+	 * @return
+     */
+	public String doQueryAlreadyTask(){
+		ZUser user = ZzwUtil.getLoginUser();
+		if(null == user)
+			return BASE_RESULT_JSON;
+		List<HistoryAssess> result = jbpmFacadeServiceImpl.queryMyAlreadyTasks(user, ZzwUtil.createPaged(super.getStart(),super.getLimit()));
+		super.setDataGrid(result,jbpmFacadeServiceImpl.queryCountMyAlreadyTasks(user));
+		return BASE_RESULT_JSON;
+	}
+
 	/**
 	 * 
 	 * queryMyDefinition:query my definitions
@@ -315,5 +330,7 @@ public class WorkFlowAction extends PageAction {
 		ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
 
 	}
+
+
 }
 

@@ -91,7 +91,7 @@ Ext.define("core.app.controller.MainController", {
 							}else if(record.data["id"]=="alreadyTask"){
 								self.addFunItem({
 									mainView:mainView,
-									funViewXtype:"alreadyTasklayout",
+									funViewXtype:"alreadyTaskLayout",
 									funController:"core.oa.controller.AlreadyTaskController",
 									funViewName:"core.oa.view.AlreadyTaskLayout"
 								});

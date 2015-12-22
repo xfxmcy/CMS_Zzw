@@ -16,12 +16,9 @@ package com.zzw.workflow.service;
 import java.util.List;
 import java.util.Map;
 
-import com.zzw.pojo.CompleteTask;
-import com.zzw.pojo.ZTransition;
+import com.zzw.pojo.*;
 import org.jbpm.api.RepositoryService;
 
-import com.zzw.pojo.Pages;
-import com.zzw.pojo.WfTaskJobPojo;
 import com.zzw.vo.WFDeployment;
 import com.zzw.vo.WFProcessMount;
 import com.zzw.vo.ZUser;
@@ -178,5 +175,19 @@ public interface JbpmFacadeService {//extends RepositoryService {
      */
 	void doCompleteTransitionByTaskId(CompleteTask comp);
 
+	/**
+	 * query already task
+	 * @param user
+	 * @param paged
+     * @return
+     */
+	List<HistoryAssess> queryMyAlreadyTasks(ZUser user, Pages paged);
+
+	/**
+	 * query count already task
+	 * @param user
+	 * @return
+     */
+	Long queryCountMyAlreadyTasks(ZUser user);
 }
 

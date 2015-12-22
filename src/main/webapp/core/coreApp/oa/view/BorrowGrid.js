@@ -25,15 +25,25 @@ Ext.define("core.oa.view.BorrowGrid",{
 	columnLines:true, //展示竖线
 	columns:[
 		{xtype: 'rownumberer'},
-		{text:"申请人",align:'center',dataIndex:"user.username",width:'18%'},
+		{text:"申请人",align:'center',dataIndex:"user.username",width:'10%'},
 		{text:"车型",align:'center',dataIndex:"vehicleType",width:'15%'},
 		{text:"车牌",align:'center',dataIndex:"plateNumber",width:'15%'},
 		{text:"金额",align:'center',dataIndex:"money",width:'18%'},
-		{text:"申请时间",align:'center',dataIndex:"createTime",width:'20%'},
+		{text:"申请时间",align:'center',dataIndex:"createTime",width:'15%'},
 		{text:"状态",align:'center',dataIndex:"state",width:'10%',
 			renderer: function(value) {
 				return CY.changeStateValue(value);
 			}
+		},
+		{xtype: 'actioncolumn',width:'14%',align: 'center',
+			text: '流程查看',
+			items: [{
+				icon: 'ext4/icon/cog_edit.png',  // Use a URL in the icon config
+				tooltip: '查看当前流程',
+				handler: function (grid, rowIndex, colIndex) {
+					//TODO 完成流程查看
+				}
+			}]
 		}
 	],
 	initComponent:function(){

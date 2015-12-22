@@ -1,10 +1,10 @@
 Ext.define("core.oa.controller.AlreadyTaskController", {
 	extend : "Ext.app.Controller",
-	mixins : {
+	/*mixins : {
 		gridUtils : "core.utils.GridUtils",
 		wfUtils : "core.utils.WfUtils",
 		formUtils : "core.utils.FormUtils"
-	},
+	},*/
 	
 	init : function() {
 		var self = this;
@@ -18,7 +18,7 @@ Ext.define("core.oa.controller.AlreadyTaskController", {
 			/**
 			 * 双击进卡片
 			 */
-			"alreadytaskgrid" : {
+			/*"alreadytaskgrid" : {
 				itemdblclick : function(grid, record, item, index, e, eOpts) {
 					var form = grid.up("borrowlayout").down("borrowform");
 					// 还原表单内容
@@ -36,41 +36,24 @@ Ext.define("core.oa.controller.AlreadyTaskController", {
 					grid.hide();
 					form.show();
 				}
-			},
+			},*/
 			/**
 			 * 卡片返回列表
 			 */
 			"alreadytaskform button[ref=return]" : {
 				click : function(btn) {
-					var form = btn.up("borrowform");
+					var form = btn.up("alreadytaskform");
 					var formObj = form.getForm();
 					formObj.reset();
-					var grid = form.up("borrowlayout").down("borrowgrid");
-					self.hideWfButtons(form);
+					var grid = form.up("alreadyTaskLayout").down("alreadytaskgrid");
+					//self.hideWfButtons(form);
 					form.hide();
 					grid.show();
-				}
-			},
-			"alreadytaskform button[ref=wfStart]" : {
-				click : function(btn) {
-					var form = btn.up("borrowform");
-					var formObj = form.getForm();
-					var idValue = formObj.findField("id").getValue();
-					var processFunMountId = btn.idValue;
-					self.doStart(form, processFunMountId, idValue);
-				}
-			},
-			/**
-			 * 提交操作，展示委托人的信息
-			 */
-			"alreadytaskform button[ref=wfNext]" : {
-				click : function(btn) {
-					this.showTaskWindow(btn);
 				}
 			}
 		});
 	},
-	views :  ["core.oa.view.AlreadyTaskForm", "core.oa.view.AlreadyTaskGrid","core.oa.view.AlreadyTaskLayout"],
+	views :  ["core.oa.view.AlreadyTaskGrid","core.oa.view.AlreadyTaskForm","core.oa.view.AlreadyTaskLayout"],
 	stores : ["core.oa.store.AlreadyTaskStore"],
 	models : ["core.oa.model.AlreadyTaskModel"]
 });

@@ -7,7 +7,7 @@
 	pageSize:10,
 	proxy:{
 		type:"ajax",
-		url:CY.ns + "/app/appAction!doQueryMyApplicationPaged.asp",
+		url:CY.ns + "/workflow/wkAction!doQueryAlreadyTask.asp",
 		reader:{
 			type:"json",
 			root:"rows",

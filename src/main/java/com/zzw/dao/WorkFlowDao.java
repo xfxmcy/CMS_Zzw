@@ -16,6 +16,7 @@ package com.zzw.dao;
 import java.sql.Blob;
 import java.util.List;
 
+import com.zzw.pojo.HistoryAssess;
 import org.jbpm.api.task.Task;
 
 import com.zzw.pojo.Pages;
@@ -126,5 +127,20 @@ public interface WorkFlowDao extends BasicDao<WFDeployment>{
 	 * @return
      */
 	Blob queryDevelopmentByTaskId(String id);
+
+	/**
+	 * query my already tasks
+	 * @param id
+	 * @param paged
+     * @return
+     */
+	List<HistoryAssess> queryMyAlreadyTasks(String id, Pages paged);
+
+	/**
+	 * query count
+	 * @param id
+	 * @return
+     */
+	Long queryCountMyApplication(String id);
 }
 

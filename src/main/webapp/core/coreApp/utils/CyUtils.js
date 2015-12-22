@@ -71,11 +71,23 @@ Ext.define("core.utils.CyUtils", {
 			 *
 			 *
 			 *  解决方案
-			 *  		暂时采取,刷新2次 解决
+			 			selModel:{
+							selType:"checkboxmodel",
+							checkOnly:true
+						},
+			 			捕捉   grid select  事件即可
 			 *
 			 *
 			 */
 
 		}
+		/*申请买车*/
+		else if("core.oa.view.BorrowLayout" == layoutName){
+			layout.down('borrowgrid').getStore().load();
+		}/*已办任务*/
+		else if("core.oa.view.AlreadyTaskLayout" == layoutName){
+			layout.down('alreadytaskgrid').getStore().load();
+		}
+
 	}
 });
