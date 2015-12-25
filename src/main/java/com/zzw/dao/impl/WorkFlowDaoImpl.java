@@ -52,7 +52,7 @@ import com.zzw.pojo.Pages;
 public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkFlowDao{
 
 
-	
+
 	@Override
 	public List<Task> queryMyTaskIncludeGroup(ZUser user , Pages page) {
 	
@@ -63,7 +63,7 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 			group = new String[user.getJobs().size()];
 			for (Iterator iterator = user.getJobs().iterator(); iterator.hasNext();) {
 				group[j++] = ((ZJob)iterator.next()).getRole().getId();
-				
+
 			}
 		}else{
 			return new ArrayList<Task>();
@@ -74,8 +74,8 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 			buffer.append("'" + group[i] + "',");
 		};
 		groupStr = buffer.substring(0,  buffer.length()-1);
-		
-		
+
+
 		Query result = getCurrentSession().createQuery("select task from org.jbpm.pvm.internal.task.TaskImpl task "
 				+ "left join task.participations  pt "
 				+ "where (task.assignee='" + user.getId()+"' or ( task.assignee is null and pt.type = 'candidate'"
@@ -95,7 +95,7 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 			group = new String[user.getJobs().size()];
 			for (Iterator iterator = user.getJobs().iterator(); iterator.hasNext();) {
 				group[j++] = ((ZJob)iterator.next()).getRole().getId();
-				
+
 			}
 		}else{
 			return 0l;
@@ -106,37 +106,37 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 			buffer.append("'" + group[i] + "',");
 		};
 		groupStr = buffer.substring(0,  buffer.length()-1);
-		
+
 		Object result = getCurrentSession().createQuery("select count(task) from org.jbpm.pvm.internal.task.TaskImpl task "
 				+ "left join task.participations  pt "
 				+ "where (task.assignee='" + user.getId()+"' or ( task.assignee is null and pt.type = 'candidate'"
 				+ "and ((pt.userId='" + user.getId() + "') or (pt.groupId in (" + groupStr + ")))))").uniqueResult();
-		
-		
+
+
 		return (null == result ? 0 : (Long)result);
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<WFDeployment> queryBusinessDevelopment(Pages page) {
-		
+
 		return getCurrentSession().createQuery("from WFDeployment").setFirstResult(page.getBeginIndex()).setMaxResults(page.getCount()).list();
 	}
 
 	@Override
 	public Long queryCountBusinessDevelopment() {
-		
+
 		Object result = getCurrentSession().createQuery("select count(*) from WFDeployment").uniqueResult();
-		
+
 		return (null == result ? 0 : (Long)result);
 	}
 
 	@Override
 	public void saveWFDevelopment(WFDeployment deploy) {
-		
+
 		super.persistence(deploy);
-		
+
 	}
 
 	@Override
@@ -146,9 +146,9 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 
 	@Override
 	public void removeWFDevelopment(WFDeployment deploy) {
-		
+
 		super.remove(deploy);
-		
+
 	}
 
 	/**
@@ -248,6 +248,16 @@ public class WorkFlowDaoImpl extends BasicDaoImpl<WFDeployment> implements WorkF
 		Object result = getCurrentSession().createSQLQuery("select count(*) from jbpm4_hist_task where ASSIGNEE_ = ? and END_ is not null")
 				.setParameter(0,id).uniqueResult();
 		return (null == result ? 0 : ((BigInteger)result).longValue());
+	}
+
+	@Override
+	public WFDeployment queryWFDeploymentByDFID(String pdId) {
+		List<WFDeployment> list = getCurrentSession().createQuery("from WFDeployment where processDefinitionId = ?")
+				.setParameter(0, pdId).list();
+		if(null != list && 0 < list.size())
+			return list.get(0);
+		return null;
+
 	}
 
 

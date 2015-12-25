@@ -189,5 +189,19 @@ public interface JbpmFacadeService {//extends RepositoryService {
 	 * @return
      */
 	Long queryCountMyAlreadyTasks(ZUser user);
+
+	/**
+	 * 查询 taskDefinition
+	 * @param businessId
+	 * @return
+     */
+	List<ProcessModel> queryTaskDefinition(String businessId);
+
+	/**
+	 * query de
+	 * @param businessId
+	 * @return
+     */
+	WFDeployment queryDeployment(String businessId);
 }
 

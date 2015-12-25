@@ -41,7 +41,32 @@ Ext.define("core.oa.view.BorrowGrid",{
 				icon: 'ext4/icon/cog_edit.png',  // Use a URL in the icon config
 				tooltip: '查看当前流程',
 				handler: function (grid, rowIndex, colIndex) {
+					var borrowgrid = grid.up('borrowlayout').down('borrowgrid');
+					var renderData = borrowgrid.getStore().getAt(rowIndex);
 					//TODO 完成流程查看
+					Ext.Ajax.request({
+						url: CY.ns + "/app/appAction!doQueryCurrentProcessPhoto.asp",
+						params: {"processInstanceId": renderData.data.processInstanceId},
+						method: "POST",
+						timeout: 4000,
+						success: function (response, opts) {
+							var resObj = Ext.decode(response.responseText);
+							var result = resObj.result;
+							if (resObj.success && result) {
+
+								var window = Ext.getCmp("curJPDLWindow");
+								if(window){
+									window.html = "<img src='" + CY.nsPhoto + result[0].jpdlPath + "' />" ;
+									window.show();
+								}else{
+									window = Ext.create("core.oa.view.CurJPDLWindow")
+									window.html = "<div align='center'><img src='" + CY.nsPhoto +  result[0].jpdlPath + "' width='320' /></div>" ;
+									window.show();
+								}
+							}
+						}
+					});
+
 				}
 			}]
 		}

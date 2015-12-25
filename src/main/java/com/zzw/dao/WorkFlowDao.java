@@ -142,5 +142,7 @@ public interface WorkFlowDao extends BasicDao<WFDeployment>{
 	 * @return
      */
 	Long queryCountMyApplication(String id);
+
+	WFDeployment queryWFDeploymentByDFID(String pdId);
 }
 

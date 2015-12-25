@@ -3,6 +3,7 @@ package com.zzw.action;/**
  */
 
 import com.zzw.component.ResultInfo;
+import com.zzw.pojo.ProcessModel;
 import com.zzw.pojo.ZApplicationModel;
 import com.zzw.service.ApplicationService;
 import com.zzw.util.ResourceUtil;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Controller;
 
 import javax.inject.Inject;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with CMS_Zzw
@@ -60,7 +62,18 @@ public class ApplicationAction extends PageAction {
         this.app = app;
     }
 
+    private String processInstanceId ;
+
     private String business ;
+
+    @JSON(serialize=false)
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
 
     public String getBusiness() {
         return business;
@@ -126,4 +139,14 @@ public class ApplicationAction extends PageAction {
         ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
     }
 
+    /**
+     * query current process photo
+     */
+    public void doQueryCurrentProcessPhoto(){
+        // businessId
+        ResultInfo info = new ResultInfo();
+        List<ProcessModel> model = applicationServiceImpl.queryCurProcessPhoto(processInstanceId);
+        info.settingSuccessResult("查询成功", model);
+        ZzwUtil.writeJson(ServletActionContext.getResponse(), info);
+    }
 }

@@ -2,6 +2,7 @@ package com.zzw.service;
 
 import com.zzw.component.ResultInfo;
 import com.zzw.pojo.Pages;
+import com.zzw.pojo.ProcessModel;
 import com.zzw.pojo.ZApplicationModel;
 import com.zzw.vo.ZApplication;
 
@@ -50,4 +51,11 @@ public interface ApplicationService {
      * @param app
      */
     void doDetelteApplication(ZApplication app);
+
+    /**
+     * query cur
+     * @param businessId
+     * @return
+     */
+    List<ProcessModel> queryCurProcessPhoto(String businessId);
 }

@@ -4,10 +4,13 @@ package com.zzw.service.impl;/**
 
 import com.zzw.component.ResultInfo;
 import com.zzw.dao.ApplicationDao;
+import com.zzw.dao.WorkFlowDao;
 import com.zzw.pojo.HistoryAssess;
 import com.zzw.pojo.Pages;
+import com.zzw.pojo.ProcessModel;
 import com.zzw.pojo.ZApplicationModel;
 import com.zzw.service.ApplicationService;
+import com.zzw.vo.WFDeployment;
 import com.zzw.vo.WFProcessMount;
 import com.zzw.vo.ZApplication;
 import com.zzw.workflow.service.JbpmFacadeService;
@@ -36,7 +39,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Inject
     private ApplicationDao applicationDaoImpl;
-
+    @Inject
+    private WorkFlowDao workFlowDaoImpl;
     @Inject
     private JbpmFacadeService jbpmFacadeServiceImpl;
 
@@ -151,5 +155,20 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void doDetelteApplication(ZApplication app) {
         jbpmFacadeServiceImpl.removeProcess(app.getProcessInstanceId());
         applicationDaoImpl.removeApplication(app);
+    }
+
+    /**
+     * query cur
+     *
+     * @param processInstanceId
+     * @return
+     */
+    @Override
+    public List<ProcessModel> queryCurProcessPhoto(String processInstanceId) {
+        List<ProcessModel> pm = jbpmFacadeServiceImpl.queryTaskDefinition(processInstanceId);
+        WFDeployment wfDeployment = jbpmFacadeServiceImpl.queryDeployment(processInstanceId);
+        if(0 < pm.size() && null != wfDeployment)
+            pm.get(0).setJpdlPath(wfDeployment.getPhotoPath());
+        return pm;
     }
 }

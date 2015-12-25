@@ -28,7 +28,13 @@ import org.apache.struts2.convention.annotation.Result;
 import org.jbpm.api.*;
 import org.jbpm.api.history.HistoryTask;
 import org.jbpm.api.model.ActivityCoordinates;
+import org.jbpm.api.model.Transition;
 import org.jbpm.api.task.Task;
+import org.jbpm.pvm.internal.env.EnvironmentImpl;
+import org.jbpm.pvm.internal.model.ActivityImpl;
+import org.jbpm.pvm.internal.model.ProcessDefinitionImpl;
+import org.jbpm.pvm.internal.model.TransitionImpl;
+import org.jbpm.pvm.internal.task.TaskImpl;
 import org.jbpm.pvm.internal.util.StringUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -311,6 +317,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	 */
 	@Override
 	public String startProcessByKey(String key, Map<String, Object> param) {
+		//todo 验证是否是最新的流程定义 启动
 		ProcessInstance instance = executionService.startProcessInstanceByKey(key, param);
 		if(null != instance)
 			return instance.getId();
@@ -350,6 +357,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	 * @param id taskId
 	 * @return
 	 */
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
 	@Override
 	public List<ZTransition> doQueryTransitionByTaskId(String id) {
 		Blob blob = workFlowDaoImpl.queryDevelopmentByTaskId(id);
@@ -363,9 +371,21 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 				return null;*/
 			String nodeName = taskService.getTask(id).getName();
 			return ZzwUtil.getJPDLTransitionByTask(developmentLob, nodeName);
+			/*
+			*  第二种 方式  使用提供的API
+			ProcessDefinitionImpl processDefinition = (ProcessDefinitionImpl)repositoryService.createProcessDefinitionQuery().processDefinitionId("car-2").uniqueResult();
+			ActivityImpl activeImpl = processDefinition.getActivity("registerCar");
+			// 获取task activity 的  xy hw 坐标
+			activeImpl.getCoordinates().getX();
+			activeImpl.getCoordinates().getX();
+			List<TransitionImpl> list = (List<TransitionImpl>) activeImpl.getOutgoingTransitions();
+			// 获取连线名称
+			list.get(0).getName();
+			* */
 		}catch (Exception e){
 			return null;
 		}
+
 
 	}
 
@@ -390,6 +410,8 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 			state = "3";
 			taskService.takeTask(comp.getTaskId(),comp.getUserId());
 		}
+		// TODO: 2015/12/25  设置批注人 权限验证
+		EnvironmentImpl.getCurrent().setAuthenticatedUserId(comp.getUserId());
 		taskService.completeTask(comp.getTaskId(),comp.getTransition());
 		taskService.addTaskComment(comp.getTaskId(),comp.getAssess());
 		if(null != state)
@@ -404,6 +426,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	 * @param paged
 	 * @return
 	 */
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
 	@Override
 	public List<HistoryAssess> queryMyAlreadyTasks(ZUser user, Pages paged) {
 		List<HistoryAssess> result = workFlowDaoImpl.queryMyAlreadyTasks(user.getId(),paged);
@@ -417,10 +440,60 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	 * @param user
 	 * @return
 	 */
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
 	@Override
 	public Long queryCountMyAlreadyTasks(ZUser user) {
 
 		return workFlowDaoImpl.queryCountMyApplication(user.getId());
+	}
+
+	/**
+	 * 查询 taskDefinition
+	 *
+	 * @param businessId
+	 * @return
+	 */
+	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
+	@Override
+	public List<ProcessModel> queryTaskDefinition(String businessId) {
+		ProcessModel processModel = null;
+		List<ProcessModel> list = new ArrayList<ProcessModel>();
+		List<ProcessInstance> instances = executionService.createProcessInstanceQuery().processInstanceId(businessId).list();
+
+		if(null != instances && 0 < instances.size()){
+			ProcessDefinitionImpl processDefinition = (ProcessDefinitionImpl) repositoryService.createProcessDefinitionQuery().processDefinitionId(instances.get(0).getProcessDefinitionId()).uniqueResult();
+			Set<String> tasks = instances.get(0).findActiveActivityNames();
+			if(null != processDefinition){
+				for(String task : tasks){
+					ActivityImpl activityImpl = processDefinition.getActivity(task);
+					processModel = new ProcessModel();
+					processModel.setX("" + activityImpl.getCoordinates().getX());
+					processModel.setY("" + activityImpl.getCoordinates().getY());
+					processModel.setH("" + activityImpl.getCoordinates().getHeight());
+					processModel.setW("" + activityImpl.getCoordinates().getWidth());
+					list.add(processModel);
+				}
+			}
+
+		}
+
+		return list;
+	}
+
+	/**
+	 * query de
+	 *
+	 * @param businessId
+	 * @return
+	 */
+	@Override
+	public WFDeployment queryDeployment(String businessId) {
+		List<ProcessInstance> instances = executionService.createProcessInstanceQuery().processInstanceId(businessId).list();
+		if(null != instances && 0 < instances.size()) {
+			ProcessDefinition pd = repositoryService.createProcessDefinitionQuery().processDefinitionId(instances.get(0).getProcessDefinitionId()).uniqueResult();
+			return workFlowDaoImpl.queryWFDeploymentByDFID(pd.getId());
+		}
+		return null;
 	}
 
 
