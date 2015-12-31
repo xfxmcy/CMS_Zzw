@@ -2,7 +2,7 @@
  * DownLoadAction.java
  * com.zzw.action
  *
- * Function： TODO 
+ * Function： download action
  *
  *   ver     date      		author
  * ──────────────────────────────────

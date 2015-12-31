@@ -2,7 +2,7 @@
  * TreeNode.java
  * com.zzw.pojo
  *
- * Function： TODO 
+ * Function： tree node
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -52,7 +52,7 @@ public class TreeNode {
  	
 	public TreeNode() {
 
-		// TODO Auto-generated constructor stub
+
 
 	}
 

@@ -2,7 +2,7 @@
  * AppAssessAssignable.java
  * com.zzw.workflow.assignable
  *
- * Function： TODO 
+ * Function： app assess assignable
  *
  *   ver     date      		author
  * ──────────────────────────────────

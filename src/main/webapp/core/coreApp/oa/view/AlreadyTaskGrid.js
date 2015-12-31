@@ -42,8 +42,6 @@ Ext.define("core.oa.view.AlreadyTaskGrid",{
 					var renderData = alreadyGrid.getStore().getAt(rowIndex);
 					form.getForm().findField('outcome').setValue(renderData.data.OUTCOME_);
 					form.getForm().findField('outDetail').setValue(renderData.data.MESSAGE_);
-					//todo 查询表单数据  渲染
-
 					Ext.Ajax.request({
 						url: CY.ns + "/app/appAction!doQueryApplicationById.asp",
 						params: {"app.id": renderData.data.businessId},

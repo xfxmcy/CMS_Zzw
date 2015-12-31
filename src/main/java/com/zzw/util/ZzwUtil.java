@@ -2,7 +2,7 @@
  * ZzwUtil.java
  * com.zzw.util
  *
- * Function： TODO 
+ * Function： ZzwUtil
  *
  *   ver     date      		author
  * ──────────────────────────────────

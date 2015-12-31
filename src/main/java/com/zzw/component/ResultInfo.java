@@ -2,7 +2,7 @@
  * ResultInfo.java
  * com.zzw.component
  *
- * Function： TODO 
+ * Function： json resultInfo
  *
  *   ver     date      		author
  * ──────────────────────────────────

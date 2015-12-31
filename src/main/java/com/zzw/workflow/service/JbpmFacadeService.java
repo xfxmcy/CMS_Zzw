@@ -2,7 +2,7 @@
  * JbpmFacadeService.java
  * com.zzw.workflow.service
  *
- * Function： TODO 
+ * Function： jbpm facade
  *
  *   ver     date      		author
  * ──────────────────────────────────

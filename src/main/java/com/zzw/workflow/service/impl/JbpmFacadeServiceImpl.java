@@ -2,7 +2,7 @@
  * JbpmFacadeServiceImpl.java
  * com.zzw.workflow.service
  *
- * Function： TODO 
+ * Function： implement of jbpm facade
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -65,6 +65,8 @@ import com.zzw.workflow.service.JbpmFacadeService;
 @Transactional
 public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 
+	@Inject
+	private ProcessEngine processEngine;
 	@Inject
 	private TaskService taskService;
 	@Inject
@@ -317,7 +319,7 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 	 */
 	@Override
 	public String startProcessByKey(String key, Map<String, Object> param) {
-		//todo 验证是否是最新的流程定义 启动
+		// 验证是否是最新的流程定义 启动  是的
 		ProcessInstance instance = executionService.startProcessInstanceByKey(key, param);
 		if(null != instance)
 			return instance.getId();
@@ -410,8 +412,8 @@ public class JbpmFacadeServiceImpl implements JbpmFacadeService {
 			state = "3";
 			taskService.takeTask(comp.getTaskId(),comp.getUserId());
 		}
-		// TODO: 2015/12/25  设置批注人 权限验证
-		EnvironmentImpl.getCurrent().setAuthenticatedUserId(comp.getUserId());
+		// TODO: 2015/12/25  设置批注人 权限验证   unless
+		processEngine.setAuthenticatedUserId(comp.getUserId());
 		taskService.completeTask(comp.getTaskId(),comp.getTransition());
 		taskService.addTaskComment(comp.getTaskId(),comp.getAssess());
 		if(null != state)

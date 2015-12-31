@@ -2,7 +2,7 @@
  * UserService.java
  * com.zzw.service.impl
  *
- * Function： TODO 
+ * Function： user service
  *
  *   ver     date      		author
  * ──────────────────────────────────

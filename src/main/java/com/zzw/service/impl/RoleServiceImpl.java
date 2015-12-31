@@ -44,7 +44,6 @@ public class RoleServiceImpl implements RoleService {
 	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
 	@Override
 	public Long doQueryCountRoles() {
-		// TODO Auto-generated method stub
 		return roleDaoImpl.queryCountZrole();
 	}
 	
@@ -52,7 +51,6 @@ public class RoleServiceImpl implements RoleService {
 	@Transactional(propagation = Propagation.NOT_SUPPORTED ,readOnly = true)
 	@Override
 	public List<ZRole> doQueryRoles(Pages page) {
-		// TODO Auto-generated method stub
 		return roleDaoImpl.queryZrolePage(page);
 	}
 

@@ -2,7 +2,7 @@
  * WorkFlowAction.java
  * com.zzw.action
  *
- * Function： TODO 
+ * Function： workFlow 's	Action
  *
  *   ver     date      		author
  * ──────────────────────────────────

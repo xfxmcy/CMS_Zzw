@@ -43,7 +43,6 @@ Ext.define("core.oa.view.BorrowGrid",{
 				handler: function (grid, rowIndex, colIndex) {
 					var borrowgrid = grid.up('borrowlayout').down('borrowgrid');
 					var renderData = borrowgrid.getStore().getAt(rowIndex);
-					//TODO 完成流程查看
 					Ext.Ajax.request({
 						url: CY.ns + "/app/appAction!doQueryCurrentProcessPhoto.asp",
 						params: {"processInstanceId": renderData.data.processInstanceId},
@@ -53,14 +52,24 @@ Ext.define("core.oa.view.BorrowGrid",{
 							var resObj = Ext.decode(response.responseText);
 							var result = resObj.result;
 							if (resObj.success && result) {
-
+								var resHtml = "";
 								var window = Ext.getCmp("curJPDLWindow");
 								if(window){
-									window.html = "<img src='" + CY.nsPhoto + result[0].jpdlPath + "' />" ;
+									resHtml += "<div style='left: 0px;top:0px;'><img src='" + CY.nsPhoto + result[0].jpdlPath + "' /></div>" ;
+									for(var i = 0;i < result.length; i++)
+										resHtml +="<div style='position: absolute;border: 1px solid;border-color:crimson;left:"+result[i].x+"px;top:"
+									+result[i].y+"px;width:"+result[i].w+"px;height: "
+									+result[i].h+"px;' />";
+									window.html = resHtml;
 									window.show();
 								}else{
-									window = Ext.create("core.oa.view.CurJPDLWindow")
-									window.html = "<div align='center'><img src='" + CY.nsPhoto +  result[0].jpdlPath + "' width='320' /></div>" ;
+									window = Ext.create("core.oa.view.CurJPDLWindow");
+									resHtml += "<div style='left: 0px;top:0px;'><img src='" + CY.nsPhoto + result[0].jpdlPath + "' /></div>" ;
+									for(var i = 0;  i < result.length;i++)
+										resHtml +="<div style='position: absolute;border: 1px solid;border-color:crimson;left:"+result[i].x+"px;top:"
+												+result[i].y+"px;width:"+result[i].w+"px;height: "
+												+result[i].h+"px;' />";
+									window.html = resHtml;
 									window.show();
 								}
 							}

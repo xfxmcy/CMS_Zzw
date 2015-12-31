@@ -2,7 +2,7 @@
  * DeptAction.java
  * com.zzw.action
  *
- * Function： TODO 
+ * Function：  department action
  *
  *   ver     date      		author
  * ──────────────────────────────────

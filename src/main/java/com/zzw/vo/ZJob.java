@@ -2,7 +2,7 @@
  * ZJob.java
  * com.zzw.vo
  *
- * Function： TODO 
+ * Function： ZJob
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -36,7 +36,6 @@ public class ZJob {
 	
 	public ZJob() {
 
-		// TODO Auto-generated constructor stub
 
 	}
 	private String id ; 

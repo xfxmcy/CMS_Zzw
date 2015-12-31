@@ -2,7 +2,7 @@
  * ZUser.java
  * com.zzw.vo
  *
- * Function： TODO 
+ * Function： zuser
  *
  *   ver     date      		author
  * ──────────────────────────────────

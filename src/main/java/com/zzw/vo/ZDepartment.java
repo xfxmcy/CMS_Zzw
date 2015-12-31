@@ -2,7 +2,7 @@
  * ZDepartment.java
  * com.zzw.vo
  *
- * Function： TODO 
+ * Function： ZDepartment
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -132,7 +132,6 @@ public class ZDepartment {
 
 	public ZDepartment() {
 
-		// TODO Auto-generated constructor stub
 
 	}
 	

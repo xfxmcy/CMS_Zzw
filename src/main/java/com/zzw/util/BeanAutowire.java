@@ -31,7 +31,6 @@ public class BeanAutowire implements BeanFactoryAware {
 
     public void setBeanFactory(BeanFactory arg0) throws BeansException {
 
-        // TODO Auto-generated method stub
 
         BeanAutowire.beanFactory=arg0;
 

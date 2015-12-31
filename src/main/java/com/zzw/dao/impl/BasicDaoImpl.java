@@ -2,7 +2,7 @@
  * BasicDaoimpl.java
  * com.zzw.service.impl
  *
- * Function： TODO 
+ * Function： basic dao impl
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -31,8 +31,8 @@ import com.zzw.dao.BasicDao;
 
 /**
  * ClassName:BasicDaoimpl
- * Function: TODO ADD FUNCTION
- * Reason:	 TODO ADD REASON
+ * Function: basic dao impl
+ * Reason:	 basic dao impl
  *
  * @author   cy
  * @version  

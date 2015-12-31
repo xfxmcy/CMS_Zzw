@@ -2,7 +2,7 @@
  * WFDeployment.java
  * com.zzw.vo
  *
- * Function： TODO 
+ * Function： WFDeployment
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -70,7 +70,6 @@ public class WFDeployment extends BaseEntity {
 	
 	public WFDeployment() {
 
-		// TODO Auto-generated constructor stub
 
 	}
 	private WFProcessMount processMount;

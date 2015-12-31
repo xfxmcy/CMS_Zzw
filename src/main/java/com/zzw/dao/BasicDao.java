@@ -2,7 +2,7 @@
  * BasicDao.java
  * com.zzw.service
  *
- * Function： TODO 
+ * Function： base dao
  *
  *   ver     date      		author
  * ──────────────────────────────────

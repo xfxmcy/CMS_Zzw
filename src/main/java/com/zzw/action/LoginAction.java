@@ -2,7 +2,7 @@
  * LoginAction.java
  * com.zzw.action
  *
- * Function： TODO 
+ * Function： login
  *
  *   ver     date      		author
  * ──────────────────────────────────

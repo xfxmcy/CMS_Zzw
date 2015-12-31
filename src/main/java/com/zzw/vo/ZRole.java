@@ -2,7 +2,7 @@
  * ZRole.java
  * com.zzw.vo
  *
- * Function： TODO 
+ * Function： ZRole
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -43,7 +43,6 @@ public class ZRole implements Serializable {
 	
 	public ZRole() {
 
-		// TODO Auto-generated constructor stub
 
 	}
 	

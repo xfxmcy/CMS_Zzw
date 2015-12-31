@@ -2,7 +2,7 @@
  * Pages.java
  * com.zzw.pojo
  *
- * Function： TODO 
+ * Function： pages tool
  *
  *   ver     date      		author
  * ──────────────────────────────────
@@ -28,7 +28,7 @@ public class Pages {
 	
 	public Pages() {
 
-		// TODO Auto-generated constructor stub
+		//
 
 	}
 	private Integer beginIndex , count;

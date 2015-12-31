@@ -2,7 +2,7 @@
  * UserDaoImpl.java
  * com.zzw.dao.impl
  *
- * Function： TODO 
+ * Function： implement user dao
  *
  *   ver     date      		author
  * ──────────────────────────────────

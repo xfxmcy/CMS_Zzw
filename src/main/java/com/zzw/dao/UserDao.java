@@ -2,7 +2,7 @@
  * UserDao.java
  * com.zzw.dao
  *
- * Function： TODO 
+ * Function： user dao
  *
  *   ver     date      		author
  * ──────────────────────────────────

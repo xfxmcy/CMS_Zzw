@@ -2,7 +2,7 @@
  * WorkFlowDaoImpl.java
  * com.zzw.dao.impl
  *
- * Function： TODO 
+ * Function： query advanced workflow
  *
  *   ver     date      		author
  * ──────────────────────────────────
